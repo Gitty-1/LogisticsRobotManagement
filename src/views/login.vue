@@ -235,8 +235,8 @@ const onReset = (form: FormInstance | undefined) => {
     width: 400px;
     height: 450px;
     position: absolute;
-    top: 50px;
-    right: 50px;
+    top: 100px;
+    right: 100px;
     border: 1px solid #cfcfcf;
     padding: 50px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
