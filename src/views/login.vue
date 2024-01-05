@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
+import { ref, reactive, onMounted, nextTick, watch } from "vue";
 import { User, Lock, Message, Key } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from "element-plus";
 import router from "@/router";
@@ -12,6 +12,10 @@ const activeIndex = ref('1')
 const handleChange = (index: string) => {
     activeIndex.value = index
 }
+
+watch(() => activeIndex.value, () => {
+    onReset()
+})
 
 // 校验邮箱格式
 const validateEmail = (rule: any, value: any, callback: any) => {
@@ -42,14 +46,11 @@ const loginFormRules = reactive<FormRules<LoginFormType>>({
     username: [
         {
             required: true,
-            message: '请输入用户名',
+            message: '请输入邮箱地址',
             trigger: 'change'
         },
         {
-            min: 3,
-            max: 20,
-            message: '用户名长度为3-20',
-            trigger: 'blur'
+            validator: validateEmail,
         }
     ],
     password: [
@@ -84,7 +85,6 @@ const loginFormRules = reactive<FormRules<LoginFormType>>({
 interface RegisterFormType {
     username: string,
     password: string,
-    email: string,
     validateCode: string,
     userType: string,
 }
@@ -92,7 +92,6 @@ const registerRuleFormRef = ref<FormInstance>()
 const registerForm = reactive<RegisterFormType>({
     username: '',
     password: '',
-    email: '',
     validateCode: '',
     userType: ''
 })
@@ -100,14 +99,11 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
     username: [
         {
             required: true,
-            message: '请输入用户名',
+            message: '请输入邮箱地址',
             trigger: 'change'
         },
         {
-            min: 3,
-            max: 20,
-            message: '用户名长度为3-20',
-            trigger: 'blur'
+            validator: validateEmail,
         }
     ],
     password: [
@@ -121,16 +117,6 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
             max: 20,
             message: '密码长度为6-20',
             trigger: 'blur'
-        }
-    ],
-    email: [
-        {
-            required: true,
-            message: '请输入绑定邮箱',
-            trigger: 'change'
-        },
-        {
-            validator: validateEmail,
         }
     ],
     validateCode: [
@@ -189,9 +175,16 @@ const onSubmit = (form: FormInstance | undefined) => {
 }
 
 // 重置
-const onReset = (form: FormInstance | undefined) => {
-    if(!form) return
-    form.resetFields()
+// const onReset = (form: FormInstance | undefined) => {
+//     if(!form) return
+//     form.resetFields()
+// }
+const onReset = () => {
+    // @ts-ignore
+    Object.keys(loginForm).forEach((item: string) => loginForm[item] = '')
+    // @ts-ignore
+    Object.keys(registerForm).forEach((item: string) => registerForm[item] = '')
+    updateImgCode()
 }
 
 
@@ -203,9 +196,9 @@ const onReset = (form: FormInstance | undefined) => {
                 <el-menu-item index="1" @click="handleChange('1')" class="menu-item">登录</el-menu-item>
                 <el-menu-item index="2" @click="handleChange('2')" class="menu-item">注册</el-menu-item>
             </el-menu>
-            <el-form v-show="activeIndex === '1'" :model="loginForm" class="login-form" label-width="70px" :rules="loginFormRules" ref="loginRuleFormRef" style="padding-top: 50px;">
+            <el-form v-show="activeIndex === '1'" :model="loginForm" class="login-form" label-width="70px" :rules="loginFormRules" ref="loginRuleFormRef" style="padding-top: 30px;">
                 <el-form-item label="用户名" prop="username">
-                    <el-input placeholder="请输入用户名" v-model="loginForm.username" :prefix-icon="User" clearable></el-input>
+                    <el-input type="email" placeholder="请输入邮箱地址" v-model="loginForm.username" :prefix-icon="User" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
                     <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" :prefix-icon="Lock" show-password></el-input>
@@ -217,19 +210,16 @@ const onReset = (form: FormInstance | undefined) => {
                     </div>
                 </el-form-item>
                 <div class="form-button">
-                    <el-button @click="onReset(loginRuleFormRef)">重置</el-button>
+                    <el-button @click="onReset">重置</el-button>
                     <el-button type="primary" @click="onSubmit(loginRuleFormRef)">确定</el-button>
                 </div>
             </el-form>
             <el-form v-show="activeIndex === '2'" :model="registerForm" class="login-form" label-width="70px" :rules="registerFormRules" ref="registerRuleFormRef">
                 <el-form-item label="用户名" prop="username">
-                    <el-input placeholder="请输入用户名" v-model="registerForm.username" :prefix-icon="User" clearable></el-input>
+                    <el-input type="email" placeholder="请输入绑定邮箱" v-model="registerForm.username" :prefix-icon="User" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input type="password" placeholder="请输入密码" v-model="registerForm.password" :prefix-icon="Lock" show-password></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input type="email" placeholder="请输入绑定邮箱" v-model="registerForm.email" :prefix-icon="Message"></el-input>
+                    <el-input type="password" placeholder="请设置密码" v-model="registerForm.password" :prefix-icon="Lock" show-password></el-input>
                 </el-form-item>
                 <el-form-item label="验证码" prop="validateCode">
                     <el-input placeholder="请输入邮箱验证码" v-model="registerForm.validateCode" :prefix-icon="Key">
@@ -245,7 +235,7 @@ const onReset = (form: FormInstance | undefined) => {
                     </el-radio-group>
                 </el-form-item>
                 <div class="form-button">
-                    <el-button @click="onReset(registerRuleFormRef)">重置</el-button>
+                    <el-button @click="onReset">重置</el-button>
                     <el-button type="primary" @click="onSubmit(registerRuleFormRef)">确定</el-button>
                 </div>
             </el-form>
@@ -261,7 +251,7 @@ const onReset = (form: FormInstance | undefined) => {
 }
 .login-menu {
     width: 400px;
-    height: 450px;
+    height: 400px;
     position: absolute;
     top: 100px;
     right: 100px;
