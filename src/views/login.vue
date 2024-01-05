@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted, nextTick } from "vue";
 import { User, Lock, Message, Key } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from "element-plus";
+import router from "@/router";
+import ImgVerifyCode from "@/components/imgVerifyCode.vue";
+import { openMessage } from "@/utils/message"
+
 
 // 登录注册菜单切换
 const activeIndex = ref('1')
@@ -76,6 +80,7 @@ const loginFormRules = reactive<FormRules<LoginFormType>>({
     ]
 })
 
+// 注册相关
 interface RegisterFormType {
     username: string,
     password: string,
@@ -150,6 +155,20 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
     ]
 })
 
+// 获取图形验证码
+const imgValidateCode = ref('')
+const getImgCode = (imgCode: string) => {
+    imgValidateCode.value = imgCode
+}
+// 图形验证码刷新
+const isRefresh = ref(false)
+const updateImgCode = () => {
+    isRefresh.value = true
+    nextTick(() => {
+        isRefresh.value = false
+    })
+}
+
 // 提交表单时校验
 const onSubmit = (form: FormInstance | undefined) => {
     if(!form) return
@@ -157,7 +176,12 @@ const onSubmit = (form: FormInstance | undefined) => {
     form.validate((valid, fields) => {
         if (valid) {
             // 提交
-            
+            // 验证图形验证码
+            if(activeIndex.value === '1' && loginForm.imgValidateCode !== imgValidateCode.value) {
+                openMessage('图形验证码错误', 'error')
+                updateImgCode()
+            }
+            else router.push('/console')
         } else {
             console.log('error submit!', fields)
         }
@@ -179,17 +203,17 @@ const onReset = (form: FormInstance | undefined) => {
                 <el-menu-item index="1" @click="handleChange('1')" class="menu-item">登录</el-menu-item>
                 <el-menu-item index="2" @click="handleChange('2')" class="menu-item">注册</el-menu-item>
             </el-menu>
-            <el-form v-show="activeIndex === '1'" :model="loginForm" class="login-form" label-width="100px" :rules="loginFormRules" ref="loginRuleFormRef" style="padding-top: 50px;">
+            <el-form v-show="activeIndex === '1'" :model="loginForm" class="login-form" label-width="70px" :rules="loginFormRules" ref="loginRuleFormRef" style="padding-top: 50px;">
                 <el-form-item label="用户名" prop="username">
                     <el-input placeholder="请输入用户名" v-model="loginForm.username" :prefix-icon="User" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
                     <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" :prefix-icon="Lock" show-password></el-input>
                 </el-form-item>
-                <el-form-item label="图形验证码" prop="imgValidateCode">
+                <el-form-item label="验证码" prop="imgValidateCode">
                     <div class="img-code">
                         <el-input placeholder="请输入验证码" v-model="loginForm.imgValidateCode" :prefix-icon="Key" clearable></el-input>
-                        <el-image src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg" style="width:80px; height: 30px;"></el-image>
+                        <ImgVerifyCode v-if="!isRefresh" @getImgCode="getImgCode"/>
                     </div>
                 </el-form-item>
                 <div class="form-button">
@@ -197,7 +221,7 @@ const onReset = (form: FormInstance | undefined) => {
                     <el-button type="primary" @click="onSubmit(loginRuleFormRef)">确定</el-button>
                 </div>
             </el-form>
-            <el-form v-show="activeIndex === '2'" :model="registerForm" class="login-form" label-width="100px" :rules="registerFormRules" ref="registerRuleFormRef">
+            <el-form v-show="activeIndex === '2'" :model="registerForm" class="login-form" label-width="70px" :rules="registerFormRules" ref="registerRuleFormRef">
                 <el-form-item label="用户名" prop="username">
                     <el-input placeholder="请输入用户名" v-model="registerForm.username" :prefix-icon="User" clearable></el-input>
                 </el-form-item>
@@ -208,7 +232,11 @@ const onReset = (form: FormInstance | undefined) => {
                     <el-input type="email" placeholder="请输入绑定邮箱" v-model="registerForm.email" :prefix-icon="Message"></el-input>
                 </el-form-item>
                 <el-form-item label="验证码" prop="validateCode">
-                    <el-input placeholder="请输入邮箱验证码" v-model="registerForm.validateCode" :prefix-icon="Key"></el-input>
+                    <el-input placeholder="请输入邮箱验证码" v-model="registerForm.validateCode" :prefix-icon="Key">
+                        <template #append>
+                            <span class="code-span">发送</span>
+                        </template>
+                    </el-input>
                 </el-form-item>
                 <el-form-item label="类型" prop="userType">
                     <el-radio-group v-model="registerForm.userType">
@@ -258,7 +286,22 @@ const onReset = (form: FormInstance | undefined) => {
 }
 .img-code {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.code-span {
+    font-size: 12px;
+    width: 30px;
+    color: rgb(15, 175, 238);
+}
+.code-span:hover {
+    cursor: pointer;
+    color: skyblue;
+}
+
+:deep(.el-form-item__label) {
+    justify-content: flex-start;
 }
 </style>
