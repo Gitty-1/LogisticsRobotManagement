@@ -144,6 +144,7 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
 // 获取图形验证码
 const imgValidateCode = ref('')
 const getImgCode = (imgCode: string) => {
+    console.log('imgcode', imgCode)
     imgValidateCode.value = imgCode
 }
 // 图形验证码刷新
