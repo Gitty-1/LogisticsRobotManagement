@@ -254,7 +254,7 @@ const onReset = () => {
     width: 400px;
     height: 400px;
     position: absolute;
-    top: 100px;
+    top: calc(10vw);
     right: 100px;
     border: 1px solid #cfcfcf;
     padding: 50px;
@@ -269,7 +269,7 @@ const onReset = () => {
     flex: 1;
 }
 .login-form {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 .form-button {
     display: flex;

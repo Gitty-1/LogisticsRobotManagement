@@ -43,6 +43,11 @@ const router = createRouter({
               component: () => import('@/views/management/machineArms.vue')
             }
           ]
+        },
+        {
+          path: 'userManage',
+          name: '用户管理',
+          component: () => import('@/views/userManage.vue')
         }
       ]
     }

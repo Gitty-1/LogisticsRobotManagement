@@ -9,32 +9,49 @@ const menuList = [
     {
         path: '/console/home',
         name: '首页',
-        menuId: 2
+        meta: {
+            icon: 'HomeFilled'
+        }
     },
     {
         path: '/console/management',
         name: '仓储管理',
-        menuId: 1,
+        meta: {
+            icon: 'Menu'
+        },
         children: [
             {
                 path: '/console/management/goods',
                 name: '货物管理',
-                menuId: 1001,
+                meta: {
+                    icon: 'SetUp'
+                },
                 children: []
             },
             {
                 path: '/console/management/shelves',
                 name: '货架管理',
-                menuId: 1002,
+                meta: {
+                    icon: 'Tickets'
+                },
                 children: []
             },
             {
                 path: '/console/management/machineArms',
                 name: '机械臂管理',
-                menuId: 1003,
+                meta: {
+                    icon: 'Van'
+                },
                 chileren: []
             }
         ]
+    },
+    {
+        path: '/console/userManage',
+        name: '用户管理',
+        meta: {
+            icon: 'UserFilled'
+        },
     }
 ]
 </script>

@@ -8,7 +8,7 @@ onMounted(() => {
 </script>
 <template>
     <el-container class="page-container">
-        <el-header>Header</el-header>
+        <el-header class="page-header"></el-header>
         <el-container>
             <SideBar />
             <el-main>
@@ -21,5 +21,10 @@ onMounted(() => {
 .page-container {
     width: calc(100vw);
     height: calc(100vh);
+}
+.page-header {
+    margin: 0;
+    padding: 0;
+    background-color: #eceaea;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, defineEmits, watchEffect } from 'vue'
+import { onMounted, reactive, ref, watchEffect } from 'vue'
 
 
 const imgCode = ref('')

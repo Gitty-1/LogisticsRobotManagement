@@ -10,16 +10,16 @@ defineProps({
 </script>
 <template>
     <template v-for="menu in menuList" :key="menu.menuId">
-        <el-sub-menu v-if="menu.children && menu.children.length" :key="menu.menuId" :index="menu.path">
+        <el-sub-menu v-if="menu.children && menu.children.length" :key="menu.name" :index="menu.path">
             <template #title>
-                <el-icon>{{ menu.icon }}</el-icon>
+                <component :is="menu.meta.icon" style="width: 16px;height: 16px;margin-right: 5px;"></component>
                 <span>{{ menu.name }}</span>
             </template>
             <MenuList :menuList="menu.children" />
         </el-sub-menu>
-        <el-menu-item :key="menu.menuId" :index="menu.path" v-else >
+        <el-menu-item :key="menu.name" :index="menu.path" v-else >
             <template #title>
-                <el-icon>{{ menu.icon }}</el-icon>
+                <component :is="menu.meta.icon" style="color: #fff; width: 16px;height: 16px;margin-right: 5px;"></component>
                 <span>{{ menu.name }}</span>
             </template>
         </el-menu-item>
