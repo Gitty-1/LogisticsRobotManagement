@@ -42,7 +42,15 @@ const menuList = [
                 meta: {
                     icon: 'Van'
                 },
-                chileren: []
+                children: []
+            },
+            {
+                path: '/console/management/robots',
+                name: '机器人管理',
+                meta: {
+                    icon: 'Edit'
+                },
+                children: []
             }
         ]
     },
@@ -57,7 +65,7 @@ const menuList = [
 </script>
 <template>
     <el-aside class="aside-nav">
-        <el-menu background-color="#314156" text-color="#fff"  active-text-color="#3e95ef" router :default-active="router.currentRoute.value.path">
+        <el-menu class="aside-menu" background-color="#314156" text-color="#fff"  active-text-color="#3e95ef" router :default-active="router.currentRoute.value.path">
             <MenuList :menuList="menuList"/>
         </el-menu>
     </el-aside>
@@ -65,5 +73,8 @@ const menuList = [
 <style scoped>
 .aside-nav {
     width: 200px;
+}
+.aside-menu {
+    height: calc(100vh);
 }
 </style>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 </script>
 <template>
-  <div>机械臂管理</div>
+  <div>
+    <MyBreadcrumb title="机械臂管理"></MyBreadcrumb>
+  </div>
 </template>
 <style scoped>
 </style>

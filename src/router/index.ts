@@ -41,6 +41,11 @@ const router = createRouter({
               path: 'machineArms',
               name: '机械臂管理',
               component: () => import('@/views/management/machineArms.vue')
+            },
+            {
+              path: 'robots',
+              name: '机器人管理',
+              component: () => import('@/views/management/robots.vue')
             }
           ]
         },

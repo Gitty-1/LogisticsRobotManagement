@@ -11,7 +11,7 @@ onMounted(() => {
         <el-header class="page-header"></el-header>
         <el-container>
             <SideBar />
-            <el-main>
+            <el-main class="page-content">
                 <router-view />
             </el-main>
         </el-container>
@@ -26,5 +26,8 @@ onMounted(() => {
     margin: 0;
     padding: 0;
     background-color: #eceaea;
+}
+.page-content {
+    padding: 0;
 }
 </style>
