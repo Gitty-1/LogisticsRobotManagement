@@ -1,10 +1,17 @@
 <script setup lang="ts">
 </script>
 <template>
-  <router-view />
+  <div class="route-container">
+    <router-view />
+  </div>
 </template>
 <style>
-#app {
-  padding: 0;
+body, html {
+  width: 100%;
+  height: 100%;
+}
+.route-container {
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SideBar from '@/components/sideBar.vue'
+import Header from '@/components/header.vue'
 import router from '@/router';
 import { onMounted } from 'vue';
 onMounted(() => {
@@ -8,7 +9,7 @@ onMounted(() => {
 </script>
 <template>
     <el-container class="page-container">
-        <el-header class="page-header"></el-header>
+        <Header></Header>
         <el-container>
             <SideBar />
             <el-main class="page-content">
@@ -21,11 +22,9 @@ onMounted(() => {
 .page-container {
     width: calc(100vw);
     height: calc(100vh);
-}
-.page-header {
-    margin: 0;
-    padding: 0;
-    background-color: #eceaea;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 .page-content {
     padding: 0;
