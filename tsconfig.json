@@ -12,11 +12,15 @@
     },
   ],
   "compilerOptions": {
+    "target": "ES2015",
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "types": [
+      "node",
+    ]
   }
 }
