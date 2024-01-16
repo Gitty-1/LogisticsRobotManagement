@@ -5,6 +5,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import router from "@/router";
 import ImgVerifyCode from "@/components/imgVerifyCode.vue";
 import { openMessage } from "@/utils/message"
+import { login } from '@/api/login'
 
 
 // 登录注册菜单切换
@@ -160,7 +161,7 @@ const updateImgCode = () => {
 const onSubmit = (form: FormInstance | undefined) => {
     if(!form) return
     // @ts-ignore
-    form.validate((valid, fields) => {
+    form.validate(async (valid, fields) => {
         if (valid) {
             // 提交
             // 验证图形验证码
@@ -168,7 +169,16 @@ const onSubmit = (form: FormInstance | undefined) => {
                 openMessage('图形验证码错误', 'error')
                 updateImgCode()
             }
-            else router.push('/console')
+            else {
+                const params = {
+                    email: loginForm.username,
+                    password: loginForm.password,
+                    imgValidateCode: loginForm.imgValidateCode
+                }
+                const data = await login(params)
+                console.log(data)
+                router.push('/console')
+            }
         } else {
             console.log('error submit!', fields)
         }
