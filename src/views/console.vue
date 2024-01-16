@@ -24,7 +24,7 @@ onMounted(() => {
     height: calc(100vh);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 .page-content {
     padding: 0;
