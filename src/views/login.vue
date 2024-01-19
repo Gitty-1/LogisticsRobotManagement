@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick, watch } from "vue";
-import { User, Lock, Message, Key } from '@element-plus/icons-vue'
+import { ref, reactive, nextTick, watch } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import router from "@/router";
 import ImgVerifyCode from "@/components/imgVerifyCode.vue";
