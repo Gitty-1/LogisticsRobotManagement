@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { getCurrentInstance, onMounted } from "vue";
-
-const { proxy } = getCurrentInstance() as any;
+import Echarts from '@/components/echarts.vue'
 
 const option1 = {
   title: {
@@ -159,41 +157,25 @@ const option4 = {
     }
   ]
 }
-
-const setEchart = (chartDom: any, option: any) => {
-  let myChart = proxy.$echarts.init(chartDom)
-  if(chartDom) {
-    if(myChart != null && myChart !== undefined && myChart !== "") {
-      myChart.dispose();
-    }
-    myChart = proxy.$echarts.init(chartDom)
-  }
-  myChart.setOption(option)
-  window.onresize = function () {
-    myChart.resize()
-  }
-}
-
-onMounted(() => {
-  const chartDom1 = <HTMLElement>document.getElementById("echart1")
-  const chartDom2 = <HTMLElement>document.getElementById("echart2")
-  const chartDom3 = <HTMLElement>document.getElementById("echart3")
-  const chartDom4 = <HTMLElement>document.getElementById("echart4")
-  setEchart(chartDom1, option1)
-  setEchart(chartDom2, option2)
-  setEchart(chartDom3, option3)
-  setEchart(chartDom4, option4)
-})
 </script>
 <template>
   <div class="page-container">
     <div class="container">
-      <div id="echart1"></div>
-      <div id="echart2"></div>
+      <Echarts :option="option1" htmlId="echart1" class="echarts">
+        <div id="echart1"></div>
+      </Echarts>
+      <Echarts :option="option2" htmlId="echart2" class="echarts">
+        <div id="echart2"></div>
+      </Echarts>
+
     </div>
     <div class="container">
-      <div id="echart3"></div>
-      <div id="echart4"></div>
+      <Echarts :option="option3" htmlId="echart3" class="echarts">
+        <div id="echart3"></div>
+      </Echarts>
+      <Echarts :option="option4" htmlId="echart4" class="echarts">
+        <div id="echart4"></div>
+      </Echarts>
     </div>
   </div>
 </template>
@@ -215,4 +197,5 @@ onMounted(() => {
   height: 200px;
   margin: 20px;
 }
+
 </style>

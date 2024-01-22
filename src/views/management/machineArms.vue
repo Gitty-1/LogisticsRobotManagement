@@ -10,10 +10,6 @@ import machineArmsUrl from '@/assets/machineArms.jpg';
         <template #header>
           <el-image style="width: 150px; height: 100px;" :src="machineArmsUrl"></el-image>
         </template>
-        <!-- <div class="form">
-          <div class="form-item"><span>电量</span><el-progress :percentage="50" style="width: 350px;"/></div>
-          <div class="form-item"><span>状态</span><el-tag type="success">启动中</el-tag></div>
-        </div> -->
         <el-descriptions direction="vertical" :column="1">
           <el-descriptions-item label="电量"><el-progress :percentage="50" style="width: 350px;"/></el-descriptions-item>
           <el-descriptions-item label="状态"><el-tag type="success">启动中</el-tag></el-descriptions-item>
@@ -21,12 +17,8 @@ import machineArmsUrl from '@/assets/machineArms.jpg';
       </el-card>
       <el-card class="card">
         <template #header>
-          <el-image style="width: 150px; height: 100px;" :src="machineArmsUrl"></el-image>
+          机械臂状态
         </template>
-        <!-- <div class="form">
-          <div class="form-item"><span>电量</span><el-progress :percentage="50" style="width: 350px;"/></div>
-          <div class="form-item"><span>状态</span><el-tag type="success">启动中</el-tag></div>
-        </div> -->
         <el-descriptions direction="vertical" :column="1">
           <el-descriptions-item label="电量"><el-progress :percentage="50" style="width: 350px;"/></el-descriptions-item>
           <el-descriptions-item label="状态"><el-tag type="success">启动中</el-tag></el-descriptions-item>
