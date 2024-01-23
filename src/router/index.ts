@@ -58,6 +58,14 @@ export const asyncRoute = [
       icon: 'UserFilled'
     },
     component: () => import('@/views/userManage.vue')
+  },
+  {
+    path: 'setting',
+    name: '设置',
+    meta: {
+      icon: 'Setting'
+    },
+    component: () => import('@/views/setting.vue')
   }
 ]
 

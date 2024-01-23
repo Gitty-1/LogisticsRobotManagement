@@ -6,10 +6,21 @@ import logoUrl from '../assets/logo.png';
     <el-image class="page-logo" :src="logoUrl" fit="scale-down"/>
     <div class="title">物流机器人管理系统</div>
     <div class="user-info">
-        <label class="user-label">
-            <el-avatar :size="25" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
-            <span>zhengguihao</span>
-        </label>
+        <el-avatar :size="25" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+        <el-dropdown trigger="click">
+            <span>
+                <span>zhengguihao</span>
+                <el-icon>
+                    <arrow-down />
+                </el-icon>
+            </span>
+            <template #dropdown>
+                <el-dropdown-menu>
+                    <el-dropdown-item>个人中心</el-dropdown-item>
+                    <el-dropdown-item>退出</el-dropdown-item>
+                </el-dropdown-menu>
+            </template>
+        </el-dropdown>
     </div>
   </el-header>
 </template>
@@ -39,15 +50,12 @@ import logoUrl from '../assets/logo.png';
 }
 
 .user-info {
-    width: 120px;
+    display: flex;
+    justify-content: space-around;
+    width: 130px;
     position: absolute;
     right: 2%;
     top: 25%;
-}
-.user-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     cursor: pointer;
 }
 </style>
