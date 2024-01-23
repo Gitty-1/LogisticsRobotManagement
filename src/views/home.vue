@@ -161,19 +161,19 @@ const option4 = {
 <template>
   <div class="page-container">
     <div class="container">
-      <Echarts :option="option1" htmlId="echart1" class="echarts">
+      <Echarts :option="option1" htmlId="echart1">
         <div id="echart1"></div>
       </Echarts>
-      <Echarts :option="option2" htmlId="echart2" class="echarts">
+      <Echarts :option="option2" htmlId="echart2">
         <div id="echart2"></div>
       </Echarts>
 
     </div>
     <div class="container">
-      <Echarts :option="option3" htmlId="echart3" class="echarts">
+      <Echarts :option="option3" htmlId="echart3">
         <div id="echart3"></div>
       </Echarts>
-      <Echarts :option="option4" htmlId="echart4" class="echarts">
+      <Echarts :option="option4" htmlId="echart4">
         <div id="echart4"></div>
       </Echarts>
     </div>

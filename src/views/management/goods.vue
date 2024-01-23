@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
+import MyPagination from '@/components/myPagination.vue'
+import { onMounted, reactive } from 'vue'
+
+onMounted(() => {
+  initData()
+})
+
 const goodsData = [
   {
     id: '111',
@@ -47,6 +54,23 @@ const tagType = {
   运输中: 'success',
   已在架: ''
 }
+
+const initData = () => {
+  console.log('init')
+  pagination.currentPage = 1
+  loadData()
+  
+}
+const loadData = () => {
+  // 
+  console.log('load', pagination)
+}
+
+const pagination = reactive({
+  currentPage: 1,
+  pageSize: 10,
+  total: 100
+})
 </script>
 <template>
   <div>
@@ -75,6 +99,7 @@ const tagType = {
           <el-button link type="primary" :underline="false" icon="Edit">详情</el-button>
         </el-table-column>
       </el-table>
+      <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"/>
     </div>
   </div>
 </template>

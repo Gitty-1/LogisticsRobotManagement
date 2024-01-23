@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
+import MyPagination from '@/components/myPagination.vue'
 import { reactive } from 'vue'
 
 const shelvesData = reactive([
@@ -34,6 +35,23 @@ const tagType = {
   有货物: 'primary',
   已满: 'danger'
 }
+
+const initData = () => {
+  console.log('init')
+  pagination.currentPage = 1
+  loadData()
+}
+
+const loadData = () => {
+  console.log('load')
+  console.log(pagination)
+}
+
+const pagination = reactive({
+  pageSize: 10,
+  currentPage: 1,
+  total: 50
+})
 </script>
 <template>
   <div>
@@ -65,6 +83,7 @@ const tagType = {
             </template>
         </el-table-column>
       </el-table>
+      <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"></MyPagination>
     </div>
   </div>
 </template>
