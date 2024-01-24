@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
-import { reactive } from 'vue'
+import AddShelves from '@/views/components/AddShelves/index.vue'
+import { ref, reactive } from 'vue'
 
 const shelvesData = reactive([
   {
@@ -52,6 +53,13 @@ const pagination = reactive({
   currentPage: 1,
   total: 50
 })
+
+// 添加货架对话框显示
+const addShelvesVisible = ref(false)
+const updateAddShelvesVisible = () => {
+  addShelvesVisible.value = false
+}
+
 </script>
 <template>
   <div>
@@ -63,7 +71,7 @@ const pagination = reactive({
             <el-button icon="Search" />
           </template>
         </el-input>
-        <el-button type="primary">添加</el-button>
+        <el-button type="primary" @click="addShelvesVisible = true">添加</el-button>
       </div>
       <el-table :data="shelvesData">
         <el-table-column prop="id" label="货架ID" min-width="140"></el-table-column>
@@ -85,6 +93,7 @@ const pagination = reactive({
       </el-table>
       <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"></MyPagination>
     </div>
+    <AddShelves :visible="addShelvesVisible" @updateAddShelvesVisible="updateAddShelvesVisible"></AddShelves>
   </div>
 </template>
 <style scoped>

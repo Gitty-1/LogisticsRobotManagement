@@ -26,7 +26,7 @@ import logoUrl from '../assets/logo.png';
 </template>
 <style>
 .page-header {
-    background-color: rgba(0, 255, 0, 0.1);
+    background-color: skyblue;
     padding: 0;
     position: relative;
 }

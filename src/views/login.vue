@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive, nextTick, watch } from "vue";
+import { User, Lock, Key } from "@element-plus/icons";
 import type { FormInstance, FormRules } from "element-plus";
 import router from "@/router";
 import ImgVerifyCode from "@/components/imgVerifyCode.vue";
-import { openMessage } from "@/utils/message"
+import { message } from "@/utils/message"
 import { login } from '@/api/login'
 
 
@@ -165,7 +166,7 @@ const onSubmit = (form: FormInstance | undefined) => {
             // 提交
             // 验证图形验证码
             if(activeIndex.value === '1' && loginForm.imgValidateCode !== imgValidateCode.value) {
-                openMessage('图形验证码错误', 'error')
+                message('图形验证码错误', 'error')
                 updateImgCode()
             }
             else {

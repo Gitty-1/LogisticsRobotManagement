@@ -183,8 +183,8 @@ const option4 = {
 .page-container {
   width: 100%;
   display: flex;
-  background-image: linear-gradient(#dbedf3,#d7f1c2, #ffffff);
-  overflow-x: hidden;
+  /* background-image: linear-gradient(#dbedf3,#d7f1c2, #ffffff); */
+  overflow: hidden;
 }
 
 .container {
