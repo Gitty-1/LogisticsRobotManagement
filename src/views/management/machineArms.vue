@@ -61,14 +61,15 @@ const option = {
   justify-content: space-between;
 }
 .card {
-  width: 45%;
+  width: calc(38vw);
+  height: calc(60vh)
 }
 .form-item {
   display: flex;
   justify-content: space-around;
 }
 #echart {
-  width: 400px;
-  height: 300px;
+  width: calc(35vw);
+  height: calc(30vh);
 }
 </style>

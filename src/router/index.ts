@@ -86,6 +86,11 @@ const router = createRouter({
       name: 'console',
       component: () => import('@/views/console.vue'),
       children : asyncRoute
+    },
+    {
+      path: '/userControl',
+      name: 'userControl',
+      component: () => import('@/views/userControl.vue')
     }
   ]
 })

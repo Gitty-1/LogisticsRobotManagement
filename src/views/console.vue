@@ -21,12 +21,11 @@ onMounted(() => {
 <style scoped>
 .page-container {
     width: calc(100vw);
-    height: calc(100vh);
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
 }
 .page-content {
     padding: 0;
+    overflow-x: hidden;
 }
 </style>

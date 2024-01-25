@@ -95,7 +95,7 @@ const option3 = {
   },
   grid: {
     left: "1%",
-    right: "10%",
+    right: "15%",
     bottom: "11%",
     containLabel: true
   },
@@ -181,10 +181,8 @@ const option4 = {
 </template>
 <style scoped>
 .page-container {
-  width: 100%;
   display: flex;
   /* background-image: linear-gradient(#dbedf3,#d7f1c2, #ffffff); */
-  overflow: hidden;
 }
 
 .container {
@@ -193,9 +191,9 @@ const option4 = {
 }
 
 #echart1, #echart2, #echart3, #echart4 {
-  width: 500px;
-  height: 200px;
-  margin: 20px;
+  width: calc(35vw);
+  height: calc(30vh);
+  margin: 40px;
 }
 
 </style>

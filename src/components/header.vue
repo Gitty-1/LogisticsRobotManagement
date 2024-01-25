@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import logoUrl from '../assets/logo.png';
+import router from '@/router';
+
+const handleUserControl = () => {
+    router.push({path: '/userControl', query: { userName: '郑桂浩' }})
+}
 </script>
 <template>
   <el-header class="page-header">
@@ -16,7 +21,7 @@ import logoUrl from '../assets/logo.png';
             </span>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item>个人中心</el-dropdown-item>
+                    <el-dropdown-item @click="handleUserControl">个人中心</el-dropdown-item>
                     <el-dropdown-item>退出</el-dropdown-item>
                 </el-dropdown-menu>
             </template>

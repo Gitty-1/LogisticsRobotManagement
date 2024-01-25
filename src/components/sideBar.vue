@@ -16,9 +16,10 @@ const rootPath = '/console'
 </template>
 <style scoped>
 .aside-nav {
-    width: 200px;
+    width: calc(15vw);
 }
 .aside-menu {
-    height: calc(100vh);
+    height: calc(90vh);
+    overflow: auto;
 }
 </style>

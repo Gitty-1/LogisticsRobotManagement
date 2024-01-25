@@ -40,7 +40,8 @@ import androidUrl from '@/assets/android.png'
   justify-content: space-between;
 }
 .card {
-  width: 45%;
+  width: calc(38vw);
+  height: calc(60vh)
 }
 .form-item {
   display: flex;
