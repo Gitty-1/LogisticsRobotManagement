@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from "vue"
 
+interface pageSizesType {
+    value: number,
+    label: String
+}
 const props = defineProps({
     pageSizes: {
-        type: Array,
+        type: Array<pageSizesType>,
         default: () => [
             {
                 value: 10,

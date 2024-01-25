@@ -50,7 +50,9 @@ const goodsData = [
     shelvesTime: '2024-01-02 20:20:20',
   },
 ]
-const tagType = {
+
+type stringKey = Record<string, string>
+const tagType: stringKey = {
   未运输: 'info',
   运输中: 'success',
   已在架: ''

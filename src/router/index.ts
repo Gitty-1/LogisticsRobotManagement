@@ -1,6 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
-
-export const asyncRoute = [
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+interface menuListType {
+  path: String,
+  name: String,
+  meta: {
+      icon: String
+  },
+  component: () => Promise<any>
+  children?: Array<menuListType>
+}
+export const asyncRoute: Array<menuListType> = [
   {
     path: 'home',
     name: '首页',
@@ -85,7 +93,7 @@ const router = createRouter({
       path: '/console',
       name: 'console',
       component: () => import('@/views/console.vue'),
-      children : asyncRoute
+      children : <any>asyncRoute
     },
     {
       path: '/userControl',

@@ -31,7 +31,8 @@ const shelvesData = reactive([
   },
 ])
 
-const tagType = {
+type stringKey = Record<string, string>
+const tagType: stringKey = {
   无货物: 'info',
   有货物: 'primary',
   已满: 'danger'
