@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watchEffect } from 'vue'
+import { onMounted, reactive, ref, watch, watchEffect } from 'vue'
 
+const props = defineProps({
+    isCanRefresh: {
+        type: Boolean,
+        default: false
+    }
+})
 
 const imgCode = ref('')
 const width = 80
@@ -14,13 +20,19 @@ const canvasState = reactive({
 const emit = defineEmits(['getImgCode'])
 
 onMounted(() => {
-    imgCode.value = draw()
+    handleDraw()
+})
+
+watch(() => props.isCanRefresh, () => {
+    handleDraw()
 })
 
 const handleDraw = () => {
     imgCode.value = draw()
     emit('getImgCode', imgCode.value)
 }
+
+
 
 //产生随机数
 const randomNum = (min: any, max: any) => {

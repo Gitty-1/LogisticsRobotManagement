@@ -1,8 +1,5 @@
-import axios from 'axios'
-
-// const baseUrl = '/api'
+import request from '@/utils/request'
 
 export const login = (params: any) => {
-    const data = axios.post('/api/login', params)
-    return data
+    return request.post('/login', params)
 }

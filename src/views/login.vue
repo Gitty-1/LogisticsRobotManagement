@@ -143,6 +143,7 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
 })
 
 // 获取图形验证码
+const isCanRefresh = ref(false)
 const imgValidateCode = ref('')
 const getImgCode = (imgCode: string) => {
     console.log('imgcode', imgCode)
@@ -217,7 +218,7 @@ const onReset = () => {
                 <el-form-item label="验证码" prop="imgValidateCode">
                     <div class="img-code">
                         <el-input placeholder="请输入验证码" v-model="loginForm.imgValidateCode" :prefix-icon="Key" clearable></el-input>
-                        <ImgVerifyCode v-if="!isRefresh" @getImgCode="getImgCode"/>
+                        <ImgVerifyCode v-if="!isRefresh" :isCanRefresh="isCanRefresh" @getImgCode="getImgCode"/>
                     </div>
                 </el-form-item>
                 <div class="form-button">
