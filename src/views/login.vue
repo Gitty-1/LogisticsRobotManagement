@@ -146,7 +146,7 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
 const isCanRefresh = ref(false)
 const imgValidateCode = ref('')
 const getImgCode = (imgCode: string) => {
-    console.log('imgcode', imgCode)
+    console.log('imgCode', imgCode)
     imgValidateCode.value = imgCode
 }
 // 图形验证码刷新
@@ -162,7 +162,7 @@ const updateImgCode = () => {
 const onSubmit = (form: FormInstance | undefined) => {
     if(!form) return
     // @ts-ignore
-    form.validate(async (valid, fields) => {
+    form.validate(async (valid, _) => {
         if (valid) {
             // 提交
             // 验证图形验证码
@@ -177,20 +177,13 @@ const onSubmit = (form: FormInstance | undefined) => {
                     imgValidateCode: loginForm.imgValidateCode
                 }
                 const data = await login(params)
-                console.log(data)
                 router.push('/console')
             }
-        } else {
-            console.log('error submit!', fields)
         }
     })
 }
 
 // 重置
-// const onReset = (form: FormInstance | undefined) => {
-//     if(!form) return
-//     form.resetFields()
-// }
 const onReset = () => {
     // @ts-ignore
     Object.keys(loginForm).forEach((item: string) => loginForm[item] = '')

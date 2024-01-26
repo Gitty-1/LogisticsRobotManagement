@@ -1,4 +1,3 @@
-import { h } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 export const message = (message: any, type: any) => {

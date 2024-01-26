@@ -21,6 +21,7 @@ onMounted(() => {
 <style scoped>
 .page-container {
     width: calc(100vw);
+    height: calc(90vh);
     display: flex;
     flex-direction: column;
 }
