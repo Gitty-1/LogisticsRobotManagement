@@ -176,7 +176,7 @@ const onSubmit = (form: FormInstance | undefined) => {
                     password: loginForm.password,
                     imgValidateCode: loginForm.imgValidateCode
                 }
-                const data = await login(params)
+                await login(params)
                 router.push('/console')
             }
         }

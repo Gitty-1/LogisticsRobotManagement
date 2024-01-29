@@ -9,7 +9,8 @@ const request = axios.create({
 // 异常处理
 const errorHandle = (response: any) => {
     const data = response?.data
-    message(data.msg, 'error')
+    const errorMessage = data ? data.msg : '网络错误'
+    message(errorMessage, 'error')
     return Promise.reject()
 }
 
@@ -24,11 +25,10 @@ request.interceptors.request.use(
     config => {
         return config;
     },
-
     error => {
         error.data = {}
         error.data.msg = '服务器异常'
-        return Promise.resolve(error)
+        return Promise.reject(error)
     }
 )
 

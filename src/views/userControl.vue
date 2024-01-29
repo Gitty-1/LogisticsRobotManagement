@@ -2,6 +2,8 @@
 import { useRoute } from 'vue-router'
 import { ref } from 'vue';
 import Header from '@/components/header.vue';
+import UserInfo from '@/views/components/UserInfo/index.vue'
+import UpdatePassword from '@/views/components/UpdateUserInfo/UpdatePassword/index.vue';
 import MyBreadcrumb from '@/components/myBreadcrumb.vue';
 import { useUserStore } from '@/stores/user';
 
@@ -30,9 +32,15 @@ const handleClick = () => {
         <template #header>
           <MyBreadcrumb title="个人信息"></MyBreadcrumb>
         </template>
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tabs-pane label="基本信息" name="userInfo">基本信息</el-tabs-pane>
-          <el-tabs-pane label="修改密码" name="changePassword">修改密码</el-tabs-pane>
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+          <el-tab-pane label="基本信息" name="userInfo">
+            <UserInfo />
+          </el-tab-pane>
+          <el-tab-pane label="修改密码" name="updatePassword">
+            <div class="update-password">
+              <UpdatePassword />
+            </div>
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </el-main>
@@ -58,5 +66,17 @@ const handleClick = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.update-password {
+  width: calc(20vw);
+  margin: 10% auto;
 }
 </style>
