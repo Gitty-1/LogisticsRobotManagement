@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message'
+
+const props = defineProps({
+    isReset: {
+        type: Boolean,
+        default: false
+    }
+})
 
 interface RuleForm {
     password: string
@@ -17,14 +24,14 @@ const rules = reactive<FormRules<RuleForm>>({
         {
             required: true,
             message: '请输入原密码',
-            trigger: 'blur'
+            trigger: 'change'
         }
     ],
     newPassword: [
         {
             required: true,
             message: '请输入新密码',
-            trigger: 'blur'
+            trigger: 'change'
         }
     ]
 })
@@ -41,6 +48,16 @@ const onsubmit = (formEl: FormInstance | undefined) => {
     })
 }
 
+const onReset = () => {
+    // @ts-ignore
+    Object.keys(form).forEach((item: string) => form[item] = '')
+}
+
+watch(() => props.isReset, () => {
+    console.log('111')
+    onReset()
+})
+
 </script>
 <template>
     <el-form ref="ruleFormRef" :model="form" :rules="rules">
@@ -52,7 +69,7 @@ const onsubmit = (formEl: FormInstance | undefined) => {
         </el-form-item>
         <el-form-item>
             <div class="form-button">
-                <el-button>重置</el-button>
+                <el-button @click="onReset">重置</el-button>
                 <el-button type="primary" @click="onsubmit(ruleFormRef)">确定</el-button>
             </div>
         </el-form-item>

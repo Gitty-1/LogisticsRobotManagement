@@ -13,9 +13,13 @@ const route = useRoute()
 const userName = route.query.userName
 
 const activeName = ref('userInfo')
+const isReset = ref(false)
 
 const handleClick = () => {
   
+}
+const handleTabChange = () => {
+  isReset.value = !isReset.value
 }
 </script>
 <template>
@@ -32,13 +36,13 @@ const handleClick = () => {
         <template #header>
           <MyBreadcrumb title="个人信息"></MyBreadcrumb>
         </template>
-        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" @tab-change="handleTabChange">
           <el-tab-pane label="基本信息" name="userInfo">
             <UserInfo />
           </el-tab-pane>
           <el-tab-pane label="修改密码" name="updatePassword">
             <div class="update-password">
-              <UpdatePassword />
+              <UpdatePassword :isReset="isReset"/>
             </div>
           </el-tab-pane>
         </el-tabs>

@@ -60,6 +60,22 @@ export const asyncRoute: Array<menuListType> = [
     ]
   },
   {
+    path: 'mapWatch',
+    name: '地图&监测',
+    meta: {
+      icon: 'Location'
+    },
+    component: () => import('@/views/mapWatch.vue')
+  },
+  {
+    path: 'errorWatch',
+    name: '故障检测',
+    meta: {
+      icon: 'Warning'
+    },
+    component: () => import('@/views/errorWatch.vue')
+  },
+  {
     path: 'userManage',
     name: '用户管理',
     meta: {
@@ -74,7 +90,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'Setting'
     },
     component: () => import('@/views/setting.vue')
-  }
+  },
 ]
 
 const router = createRouter({
