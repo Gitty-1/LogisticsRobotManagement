@@ -3,7 +3,8 @@ interface menuListType {
   path: String,
   name: String,
   meta: {
-      icon: String
+      icon: String,
+      permission: Array<Number>
   },
   component: () => Promise<any>
   children?: Array<menuListType>
@@ -13,7 +14,8 @@ export const asyncRoute: Array<menuListType> = [
     path: 'home',
     name: '首页',
     meta: {
-      icon: 'HomeFilled'
+      icon: 'HomeFilled',
+      permission: [1, 2]
     },
     component: () => import('@/views/home.vue'),
   },
@@ -21,7 +23,8 @@ export const asyncRoute: Array<menuListType> = [
     path: 'management',
     name: '仓储管理',
     meta: {
-      icon: 'Menu'
+      icon: 'Menu',
+      permission: [1, 2]
     },
     component: () => import('@/views/management/index.vue'),
     children: [
@@ -29,7 +32,8 @@ export const asyncRoute: Array<menuListType> = [
         path: 'goods',
         name: '货物管理',
         meta: {
-          icon: 'SetUp'
+          icon: 'SetUp',
+          permission: [1, 2]
         },
         component: () => import('@/views/management/goods.vue')
       },
@@ -37,7 +41,8 @@ export const asyncRoute: Array<menuListType> = [
         path: 'shelves',
         name: '货架管理',
         meta: {
-          icon: 'Tickets'
+          icon: 'Tickets',
+          permission: [1, 2]
         },
         component: () => import('@/views/management/shelves.vue')
       },
@@ -45,7 +50,8 @@ export const asyncRoute: Array<menuListType> = [
         path: 'machineArms',
         name: '机械臂管理',
         meta: {
-          icon: 'Van'
+          icon: 'Van',
+          permission: [1, 2]
         },
         component: () => import('@/views/management/machineArms.vue')
       },
@@ -53,7 +59,8 @@ export const asyncRoute: Array<menuListType> = [
         path: 'robots',
         name: '机器人管理',
         meta: {
-          icon: 'Edit'
+          icon: 'Edit',
+          permission: [1, 2]
         },
         component: () => import('@/views/management/robots.vue')
       }
@@ -63,7 +70,8 @@ export const asyncRoute: Array<menuListType> = [
     path: 'mapWatch',
     name: '地图&监测',
     meta: {
-      icon: 'Location'
+      icon: 'Location',
+      permission: [1, 2]
     },
     component: () => import('@/views/mapWatch.vue')
   },
@@ -71,7 +79,8 @@ export const asyncRoute: Array<menuListType> = [
     path: 'errorWatch',
     name: '故障检测',
     meta: {
-      icon: 'Warning'
+      icon: 'Warning',
+      permission: [1, 2]
     },
     component: () => import('@/views/errorWatch.vue')
   },
@@ -79,7 +88,8 @@ export const asyncRoute: Array<menuListType> = [
     path: 'userManage',
     name: '用户管理',
     meta: {
-      icon: 'UserFilled'
+      icon: 'UserFilled',
+      permission: [2]
     },
     component: () => import('@/views/userManage.vue')
   },
@@ -87,7 +97,8 @@ export const asyncRoute: Array<menuListType> = [
     path: 'setting',
     name: '设置',
     meta: {
-      icon: 'Setting'
+      icon: 'Setting',
+      permission: [2]
     },
     component: () => import('@/views/setting.vue')
   },
