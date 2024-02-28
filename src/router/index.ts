@@ -48,15 +48,6 @@ export const asyncRoute: Array<menuListType> = [
         component: () => import('@/views/management/shelves.vue')
       },
       {
-        path: 'machineArms',
-        name: '机械臂管理',
-        meta: {
-          icon: 'Van',
-          permission: [1, 2]
-        },
-        component: () => import('@/views/management/machineArms.vue')
-      },
-      {
         path: 'robots',
         name: '机器人管理',
         meta: {
@@ -115,17 +106,26 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
+      meta: {
+        permission: [1, 2]
+      },
       component: ()=>import('@/views/login.vue')
     },
     {
       path: '/console',
       name: 'console',
+      meta: {
+        permission: [1, 2]
+      },
       component: () => import('@/views/console.vue'),
       children : <any>asyncRoute
     },
     {
       path: '/userControl',
       name: 'userControl',
+      meta: {
+        permission: [1, 2]
+      },
       component: () => import('@/views/userControl.vue')
     },
     {
