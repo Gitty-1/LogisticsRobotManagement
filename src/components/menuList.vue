@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { defineProps, onBeforeMount, onMounted, ref, type PropType } from 'vue'
+import { defineProps, onBeforeMount, ref, type PropType } from 'vue'
 import MenuList from './menuList.vue'
 import { useUserStore } from '@/stores/user';
-import type { use } from 'echarts';
 
 interface menuListType {
     path: String,

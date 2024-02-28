@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 interface menuListType {
   path: String,
   name: String,
@@ -126,8 +127,27 @@ const router = createRouter({
       path: '/userControl',
       name: 'userControl',
       component: () => import('@/views/userControl.vue')
+    },
+    {
+      path: '/404',
+      name: '404',
+      meta: {
+        permission: [1, 2]
+      },
+      component: () => import('@/views/404.vue')
     }
   ]
+})
+
+// 路由前置守卫
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  //@ts-ignore
+  if(!to.meta.permission.includes(userStore.userType)) {
+    next('/404')
+  } else {
+    next()
+  }
 })
 
 export default router

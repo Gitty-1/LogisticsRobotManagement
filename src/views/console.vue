@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import SideBar from '@/components/sideBar.vue'
 import Header from '@/components/header.vue'
-import router from '@/router';
-import { onMounted } from 'vue';
-onMounted(() => {
-    router.push('/console/home')
-})
 </script>
 <template>
     <el-container class="page-container">
