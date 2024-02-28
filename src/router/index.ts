@@ -113,6 +113,7 @@ const router = createRouter({
     },
     {
       path: '/console',
+      redirect: '/console/home',
       name: 'console',
       meta: {
         permission: [1, 2]
