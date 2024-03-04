@@ -101,11 +101,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/login-register'
     },
     {
-      path: '/login',
-      name: 'login',
+      path: '/login-register',
+      name: 'login-register',
       meta: {
         permission: [1, 2]
       },
@@ -114,7 +114,6 @@ const router = createRouter({
     {
       path: '/console',
       redirect: '/console/home',
-      name: 'console',
       meta: {
         permission: [1, 2]
       },

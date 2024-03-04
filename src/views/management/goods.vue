@@ -2,9 +2,10 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import AddGoods from '@/views/components/AddGoods/index.vue'
-import { onMounted, ref, reactive } from 'vue'
+import { onBeforeMount, ref, reactive } from 'vue'
+import { getGoodsData } from '@/api/manage'
 
-onMounted(() => {
+onBeforeMount(() => {
   initData()
 })
 
@@ -58,22 +59,27 @@ const tagType: stringKey = {
   已在架: ''
 }
 
-const initData = () => {
-  console.log('init')
-  pagination.currentPage = 1
-  loadData()
-  
-}
-const loadData = () => {
-  // 
-  console.log('load', pagination)
-}
-
+const keyWord = ref('')
 const pagination = reactive({
   currentPage: 1,
   pageSize: 10,
   total: 100
 })
+
+const initData = () => {
+  pagination.currentPage = 1
+  loadData()
+}
+const loadData = async () => {
+  // 
+  const params = {
+    key: keyWord.value,
+    currentPage: pagination.currentPage,
+    pageSize: pagination.pageSize
+  }
+  const res = await getGoodsData(params)
+  console.log('ressss', res)
+}
 
 // 增加货物对话框显示
 const addGoodsVisible = ref(false)
@@ -87,7 +93,7 @@ const updateAddGoodsVisible = () => {
     <MyBreadcrumb title="货物管理"></MyBreadcrumb>
     <div class="goods-container">
       <div class="search">
-        <el-input class="search-input" placeholder="搜索货物名称或者货物ID">
+        <el-input v-model="keyWord" class="search-input" placeholder="搜索货物名称或者货物ID" >
           <template #append>
             <el-button icon="Search" />
           </template>
