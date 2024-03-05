@@ -7,11 +7,11 @@ const request = axios.create({
 })
 
 // 异常处理
-const errorHandle = (response: any) => {
-    const data = response?.data
+const errorHandle = (error: any) => {
+    const data = error?.data
     const errorMessage = data ? data.msg : '网络错误'
     message(errorMessage, 'error')
-    return Promise.reject()
+    return Promise.reject(error)
 }
 
 const successHandle = (response: any) => {

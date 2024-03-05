@@ -2,56 +2,33 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import AddGoods from '@/views/components/AddGoods/index.vue'
+import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData } from '@/api/manage'
+import { formatTime } from '@/utils/formatTime'
 
 onBeforeMount(() => {
   initData()
 })
 
-const goodsData = [
-  {
-    id: '111',
-    name: '货物1',
-    status: '未运输',
-    type: 1,
-    createTime: '2024-01-01 20:20:20',
-    shelvesTime: '2024-01-02 20:20:20',
-  },
-  {
-    id: '222',
-    name: '货物2',
-    status: '运输中',
-    type: 2,
-    createTime: '2024-01-01 20:20:20',
-    shelvesTime: '2024-01-02 20:20:20',
-  },
-  {
-    id: '333',
-    name: '货物3',
-    status: '未运输',
-    type: 1,
-    createTime: '2024-01-01 20:20:20',
-    shelvesTime: '2024-01-02 20:20:20',
-  },
-  {
-    id: '444',
-    name: '货物4',
-    status: '已在架',
-    type: 3,
-    createTime: '2024-01-01 20:20:20',
-    shelvesTime: '2024-01-02 20:20:20',
-  },
-  {
-    id: '555',
-    name: '货物5',
-    status: '未运输',
-    type: 2,
-    createTime: '2024-01-01 20:20:20',
-    shelvesTime: '2024-01-02 20:20:20',
-  },
-]
+export interface GoodsDataType {
+  goodsId: number,
+  goodsName: string,
+  goodsStatus: number,
+  goodsType: number,
+  createTime: string,
+  shelvingTime: string,
+  details: string,
+  shelfId: number
+}
+const goodsData = ref<GoodsDataType[]>()
 
+type numStrKey = Record<number, string>
+const statusType: numStrKey = {
+  0: '未运输',
+  1: '运输中',
+  2: '已在架'
+}
 type stringKey = Record<string, string>
 const tagType: stringKey = {
   未运输: 'info',
@@ -60,10 +37,16 @@ const tagType: stringKey = {
 }
 
 const keyWord = ref('')
-const pagination = reactive({
+
+interface PaginationType {
+  currentPage: number,
+  pageSize: number,
+  total: number
+}
+const pagination = reactive<PaginationType>({
   currentPage: 1,
   pageSize: 10,
-  total: 100
+  total: 0
 })
 
 const initData = () => {
@@ -78,13 +61,27 @@ const loadData = async () => {
     pageSize: pagination.pageSize
   }
   const res = await getGoodsData(params)
-  console.log('ressss', res)
+  // @ts-ignore
+  const { data, total } = res
+  goodsData.value = data
+  pagination.total = total
 }
 
 // 增加货物对话框显示
 const addGoodsVisible = ref(false)
 const updateAddGoodsVisible = () => {
   addGoodsVisible.value = false
+}
+
+// 货物明细
+const goodDetailVisible = ref(false)
+const updateGoodsDetailVisible = () => {
+  goodDetailVisible.value = false
+}
+const goodsDetail = ref<GoodsDataType>()
+const handleGoodsDetail = (row: GoodsDataType) => {
+  goodsDetail.value = row
+  goodDetailVisible.value = true
 }
 
 </script>
@@ -100,24 +97,36 @@ const updateAddGoodsVisible = () => {
         </el-input>
         <el-button type="primary" @click="addGoodsVisible = true">添加</el-button>
       </div>
-      <el-table :data="goodsData">
-        <el-table-column prop="id" label="货物ID" min-width="140"></el-table-column>
-        <el-table-column prop="name" label="货物名称" min-width="140"></el-table-column>
-        <el-table-column prop="status" label="货物状态" min-width="140">
+      <el-table :data="goodsData" class="goods-table">
+        <el-table-column prop="goodsId" label="货物ID" min-width="140"></el-table-column>
+        <el-table-column prop="goodsName" label="货物名称" min-width="140"></el-table-column>
+        <el-table-column prop="goodsStatus" label="货物状态" min-width="140">
           <template #default="scope">
-            <el-tag :type="tagType[scope.row.status]">{{ scope.row.status }}</el-tag>
+            <el-tag :type="tagType[statusType[scope.row.goodsStatus]]">{{ statusType[scope.row.goodsStatus] }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="type" label="货物类型" min-width="140"></el-table-column>
-        <el-table-column prop="createTime" label="生产时间" min-width="200"></el-table-column>
-        <el-table-column prop="shelvesTime" label="上架时间" min-width="200"></el-table-column>
+        <el-table-column prop="goodsType" label="货物类型" min-width="140"></el-table-column>
+        <el-table-column prop="createTime" label="生产时间" min-width="200">
+          <template #default="scope">
+            <span>{{ formatTime(scope.row.createTime) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="shelvingTime" label="上架时间" min-width="200">
+          <template #default="scope">
+            <span>{{ formatTime(scope.row.shelvingTime) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="shelfId" label="所在货架Id" min-width="140"></el-table-column>
         <el-table-column fixed="right" prop="detail" label="货物明细">
-          <el-button link type="primary" :underline="false" icon="Edit">详情</el-button>
+          <template #default="scope">
+            <el-button link type="primary" :underline="false" icon="InfoFilled" @click="handleGoodsDetail(scope.row)">详情</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"/>
     </div>
     <AddGoods :visible="addGoodsVisible" @updateAddGoodsVisible="updateAddGoodsVisible"></AddGoods>
+    <GoodsDetail :visible="goodDetailVisible" @updateGoodsDetailVisible="updateGoodsDetailVisible" :goodsDetail="goodsDetail"></GoodsDetail>
   </div>
 </template>
 <style scoped>
@@ -131,5 +140,10 @@ const updateAddGoodsVisible = () => {
 }
 .search .search-input {
   width: 250px;
+}
+
+.goods-table {
+  height: calc(50vh);
+  overflow: auto;
 }
 </style>

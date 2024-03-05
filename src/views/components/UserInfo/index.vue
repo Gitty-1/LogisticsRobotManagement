@@ -34,9 +34,6 @@ const handleEdit = (isEdit: boolean) => {
   </div>
 </template>
 <style scoped>
-.info {
-    
-}
 .info-item {
     display: flex;
     width: 100%;

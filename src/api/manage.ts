@@ -7,3 +7,19 @@ export const getGoodsData = (params: any) => {
         params
     })
 }
+
+export const addGoods = (data: any) => {
+    return request({
+        url: '/goodsManage/AddGoods',
+        method: 'post',
+        data
+    })
+}
+
+export const getShelvesData = (params: any) => {
+    return request({
+        url: '/shelfManage/page',
+        method: 'get',
+        params
+    })
+}

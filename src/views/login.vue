@@ -5,7 +5,7 @@ import type { FormInstance, FormRules } from "element-plus";
 // @ts-ignore
 import { v4 as uuidV4 } from 'uuid';
 import router from "@/router";
-import { login, getCaptcha } from '@/api/login'
+import { login, getCaptcha, validateCode } from '@/api/login'
 
 onBeforeMount(() => {
     getCaptchaImg()
@@ -157,20 +157,33 @@ const updateImgCode = () => {
     getCaptchaImg()
 }
 
+// 发送邮箱验证码
+const handleSendValidateCode = () => {
+    const params = {
+        email: registerForm.email
+    }
+    const res = validateCode(params)
+    console.log('res', res)
+}
+
 // 提交表单时校验
 const onSubmit = (form: FormInstance | undefined) => {
     if(!form) return
     // @ts-ignore
     form.validate(async (valid, _) => {
         if (valid) {
-            // 提交
-            const params = {
-                email: loginForm.email,
-                password: loginForm.password,
-                captchaCode: loginForm.imgValidateCode,
-                captchaKey: captchaKey.value
+            if(activeIndex.value === '1') {
+                const params = {
+                    email: loginForm.email,
+                    password: loginForm.password,
+                    captchaCode: loginForm.imgValidateCode,
+                    captchaKey: captchaKey.value
+                }
+                await login(params)
+            } else {
+                // 注册
             }
-            await login(params)
+            
             router.push('/console')
         }
     })
@@ -222,7 +235,7 @@ const onReset = () => {
                 <el-form-item label="验证码" prop="validateCode">
                     <el-input placeholder="请输入邮箱验证码" v-model="registerForm.validateCode" :prefix-icon="Key">
                         <template #append>
-                            <span class="code-span">发送</span>
+                            <span class="code-span" @click="handleSendValidateCode">发送</span>
                         </template>
                     </el-input>
                 </el-form-item>

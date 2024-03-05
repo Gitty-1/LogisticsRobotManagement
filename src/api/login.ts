@@ -1,9 +1,11 @@
 import request from '@/utils/request'
 
+const baseURL = '/login-register'
+
 // 登录
 export const login = (data: any) => {
     return request({
-        url: '/login',
+        url: baseURL + '/login',
         method: 'post',
         data
     })
@@ -12,7 +14,24 @@ export const login = (data: any) => {
 // 获取验证码图片
 export const getCaptcha = (captchaKey: string) => {
     return request({
-        url: `/captcha/${captchaKey}`,
+        url: baseURL + `/captcha/${captchaKey}`,
         method: 'get'
+    })
+}
+
+// 注册
+export const register = () => {
+    return request({
+        url: baseURL + '/register',
+        method: 'post'
+    })
+}
+
+// 发送邮箱验证码
+export const validateCode = (data: any) => {
+    return request({
+        url: baseURL + '/validateCode',
+        method: 'post',
+        data
     })
 }

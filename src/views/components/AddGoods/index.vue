@@ -2,6 +2,8 @@
 import { reactive, ref, watch } from 'vue'
 import { message ,messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
+import { addGoods} from '@/api/manage'
+import router from '@/router';
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -65,8 +67,10 @@ const onOk = (form: FormInstance | undefined) => {
     form.validate((valid, fields) => {
         if(valid) {
             messageBox(`确认添加货物：${goodsForm.goodsName}`, 'success', () => {
+                addGoods(goodsForm)
                 message('添加成功', 'success')
                 visible.value = false
+                router.go(0)
             })
         }
     })
@@ -83,9 +87,9 @@ const onOk = (form: FormInstance | undefined) => {
             </el-form-item>
             <el-form-item label="货物类型" prop="goodsType">
                 <el-radio-group v-model="goodsForm.goodsType">
-                    <el-radio label="类型一">类型一</el-radio>
-                    <el-radio label="类型二">类型二</el-radio>
-                    <el-radio label="类型三">类型三</el-radio>
+                    <el-radio label="1">类型一</el-radio>
+                    <el-radio label="2">类型二</el-radio>
+                    <el-radio label="3">类型三</el-radio>
                 </el-radio-group>
             </el-form-item>
         </el-form>

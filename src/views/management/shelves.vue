@@ -2,34 +2,30 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import AddShelves from '@/views/components/AddShelves/index.vue'
-import { ref, reactive } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
+import { getShelvesData } from '@/api/manage'
 
-const shelvesData = reactive([
-  {
-    id: '111',
-    name: '货架1',
-    type: 'small',
-    goodsNum: 20,
-    status: '无货物',
-    createTime: '2024-01-01 20:20:20',
-  },
-  {
-    id: '222',
-    name: '货架2',
-    type: 'middle',
-    goodsNum: 40,
-    status: '有货物',
-    createTime: '2024-01-01 20:20:20',
-  },
-  {
-    id: '333',
-    name: '货架3',
-    type: 'large',
-    goodsNum: 100,
-    status: '已满',
-    createTime: '2024-01-01 20:20:20',
-  },
-])
+onBeforeMount(() => {
+  initData()
+})
+
+interface ShelvesDataType {
+  shelfId: number,
+  shelfName: string,
+  shelfStatus: number,
+  shelfType: number,
+  goodsAmount: number,
+  createTime: string
+}
+const shelvesData = ref<ShelvesDataType[]>()
+
+const pagination = reactive({
+  currentPage: 1,
+  pageSize: 10,
+  total: 0
+})
+
+const keyWord = ref('')
 
 type stringKey = Record<string, string>
 const tagType: stringKey = {
@@ -45,15 +41,14 @@ const initData = () => {
 }
 
 const loadData = () => {
-  console.log('load')
-  console.log(pagination)
+  const params = {
+    key: keyWord.value,
+    currentPage: pagination.currentPage,
+    pageSize: pagination.pageSize
+  }
+  const res = getShelvesData(params)
+  console.log('ress', res)
 }
-
-const pagination = reactive({
-  pageSize: 10,
-  currentPage: 1,
-  total: 50
-})
 
 // 添加货架对话框显示
 const addShelvesVisible = ref(false)
@@ -67,7 +62,7 @@ const updateAddShelvesVisible = () => {
     <MyBreadcrumb title="货架管理"></MyBreadcrumb>
     <div class="shelves-container">
       <div class="search">
-        <el-input class="search-input" placeholder="搜索货架名称或者货架ID">
+        <el-input v-model="keyWord" class="search-input" placeholder="搜索货架名称或者货架ID">
           <template #append>
             <el-button icon="Search" />
           </template>
