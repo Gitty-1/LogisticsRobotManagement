@@ -27,6 +27,18 @@ const pagination = reactive({
 
 const keyWord = ref('')
 
+type numStrKey = Record<number, string>
+const shelfType: numStrKey = {
+  1: 'small',
+  2: 'middle',
+  3: 'large'
+}
+const shelfStatus: numStrKey = {
+  1: '无货物',
+  2: '有货物',
+  3: '已满'
+}
+
 type stringKey = Record<string, string>
 const tagType: stringKey = {
   无货物: 'info',
@@ -40,20 +52,24 @@ const initData = () => {
   loadData()
 }
 
-const loadData = () => {
+const loadData = async () => {
   const params = {
     key: keyWord.value,
     currentPage: pagination.currentPage,
     pageSize: pagination.pageSize
   }
-  const res = getShelvesData(params)
-  console.log('ress', res)
+  const res = await getShelvesData(params)
+  // @ts-ignore
+  const { data, total } = res
+  shelvesData.value = data
+  pagination.total = total
 }
 
 // 添加货架对话框显示
 const addShelvesVisible = ref(false)
 const updateAddShelvesVisible = () => {
   addShelvesVisible.value = false
+  initData()
 }
 
 </script>
@@ -62,21 +78,25 @@ const updateAddShelvesVisible = () => {
     <MyBreadcrumb title="货架管理"></MyBreadcrumb>
     <div class="shelves-container">
       <div class="search">
-        <el-input v-model="keyWord" class="search-input" placeholder="搜索货架名称或者货架ID">
+        <el-input v-model="keyWord" class="search-input" placeholder="搜索货架名称或者货架ID" @keyup.enter="initData">
           <template #append>
-            <el-button icon="Search" />
+            <el-button icon="Search" @click="initData" />
           </template>
         </el-input>
         <el-button type="primary" @click="addShelvesVisible = true">添加</el-button>
       </div>
-      <el-table :data="shelvesData">
-        <el-table-column prop="id" label="货架ID" min-width="140"></el-table-column>
-        <el-table-column prop="name" label="货架名称" min-width="140"></el-table-column>
-        <el-table-column prop="type" label="货架类型" min-width="140"></el-table-column>
-        <el-table-column prop="goodsNum" label="货物数量" min-width="140"></el-table-column>
-        <el-table-column prop="status" label="货架状态" min-width="140">
+      <el-table :data="shelvesData" class="shelf-table">
+        <el-table-column prop="shelfId" label="货架ID" min-width="140"></el-table-column>
+        <el-table-column prop="shelfName" label="货架名称" min-width="140"></el-table-column>
+        <el-table-column prop="shelfType" label="货架类型" min-width="140">
           <template #default="scope">
-            <el-tag :type="tagType[scope.row.status]">{{ scope.row.status }}</el-tag>
+            <span>{{ shelfType[scope.row.shelfType] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="goodsAmount" label="货物数量" min-width="140"></el-table-column>
+        <el-table-column prop="shelfStatus" label="货架状态" min-width="140">
+          <template #default="scope">
+            <el-tag :type="tagType[shelfStatus[scope.row.shelfStatus]]">{{ shelfStatus[scope.row.shelfStatus] }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="激活时间" min-width="200"></el-table-column>
@@ -103,5 +123,8 @@ const updateAddShelvesVisible = () => {
 }
 .search .search-input {
   width: 250px;
+}
+.shelf-table {
+  height: calc(50vh);
 }
 </style>

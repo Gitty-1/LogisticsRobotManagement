@@ -23,3 +23,11 @@ export const getShelvesData = (params: any) => {
         params
     })
 }
+
+export const addShelves = (data: any) => {
+    return request({
+        url: '/shelfManage/addShelf',
+        method: 'post',
+        data
+    })
+}

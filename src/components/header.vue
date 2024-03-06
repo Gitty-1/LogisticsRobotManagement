@@ -8,7 +8,7 @@ const userStore = useUserStore()
 
 // 方法
 const handleUserControl = () => {
-    router.push({path: '/userControl', query: { userName: '郑桂浩' }})
+    router.push({path: '/userCenter', query: { userName: '郑桂浩' }})
 }
 const exit = () => {
     router.replace({path: '/login'})

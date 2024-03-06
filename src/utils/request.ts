@@ -16,7 +16,6 @@ const errorHandle = (error: any) => {
 
 const successHandle = (response: any) => {
     const data = response?.data
-    message(data.msg, 'success')
     return data
 }
 

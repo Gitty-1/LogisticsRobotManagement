@@ -17,12 +17,12 @@ const visible = ref(false)
 // 表单数据
 interface RuleForm {
     goodsName: string,
-    goodsType: string
+    goodsType: number
 }
 const ruleFormRef = ref<FormInstance>()
 const goodsForm = reactive<RuleForm>({
     goodsName: '',
-    goodsType: ''
+    goodsType: 0
 })
 const rules = reactive<FormRules<RuleForm>>({
     goodsName: [
@@ -70,7 +70,6 @@ const onOk = (form: FormInstance | undefined) => {
                 addGoods(goodsForm)
                 message('添加成功', 'success')
                 visible.value = false
-                router.go(0)
             })
         }
     })
@@ -87,9 +86,9 @@ const onOk = (form: FormInstance | undefined) => {
             </el-form-item>
             <el-form-item label="货物类型" prop="goodsType">
                 <el-radio-group v-model="goodsForm.goodsType">
-                    <el-radio label="1">类型一</el-radio>
-                    <el-radio label="2">类型二</el-radio>
-                    <el-radio label="3">类型三</el-radio>
+                    <el-radio :label="1">类型一</el-radio>
+                    <el-radio :label="2">类型二</el-radio>
+                    <el-radio :label="3">类型三</el-radio>
                 </el-radio-group>
             </el-form-item>
         </el-form>

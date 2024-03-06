@@ -5,7 +5,6 @@ import AddGoods from '@/views/components/AddGoods/index.vue'
 import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData } from '@/api/manage'
-import { formatTime } from '@/utils/formatTime'
 
 onBeforeMount(() => {
   initData()
@@ -71,6 +70,7 @@ const loadData = async () => {
 const addGoodsVisible = ref(false)
 const updateAddGoodsVisible = () => {
   addGoodsVisible.value = false
+  initData()
 }
 
 // 货物明细
@@ -90,9 +90,9 @@ const handleGoodsDetail = (row: GoodsDataType) => {
     <MyBreadcrumb title="货物管理"></MyBreadcrumb>
     <div class="goods-container">
       <div class="search">
-        <el-input v-model="keyWord" class="search-input" placeholder="搜索货物名称或者货物ID" >
+        <el-input v-model="keyWord" class="search-input" placeholder="搜索货物名称或者货物ID" @keyup.enter="initData" >
           <template #append>
-            <el-button icon="Search" />
+            <el-button icon="Search" @click="initData" />
           </template>
         </el-input>
         <el-button type="primary" @click="addGoodsVisible = true">添加</el-button>
@@ -108,12 +108,12 @@ const handleGoodsDetail = (row: GoodsDataType) => {
         <el-table-column prop="goodsType" label="货物类型" min-width="140"></el-table-column>
         <el-table-column prop="createTime" label="生产时间" min-width="200">
           <template #default="scope">
-            <span>{{ formatTime(scope.row.createTime) }}</span>
+            <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="shelvingTime" label="上架时间" min-width="200">
           <template #default="scope">
-            <span>{{ formatTime(scope.row.shelvingTime) }}</span>
+            <span>{{ scope.row.shelvingTime }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="shelfId" label="所在货架Id" min-width="140"></el-table-column>
@@ -144,6 +144,5 @@ const handleGoodsDetail = (row: GoodsDataType) => {
 
 .goods-table {
   height: calc(50vh);
-  overflow: auto;
 }
 </style>

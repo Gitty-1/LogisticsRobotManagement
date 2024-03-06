@@ -33,7 +33,7 @@ const props = defineProps({
     }
 })
 
-let pagination = ref({
+const pagination = ref({
     pageSize: 10,
     currentPage: 1,
     total: 0
@@ -52,6 +52,9 @@ const handleCurrentChange = (val: number) => {
     pagination.value.currentPage = val
     emits('current-change', pagination.value)
 }
+const handleInputChange = (val: any) => {
+    handleCurrentChange(Number(val))
+}
 
 const emits = defineEmits(['size-change', 'current-change'])
 
@@ -65,10 +68,10 @@ const emits = defineEmits(['size-change', 'current-change'])
             <el-option v-for="item in props.pageSizes" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
     </div>
-    <el-pagination :current-page="pagination.currentPage" :page-size="pagination.pageSize" :total="pagination.total" layout="prev, pager, next" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+    <el-pagination v-model:current-page="pagination.currentPage" :page-size="pagination.pageSize" :total="pagination.total" layout="prev, pager, next" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     <div class="pagination-jumper">
         跳转
-        <input v-model="pagination.currentPage" class="pagination-input" type="number" />
+        <el-input v-model="pagination.currentPage" class="pagination-input" type="number" @change="handleInputChange" :min="1" :max="Math.ceil(pagination.total / pagination.pageSize)" />
         页
     </div>
   </div>

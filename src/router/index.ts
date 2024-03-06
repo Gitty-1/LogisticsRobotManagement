@@ -121,8 +121,8 @@ const router = createRouter({
       children : <any>asyncRoute
     },
     {
-      path: '/userControl',
-      name: 'userControl',
+      path: '/userCenter',
+      name: 'userCenter',
       meta: {
         permission: [1, 2]
       },
