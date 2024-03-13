@@ -20,10 +20,11 @@ export const getCaptcha = (captchaKey: string) => {
 }
 
 // 注册
-export const register = () => {
+export const register = (data: any) => {
     return request({
         url: baseURL + '/register',
-        method: 'post'
+        method: 'post',
+        data
     })
 }
 

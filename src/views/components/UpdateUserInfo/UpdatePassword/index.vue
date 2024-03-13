@@ -3,6 +3,8 @@ import { reactive, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message'
 
+import { updatePassword } from '@/api/user';
+
 const props = defineProps({
     isReset: {
         type: Boolean,
@@ -41,6 +43,11 @@ const onsubmit = (formEl: FormInstance | undefined) => {
     if(!formEl) return
     formEl.validate((valid: any, _) => {
         if (valid) {
+            const params = {
+                oldPassword: form.password,
+                newPassword: form.newPassword
+            }
+            updatePassword(params);
             message('修改成功', 'success')
         } else {
         //   

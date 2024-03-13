@@ -53,7 +53,6 @@ const initData = () => {
   loadData()
 }
 const loadData = async () => {
-  // 
   const params = {
     key: keyWord.value,
     currentPage: pagination.currentPage,

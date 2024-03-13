@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCurrentInstance, onMounted } from "vue";
+import { getCurrentInstance, onMounted, watch } from "vue";
 
 const props = defineProps({
     option: Object,
@@ -26,6 +26,11 @@ onMounted(() => {
   const chartDom1 = <HTMLElement>document.getElementById(props.htmlId as string)
   setEcharts(chartDom1, props.option)
 })
+
+watch(() => props.option, (newValue: any) => {
+  const chartDom1 = <HTMLElement>document.getElementById(props.htmlId as string)
+  setEcharts(chartDom1, newValue)
+}, { deep: true})
 </script>
 <template>
   <slot></slot>

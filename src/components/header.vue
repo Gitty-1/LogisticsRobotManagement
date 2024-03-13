@@ -11,7 +11,7 @@ const handleUserControl = () => {
     router.push({path: '/userCenter', query: { userName: '郑桂浩' }})
 }
 const exit = () => {
-    router.replace({path: '/login'})
+    router.replace({path: '/login-register'})
 }
 
 

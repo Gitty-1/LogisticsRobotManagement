@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
         return {
             userName: 'zhengguihao',
             email: '123456789@qq.com',
-            userType: 1
+            userType: 2
         }
     }
 })

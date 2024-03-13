@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, reactive, nextTick, watch, onBeforeMount } from "vue";
-import { User, Lock, Key } from "@element-plus/icons";
+import { User, Lock, Key, Message } from "@element-plus/icons";
 import type { FormInstance, FormRules } from "element-plus";
 // @ts-ignore
 import { v4 as uuidV4 } from 'uuid';
 import router from "@/router";
-import { login, getCaptcha, validateCode } from '@/api/login'
+import { login, getCaptcha, validateCode, register } from '@/api/login'
+import { getUserInfo } from '@/api/user'
 
 onBeforeMount(() => {
     getCaptchaImg()
@@ -88,6 +89,7 @@ const loginFormRules = reactive<FormRules<LoginFormType>>({
 // 注册相关
 interface RegisterFormType {
     email: string,
+    username: string,
     password: string,
     validateCode: string,
     userType: string,
@@ -95,6 +97,7 @@ interface RegisterFormType {
 const registerRuleFormRef = ref<FormInstance>()
 const registerForm = reactive<RegisterFormType>({
     email: '',
+    username: '',
     password: '',
     validateCode: '',
     userType: ''
@@ -108,6 +111,19 @@ const registerFormRules = reactive<FormRules<RegisterFormType>>({
         },
         {
             validator: validateEmail,
+        }
+    ],
+    username: [
+        {
+            required: true,
+            message: '请输入用户名',
+            trigger: 'change'
+        },
+        {
+            min: 6,
+            max: 20,
+            message: '用户名长度为6-20',
+            trigger: 'blur'
         }
     ],
     password: [
@@ -159,11 +175,34 @@ const updateImgCode = () => {
 
 // 发送邮箱验证码
 const handleSendValidateCode = () => {
+    handleCodeTime()
     const params = {
         email: registerForm.email
     }
-    const res = validateCode(params)
-    console.log('res', res)
+    validateCode(params)
+}
+
+// 邮箱验证码发送时间间隔
+const intervalId = ref(0)
+const text = ref(60)
+const isSendValidateCode = ref(true)
+const intervalFn = () => {
+    intervalId.value = setInterval(() => {
+        if(text.value > 1) {
+            text.value--
+        } else if(text.value === 1) {
+            isSendValidateCode.value = true
+        }
+    }, 1000)
+}
+const clearIntervalFn = () => {
+    clearInterval(intervalId.value)
+} 
+const handleCodeTime = () => {
+    text.value = 60
+    isSendValidateCode.value = false
+    clearIntervalFn()
+    intervalFn()
 }
 
 // 提交表单时校验
@@ -182,8 +221,11 @@ const onSubmit = (form: FormInstance | undefined) => {
                 await login(params)
             } else {
                 // 注册
+                await register(registerForm)
             }
             
+            const res = await getUserInfo()
+            console.log('res', res)
             router.push('/console')
         }
     })
@@ -209,7 +251,7 @@ const onReset = () => {
             </el-menu>
             <el-form v-show="activeIndex === '1'" :model="loginForm" class="login-form" label-width="70px" :rules="loginFormRules" ref="loginRuleFormRef" style="padding-top: 30px;">
                 <el-form-item label="用户名" prop="email">
-                    <el-input type="email" placeholder="请输入邮箱地址" v-model="loginForm.email" :prefix-icon="User" clearable></el-input>
+                    <el-input type="email" placeholder="请输入邮箱地址" v-model="loginForm.email" :prefix-icon="Message" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
                     <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" :prefix-icon="Lock" show-password></el-input>
@@ -226,8 +268,11 @@ const onReset = () => {
                 </div>
             </el-form>
             <el-form v-show="activeIndex === '2'" :model="registerForm" class="login-form" label-width="70px" :rules="registerFormRules" ref="registerRuleFormRef">
-                <el-form-item label="用户名" prop="email">
-                    <el-input type="email" placeholder="请输入绑定邮箱" v-model="registerForm.email" :prefix-icon="User" clearable></el-input>
+                <el-form-item label="邮箱" prop="email">
+                    <el-input type="email" placeholder="请输入邮箱地址" v-model="registerForm.email" :prefix-icon="Message" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="用户名" prop="username">
+                    <el-input v-model="registerForm.username" placeholder="请输入用户名" clearable :prefix-icon="User"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
                     <el-input type="password" placeholder="请设置密码" v-model="registerForm.password" :prefix-icon="Lock" show-password></el-input>
@@ -235,15 +280,10 @@ const onReset = () => {
                 <el-form-item label="验证码" prop="validateCode">
                     <el-input placeholder="请输入邮箱验证码" v-model="registerForm.validateCode" :prefix-icon="Key">
                         <template #append>
-                            <span class="code-span" @click="handleSendValidateCode">发送</span>
+                            <span class="code-span" @click="handleSendValidateCode" v-if="isSendValidateCode">发送</span>
+                            <span class="code-span-time" v-else>({{ text }}秒)</span>
                         </template>
                     </el-input>
-                </el-form-item>
-                <el-form-item label="类型" prop="userType">
-                    <el-radio-group v-model="registerForm.userType">
-                        <el-radio label="1">普通用户</el-radio>
-                        <el-radio label="2">管理员</el-radio>
-                    </el-radio-group>
                 </el-form-item>
                 <div class="form-button">
                     <el-button @click="onReset">重置</el-button>
@@ -300,6 +340,16 @@ const onReset = () => {
 .code-span:hover {
     cursor: pointer;
     color: skyblue;
+}
+
+.code-span-time {
+    font-size: 12px;
+    width: 30px;
+    color: skyblue;
+}
+
+.code-span-time:hover {
+    cursor: not-allowed;
 }
 
 .captcha-image {

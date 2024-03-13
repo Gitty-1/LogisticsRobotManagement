@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import Echarts from '@/components/echarts.vue'
+import { computed, onBeforeMount, ref, reactive } from 'vue';
 
-const option1 = {
+import { getGoodsType, getDAU } from '@/api/home'
+
+onBeforeMount(() => {
+  initData()
+})
+
+const dauDate = ref<string[]>()
+const dau = ref<number[]>()
+const option1 = reactive({
   title: {
     text: "用户日活量",
   },
@@ -9,8 +18,8 @@ const option1 = {
     trigger: "axis",
   },
   grid: {
-    left: "1%",
-    right: "10%",
+    left: "2%",
+    right: "8%",
     bottom: "11%",
     containLabel: true
   },
@@ -19,15 +28,13 @@ const option1 = {
       saveAsImage: {},
     },
   },
-  dataZoom: [
-    {
-      startValue: '2014-06-01'
-    },
-  ],
+  dataZoom: {
+    startValue: computed(() => [...dauDate.value || []][0] || null)
+  },
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05", "2024-01-06", "2024-01-07"],
+    data: computed(() => dauDate.value),
   },
   yAxis: {
     type: "value",
@@ -37,10 +44,10 @@ const option1 = {
       name: '用户日活量',
       type: "line",
       stack: "总量",
-      data: [120, 132, 101, 134, 90, 230, 210],
+      data: computed(() => dau.value),
     },
   ],
-};
+});
 
 const option2 = {
   title: {
@@ -131,7 +138,12 @@ const option3 = {
   ]
 }
 
-const option4 = {
+interface GoodsTypeDataType {
+  name: string,
+  value: number
+}
+const goodsTypeData = ref<GoodsTypeDataType[]>()
+const option4 = reactive({
   title: {
     text: '货物类型'
   },
@@ -147,15 +159,25 @@ const option4 = {
       name: '货物类型',
       type: 'pie',
       radius: '50%',
-      data: [
-        { value: 40, name: '类型一' },
-        { value: 60, name: '类型二' },
-        { value: 30, name: '类型三' },
-        { value: 80, name: '类型四' },
-        { value: 110, name: '类型五' },
-      ]
+      data: computed(() => goodsTypeData.value)
     }
   ]
+})
+
+const initData = async () => {
+  const res1 = await getDAU()
+  const { data } = res1
+  dauDate.value = data.map((item: any) => item.date)
+  dau.value = data.map((item: any) => item.dau)
+
+  const res2 = await getGoodsType()
+  const data2 = res2.data
+  goodsTypeData.value = data2.map((item: any) => {
+    return {
+      name: item.goodsTypeName,
+      value: item.value
+    }
+  })
 }
 </script>
 <template>
