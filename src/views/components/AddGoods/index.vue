@@ -24,13 +24,13 @@ const goodsTypeData = ref<GoodsTypeDataType[]>()
 interface RuleForm {
     goodsName: string,
     goodsType: number | null,
-    goodsDescription: string
+    details: string
 }
 const ruleFormRef = ref<FormInstance>()
 const goodsForm = reactive<RuleForm>({
     goodsName: '',
     goodsType: null,
-    goodsDescription: ''
+    details: ''
 })
 const rules = reactive<FormRules<RuleForm>>({
     goodsName: [
@@ -97,12 +97,12 @@ const onOk = (form: FormInstance | undefined) => {
                 <el-input v-model="goodsForm.goodsName" placeholder="请输入货物名称" clearable></el-input>
             </el-form-item>
             <el-form-item label="货物类型" prop="goodsType">
-                <el-select v-model="goodsForm.goodsType" placeholder="请选择货物类型" filterable clearable style="width: 30%">
-                    <el-option v-for="item in goodsTypeData" :key="item.goodsTypeId" :label="item.goodsTypeName" :value="item.goodsTypeName"></el-option>
+                <el-select v-model="goodsForm.goodsType" placeholder="请选择货物类型" filterable clearable style="width: 30%" no-match-text="无匹配选项">
+                    <el-option v-for="item in goodsTypeData" :key="item.goodsTypeId" :label="item.goodsTypeName" :value="item.goodsTypeId"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="货物描述" prop="goodsDescription">
-                <el-input v-model="goodsForm.goodsDescription" type="textarea" placeholder="请输入货物描述" autosize></el-input>
+            <el-form-item label="货物描述" prop="details">
+                <el-input v-model="goodsForm.details" type="textarea" placeholder="请输入货物描述" autosize></el-input>
             </el-form-item>
         </el-form>
         <template #footer>
