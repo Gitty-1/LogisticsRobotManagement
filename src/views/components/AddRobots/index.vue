@@ -65,7 +65,6 @@ const onOk = (form: FormInstance | undefined) => {
     form.validate((valid, fields) => {
         if(valid) {
             messageBox(`确认添加机器人：${robotsForm.robotsName}`, 'success', () => {
-                message('添加成功', 'success')
                 visible.value = false
             })
         }

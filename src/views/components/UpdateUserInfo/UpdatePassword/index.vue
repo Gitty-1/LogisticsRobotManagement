@@ -48,9 +48,6 @@ const onsubmit = (formEl: FormInstance | undefined) => {
                 newPassword: form.newPassword
             }
             updatePassword(params);
-            message('修改成功', 'success')
-        } else {
-        //   
         }
     })
 }

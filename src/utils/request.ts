@@ -21,6 +21,8 @@ const successHandle = (response: any) => {
     if(code !== '200') {
         message(msg, 'error')
         throw new Error('请求失败')
+    } else {
+        message(msg, 'success')
     }
     return data
 }

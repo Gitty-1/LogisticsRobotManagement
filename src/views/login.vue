@@ -270,7 +270,7 @@ const onReset = () => {
                 <el-menu-item index="2" @click="handleChange('2')" class="menu-item">注册</el-menu-item>
             </el-menu>
             <el-form v-show="activeIndex === '1'" :model="loginForm" class="login-form" label-width="70px" :rules="loginFormRules" ref="loginRuleFormRef" style="padding-top: 30px;">
-                <el-form-item label="用户名" prop="email">
+                <el-form-item label="邮箱" prop="email">
                     <el-input type="email" placeholder="请输入邮箱地址" v-model="loginForm.email" :prefix-icon="Message" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">

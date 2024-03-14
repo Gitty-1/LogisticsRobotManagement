@@ -34,9 +34,9 @@ const shelfType: numStrKey = {
   3: 'large'
 }
 const shelfStatus: numStrKey = {
-  1: '无货物',
-  2: '有货物',
-  3: '已满'
+  0: '无货物',
+  1: '有货物',
+  2: '已满'
 }
 
 type stringKey = Record<string, string>
@@ -47,7 +47,6 @@ const tagType: stringKey = {
 }
 
 const initData = () => {
-  console.log('init')
   pagination.currentPage = 1
   loadData()
 }

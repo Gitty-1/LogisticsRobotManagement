@@ -69,8 +69,6 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             messageBox(`确认添加货架：${shelvesForm.shelfName}`, 'success', () => {
                 addShelves(shelvesForm)
-                message('添加成功', 'success')
-                router.go(0)
                 visible.value = false
             })
         }

@@ -80,7 +80,6 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             messageBox(`确认添加货物：${goodsForm.goodsName}`, 'success', () => {
                 addGoods(goodsForm)
-                message('添加成功', 'success')
                 visible.value = false
             })
             
