@@ -10,9 +10,16 @@ export const getGoodsData = (params: any) => {
 
 export const addGoods = (data: any) => {
     return request({
-        url: '/goodsManage/AddGoods',
+        url: '/goodsManage/addGoods',
         method: 'post',
         data
+    })
+}
+
+export const getGoodsType = () => {
+    return request({
+        url: '/goodsManage/addGoods/getGoodsType',
+        method: 'get'
     })
 }
 

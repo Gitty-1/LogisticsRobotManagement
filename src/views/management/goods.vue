@@ -104,7 +104,7 @@ const handleGoodsDetail = (row: GoodsDataType) => {
             <el-tag :type="tagType[statusType[scope.row.goodsStatus]]">{{ statusType[scope.row.goodsStatus] }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="goodsType" label="货物类型" min-width="140"></el-table-column>
+        <el-table-column prop="goodsTypeName" label="货物类型" min-width="140"></el-table-column>
         <el-table-column prop="createTime" label="生产时间" min-width="200">
           <template #default="scope">
             <span>{{ scope.row.createTime }}</span>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { message } from '@/utils/message'
+import { getToken } from "@/utils/setCookie"
 
 const request = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -16,12 +17,21 @@ const errorHandle = (error: any) => {
 
 const successHandle = (response: any) => {
     const data = response?.data
+    const { code, msg } = data
+    if(code !== '200') {
+        message(msg, 'error')
+        return Promise.reject(new Error())
+    }
     return data
 }
 
 // 请求拦截器
 request.interceptors.request.use(
     config => {
+        const token = getToken()
+        if(token) {
+            config.headers.Authorization = `${token}`
+        }
         return config;
     },
     error => {

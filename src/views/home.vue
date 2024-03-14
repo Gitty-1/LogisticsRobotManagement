@@ -38,6 +38,15 @@ const option1 = reactive({
   },
   yAxis: {
     type: "value",
+    axisLabel: {
+      interval: 'auto',
+      formatter: function(value: number) {
+        if(value % 1 === 0) {
+          return value
+        }
+        return ''
+      }
+    }
   },
   series: [
     {

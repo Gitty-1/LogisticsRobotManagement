@@ -2,8 +2,8 @@
 import { reactive, ref, watch } from 'vue'
 import { message ,messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
-import { addGoods} from '@/api/manage'
-import router from '@/router';
+import { addGoods, getGoodsType } from '@/api/manage'
+
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -14,15 +14,23 @@ const emits = defineEmits(['updateAddGoodsVisible'])
 
 const visible = ref(false)
 
+interface GoodsTypeDataType {
+    goodsTypeId: number,
+    goodsTypeName: string
+}
+const goodsTypeData = ref<GoodsTypeDataType[]>()
+
 // 表单数据
 interface RuleForm {
     goodsName: string,
-    goodsType: number
+    goodsType: number | null,
+    goodsDescription: string
 }
 const ruleFormRef = ref<FormInstance>()
 const goodsForm = reactive<RuleForm>({
     goodsName: '',
-    goodsType: 0
+    goodsType: null,
+    goodsDescription: ''
 })
 const rules = reactive<FormRules<RuleForm>>({
     goodsName: [
@@ -50,11 +58,15 @@ const rules = reactive<FormRules<RuleForm>>({
 watch(() => props.visible, (newValue) => {
     visible.value = newValue
 }, {})
-watch(() => visible.value, () => {
+watch(() => visible.value, async () => {
     if (!visible.value) {
         // @ts-ignore
         Object.keys(goodsForm).forEach((item: string) => goodsForm[item] = '')
         emits('updateAddGoodsVisible')
+    } else {
+        const res = await getGoodsType()
+        const { data } = res
+        goodsTypeData.value = data
     }
 }, {})
 
@@ -80,16 +92,17 @@ const onOk = (form: FormInstance | undefined) => {
 <template>
     <el-dialog v-model="visible" width="60%">
         <el-tag size="large">添加货物</el-tag>
-        <el-form class="goods-form" ref="ruleFormRef" :model="goodsForm" :rules="rules">
+        <el-form class="goods-form" ref="ruleFormRef" :model="goodsForm" :rules="rules" label-width="auto">
             <el-form-item label="货物名称" prop="goodsName">
                 <el-input v-model="goodsForm.goodsName" placeholder="请输入货物名称" clearable></el-input>
             </el-form-item>
             <el-form-item label="货物类型" prop="goodsType">
-                <el-radio-group v-model="goodsForm.goodsType">
-                    <el-radio :label="1">类型一</el-radio>
-                    <el-radio :label="2">类型二</el-radio>
-                    <el-radio :label="3">类型三</el-radio>
-                </el-radio-group>
+                <el-select v-model="goodsForm.goodsType" placeholder="请选择货物类型" filterable clearable style="width: 30%">
+                    <el-option v-for="item in goodsTypeData" :key="item.goodsTypeId" :label="item.goodsTypeName" :value="item.goodsTypeName"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="货物描述" prop="goodsDescription">
+                <el-input v-model="goodsForm.goodsDescription" type="textarea" placeholder="请输入货物描述" autosize></el-input>
             </el-form-item>
         </el-form>
         <template #footer>

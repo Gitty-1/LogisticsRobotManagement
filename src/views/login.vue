@@ -7,6 +7,7 @@ import { v4 as uuidV4 } from 'uuid';
 import router from "@/router";
 import { login, getCaptcha, validateCode, register } from '@/api/login'
 import { getUserInfo } from '@/api/user'
+import { setTokenToCookie, deleteToken } from "@/utils/setCookie";
 
 onBeforeMount(() => {
     getCaptchaImg()
@@ -218,10 +219,16 @@ const onSubmit = (form: FormInstance | undefined) => {
                     captchaCode: loginForm.imgValidateCode,
                     captchaKey: captchaKey.value
                 }
-                await login(params)
+                const res = await login(params)
+                const { data } = res
+                deleteToken()
+                setTokenToCookie(data)
             } else {
                 // 注册
-                await register(registerForm)
+                const res = await register(registerForm)
+                const { data } = res
+                deleteToken()
+                setTokenToCookie(data)
             }
             
             const res = await getUserInfo()

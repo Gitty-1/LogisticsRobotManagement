@@ -12,6 +12,9 @@ const handleEdit = (isEdit: boolean) => {
     isEnableEdit.value = isEdit
 }
 
+// 用户类型
+const userType = ['', '普通用户', '管理员']
+
 </script>
 <template>
   <div class="info">
@@ -29,7 +32,7 @@ const handleEdit = (isEdit: boolean) => {
     </div>
     <div class="info-item">
         <el-text>用户类型：</el-text>
-        <el-text>{{ userStore.userType }}</el-text>
+        <el-text>{{ userType[userStore.userType] }}</el-text>
     </div>
   </div>
 </template>
