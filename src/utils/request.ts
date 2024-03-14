@@ -20,7 +20,7 @@ const successHandle = (response: any) => {
     const { code, msg } = data
     if(code !== '200') {
         message(msg, 'error')
-        return Promise.reject(new Error())
+        throw new Error('请求失败')
     }
     return data
 }

@@ -8,8 +8,8 @@ export const useUserStore = defineStore('user', {
     // 真正存储数据的地方
     state() {
         return {
-            userName: 'zhengguihao',
-            email: '123456789@qq.com',
+            userName: '',
+            email: '',
             userType: 2
         }
     }

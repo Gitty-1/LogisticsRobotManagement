@@ -8,6 +8,8 @@ import router from "@/router";
 import { login, getCaptcha, validateCode, register } from '@/api/login'
 import { getUserInfo } from '@/api/user'
 import { setTokenToCookie, deleteToken } from "@/utils/setCookie";
+import { useUserStore } from '@/stores/user';
+import { message } from '@/utils/message'
 
 onBeforeMount(() => {
     getCaptchaImg()
@@ -223,15 +225,25 @@ const onSubmit = (form: FormInstance | undefined) => {
                 const { data } = res
                 deleteToken()
                 setTokenToCookie(data)
+                message('登录成功', 'success')
             } else {
                 // 注册
                 const res = await register(registerForm)
                 const { data } = res
                 deleteToken()
                 setTokenToCookie(data)
+                message('注册成功', 'success')
             }
             
             const res = await getUserInfo()
+            const { data } = res
+
+            // 更新用户信息
+            const user = useUserStore()
+            user.userName = data.username
+            user.email = data.email
+            user.userType = data.userType
+
             console.log('res', res)
             router.push('/console')
         }

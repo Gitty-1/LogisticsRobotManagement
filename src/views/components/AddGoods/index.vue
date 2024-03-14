@@ -23,13 +23,13 @@ const goodsTypeData = ref<GoodsTypeDataType[]>()
 // 表单数据
 interface RuleForm {
     goodsName: string,
-    goodsType: number | null,
+    goodsTypeId: number | null,
     details: string
 }
 const ruleFormRef = ref<FormInstance>()
 const goodsForm = reactive<RuleForm>({
     goodsName: '',
-    goodsType: null,
+    goodsTypeId: null,
     details: ''
 })
 const rules = reactive<FormRules<RuleForm>>({
@@ -45,7 +45,7 @@ const rules = reactive<FormRules<RuleForm>>({
             trigger: 'change'
         }
     ],
-    goodsType: [
+    goodsTypeId: [
         {
             required: true,
             message: '请选择货物类型',
@@ -83,6 +83,7 @@ const onOk = (form: FormInstance | undefined) => {
                 message('添加成功', 'success')
                 visible.value = false
             })
+            
         }
     })
 }
@@ -96,8 +97,8 @@ const onOk = (form: FormInstance | undefined) => {
             <el-form-item label="货物名称" prop="goodsName">
                 <el-input v-model="goodsForm.goodsName" placeholder="请输入货物名称" clearable></el-input>
             </el-form-item>
-            <el-form-item label="货物类型" prop="goodsType">
-                <el-select v-model="goodsForm.goodsType" placeholder="请选择货物类型" filterable clearable style="width: 30%" no-match-text="无匹配选项">
+            <el-form-item label="货物类型" prop="goodsTypeId">
+                <el-select v-model="goodsForm.goodsTypeId" placeholder="请选择货物类型" filterable clearable style="width: 30%" no-match-text="无匹配选项">
                     <el-option v-for="item in goodsTypeData" :key="item.goodsTypeId" :label="item.goodsTypeName" :value="item.goodsTypeId"></el-option>
                 </el-select>
             </el-form-item>
