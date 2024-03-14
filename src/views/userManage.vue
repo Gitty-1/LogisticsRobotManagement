@@ -64,7 +64,7 @@ const loadData = async () => {
                 <el-table-column prop="username" label="用户名称" min-width="120"></el-table-column>
                 <el-table-column prop="userType" label="类型" min-width="120"></el-table-column>
                 <el-table-column prop="email" label="邮箱" min-width="200"></el-table-column>
-                <el-table-column prop="LoginTime" label="最近登录时间" min-width="200"></el-table-column>
+                <el-table-column prop="loginTime" label="最近登录时间" min-width="200"></el-table-column>
                 <el-table-column prop="task" label="动作" min-width="200"></el-table-column>
                 <el-table-column prop="taskStartTime" label="动作分配时间" min-width="200"></el-table-column>
                 <el-table-column fixed="right" prop="operation" label="操作" min-width="100">

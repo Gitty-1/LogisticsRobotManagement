@@ -7,7 +7,7 @@ import { v4 as uuidV4 } from 'uuid';
 import router from "@/router";
 import { login, getCaptcha, validateCode, register } from '@/api/login'
 import { getUserInfo } from '@/api/user'
-import { setTokenToCookie, deleteToken } from "@/utils/setCookie";
+import { setTokenToCookie, deleteCookie, setUserMsgToCookie } from "@/utils/setCookie";
 import { useUserStore } from '@/stores/user';
 import { message } from '@/utils/message'
 
@@ -223,14 +223,14 @@ const onSubmit = (form: FormInstance | undefined) => {
                 }
                 const res = await login(params)
                 const { data } = res
-                deleteToken()
+                deleteCookie()
                 setTokenToCookie(data)
                 message('登录成功', 'success')
             } else {
                 // 注册
                 const res = await register(registerForm)
                 const { data } = res
-                deleteToken()
+                deleteCookie()
                 setTokenToCookie(data)
                 message('注册成功', 'success')
             }
@@ -243,6 +243,7 @@ const onSubmit = (form: FormInstance | undefined) => {
             user.userName = data.username
             user.email = data.email
             user.userType = data.userType
+            setUserMsgToCookie(data)
 
             console.log('res', res)
             router.push('/console')

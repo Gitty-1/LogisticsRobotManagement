@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useUserStore } from '@/stores/user';
+import { onBeforeMount, ref } from 'vue';
+import { getCookie } from '@/utils/setCookie';
 
 // 数据
-const userStore = useUserStore()
-const userName = ref(userStore.userName)
+const userName = ref<string>()
+const email = ref<string>()
+const userType = ref<number>(0)
 const isEnableEdit = ref(false)
 
 // 方法
+onBeforeMount(() => {
+    userName.value = getCookie('username')
+    email.value = getCookie('email')
+    userType.value = Number(getCookie('userType'))
+})
 const handleEdit = (isEdit: boolean) => {
     isEnableEdit.value = isEdit
 }
 
 // 用户类型
-const userType = ['', '普通用户', '管理员']
+const userTypeArray = ['', '普通用户', '管理员']
 
 </script>
 <template>
@@ -28,11 +34,11 @@ const userType = ['', '普通用户', '管理员']
     </div>
     <div class="info-item">
         <el-text>邮箱：</el-text>
-        <el-text type="primary">{{ userStore.email }}</el-text>
+        <el-text type="primary">{{ email }}</el-text>
     </div>
     <div class="info-item">
         <el-text>用户类型：</el-text>
-        <el-text>{{ userType[userStore.userType] }}</el-text>
+        <el-text>{{ userTypeArray[userType] }}</el-text>
     </div>
   </div>
 </template>

@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import logoUrl from '../assets/logo.png';
 import router from '@/router';
-import { useUserStore } from '@/stores/user'
+import { getCookie, deleteCookie } from '@/utils/setCookie';
+import { onBeforeMount, ref } from 'vue';
 
 // 数据
-const userStore = useUserStore()
+const username = ref<string>()
 
 // 方法
+onBeforeMount(() => {
+    username.value = getCookie('username')
+})
 const handleUserControl = () => {
-    router.push({path: '/userCenter', query: { userName: '郑桂浩' }})
+    router.push({path: '/userCenter', query: { userName: username.value }})
 }
 const exit = () => {
+    deleteCookie()
     router.replace({path: '/login-register'})
 }
 
@@ -25,7 +30,7 @@ const exit = () => {
         <el-avatar :size="25" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
         <el-dropdown trigger="click">
             <span>
-                <span>{{ userStore.userName }}</span>
+                <span>{{ username }}</span>
                 <el-icon>
                     <arrow-down />
                 </el-icon>
@@ -67,8 +72,6 @@ const exit = () => {
 
 .user-info {
     display: flex;
-    justify-content: space-around;
-    width: 130px;
     position: absolute;
     right: 2%;
     top: 25%;
