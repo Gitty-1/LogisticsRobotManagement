@@ -41,7 +41,7 @@ const rules = reactive<FormRules<RuleForm>>({
         },
         {
             max: 10,
-            message: '货物名称不能超过20字',
+            message: '货物名称不能超过10字',
             trigger: 'change'
         }
     ],
@@ -78,7 +78,7 @@ const onOk = (form: FormInstance | undefined) => {
     if(!form) return
     form.validate((valid, fields) => {
         if(valid) {
-            messageBox(`确认添加货物：${goodsForm.goodsName}`, 'success', () => {
+            messageBox(`确认添加货物：${goodsForm.goodsName}`, 'info', () => {
                 addGoods(goodsForm)
                 visible.value = false
             })

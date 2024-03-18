@@ -27,6 +27,12 @@ const rules = reactive<FormRules<RuleForm>>({
             required: true,
             message: '请输入原密码',
             trigger: 'change'
+        },
+        {
+            min: 6,
+            max: 20,
+            message: '密码长度为6-20',
+            trigger: 'blur'
         }
     ],
     newPassword: [
@@ -34,6 +40,12 @@ const rules = reactive<FormRules<RuleForm>>({
             required: true,
             message: '请输入新密码',
             trigger: 'change'
+        },
+        {
+            min: 6,
+            max: 20,
+            message: '密码长度为6-20',
+            trigger: 'blur'
         }
     ]
 })

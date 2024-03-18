@@ -8,14 +8,14 @@ const robotData = ref([
   {
     id: 1,
     name: '机器人1',
-    type: '装卸机器人',
+    type: '装载机器人',
     power: '50%',
     status: '启动中'
   },
   {
     id: 2,
     name: '机器人2',
-    type: '机械臂装卸机器人',
+    type: '机械臂装载机器人',
     power: '50%',
     status: '启动中'
   },

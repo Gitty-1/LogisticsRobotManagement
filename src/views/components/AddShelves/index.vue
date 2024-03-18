@@ -67,7 +67,7 @@ const onOk = (form: FormInstance | undefined) => {
     if(!form) return
     form.validate((valid, fields) => {
         if(valid) {
-            messageBox(`确认添加货架：${shelvesForm.shelfName}`, 'success', () => {
+            messageBox(`确认添加货架：${shelvesForm.shelfName}`, 'info', () => {
                 addShelves(shelvesForm)
                 visible.value = false
             })

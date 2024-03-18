@@ -18,7 +18,7 @@ const option1 = reactive({
     trigger: "axis",
   },
   grid: {
-    left: "2%",
+    left: "4%",
     right: "8%",
     bottom: "11%",
     containLabel: true
