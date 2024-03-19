@@ -5,6 +5,7 @@ import TransportGoods from '@/views/components/Tasks/TransportGoods/index.vue'
 import ShelvesGoods from '@/views/components/Tasks/ShelvesGoods/index.vue'
 import { message, messageBox } from '@/utils/message'
 import MyPagination from '@/components/myPagination.vue'
+import TaskProgress from '@/views/components/TaskProgress/index.vue'
 
 const goodsData = [
     {
@@ -76,34 +77,46 @@ export interface GoodsType {
     transportType: number
 }
 
+const taskProgressVisible = ref(false)
+const updateTaskProgressVisible = () => {
+    taskProgressVisible.value = false
+}
+const currentTaskProgressGoods = ref<GoodsType>()
+const handleTaskProgress = (goods: GoodsType) => {
+    console.log('111')
+    taskProgressVisible.value = true
+    currentTaskProgressGoods.value = goods
+}
+
 const loadGoodsVisible = ref(false)
 const updateLoadGoodsVisible = () => {
   loadGoodsVisible.value = false
 }
 const currentLoadGoods = ref<GoodsType>()
-const handleLoadGoods = (goods: GoodsType) => {
-    loadGoodsVisible.value = true
-    currentLoadGoods.value = goods
-}
 
 const transportGoodsVisible = ref(false)
 const updateTransportGoodsVisible = () => {
   transportGoodsVisible.value = false
 }
 const currentTransportGoods = ref<GoodsType>()
-const handleTransportGoods = (goods: GoodsType) => {
-    transportGoodsVisible.value = true
-    currentTransportGoods.value = goods
-}
 
 const shelvesGoodsVisible = ref(false)
 const updateShelvesGoodsVisible = () => {
   shelvesGoodsVisible.value = false
 }
 const currentShelvesGoods = ref<GoodsType>()
-const handleShelvesGoods = (goods: GoodsType) => {
-    shelvesGoodsVisible.value = true
-    currentShelvesGoods.value = goods
+
+const handleAssignTask = (goods: GoodsType) => {
+    if(goods.taskStatus === 0) {
+        loadGoodsVisible.value = true
+        currentLoadGoods.value = goods
+    } else if(goods.taskStatus === 2) {
+        transportGoodsVisible.value = true
+        currentTransportGoods.value = goods
+    } else if(goods.taskStatus === 4) {
+        shelvesGoodsVisible.value = true
+        currentShelvesGoods.value = goods
+    }
 }
 
 const handleOut = (goods: GoodsType) => {
@@ -123,81 +136,42 @@ const handleOut = (goods: GoodsType) => {
             </template>
             </el-input>
         </div>
-        <div class="goods-status">
-            <div>
-                <el-icon color="lightGrey"><RemoveFilled /></el-icon>
-                <el-text>未开始</el-text>
-            </div>
-            <div>
-                <el-icon color="deepSkyblue"><HelpFilled /></el-icon>
-                <el-text>进行中</el-text>
-            </div>
-            <div>
-                <el-icon color="springGreen"><SuccessFilled /></el-icon>
-                <el-text>已完成</el-text>
-            </div>
-        </div>
-    </div>
-    <div class="goods-task-container">
         <el-table :data="goodsData" class="task-table">
-            <el-table-column prop="goodsId" label="货物ID" width="180"></el-table-column>
-            <el-table-column prop="goodsName" label="货物名称" width="180"></el-table-column>
-            <el-table-column prop="loadGoods" label="装载货物" width="180">
+            <el-table-column prop="goodsId" label="货物ID" width="300"></el-table-column>
+            <el-table-column prop="goodsName" label="货物名称" width="300"></el-table-column>
+            <el-table-column prop="taskProgress" label="任务进度" width="300">
                 <template #default="scope">
-                    <el-button type="primary" link @click="handleLoadGoods(scope.row)" v-if="scope.row.taskStatus === 0">分配任务</el-button>
-                    <el-icon color="deepSkyblue" size="20" v-else-if="scope.row.taskStatus === 1"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="20" v-else><SuccessFilled /></el-icon>
+                    <el-button type="primary" link size="small" @click="handleTaskProgress(scope.row)">查看</el-button>
                 </template>
             </el-table-column>
-            <el-table-column prop="transportGoods" label="运输货物" width="180">
+            <el-table-column prop="operator" label="操作" width="200">
                 <template #default="scope">
-                    <el-icon color="lightGrey" size="20" v-if="scope.row.taskStatus <= 1"><RemoveFilled /></el-icon>
-                    <el-button type="primary" link @click="handleTransportGoods(scope.row)" v-else-if="scope.row.taskStatus === 2">分配任务</el-button>
-                    <el-icon color="deepSkyblue" size="20" v-else-if="scope.row.taskStatus === 3"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="20" v-else><SuccessFilled /></el-icon>
-                </template>
-            </el-table-column>
-            <el-table-column prop="shelvesGoods" label="货物上架" width="180">
-                <template #default="scope">
-                    <el-icon color="lightGrey" size="20" v-if="scope.row.taskStatus <= 3"><RemoveFilled /></el-icon>
-                    <el-button type="primary" link @click="handleShelvesGoods(scope.row)" v-else-if="scope.row.taskStatus === 4">分配任务</el-button>
-                    <el-icon color="deepSkyblue" size="20" v-else-if="scope.row.taskStatus === 5"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="20" v-else><SuccessFilled /></el-icon>
-                </template>
-            </el-table-column>
-            <el-table-column prop="operator" label="操作" width="120">
-                <template #default="scope">
-                    <el-button type="primary" link :disabled="scope.row.taskStatus < 6" @click="handleOut(scope.row)">出库</el-button>
+                    <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="scope.row.taskStatus !== 0 && scope.row.taskStatus !== 2 && scope.row.taskStatus !== 4" >分配任务</el-button>
+                    <el-button type="primary" link size="small" :disabled="scope.row.taskStatus < 6" @click="handleOut(scope.row)">出库</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData" />
     </div>
   </div>
+  <TaskProgress :visible="taskProgressVisible" @updateTaskProgressVisible="updateTaskProgressVisible" :currentTaskProgressGoods="currentTaskProgressGoods"/>
   <LoadGoods :visible="loadGoodsVisible" @updateLoadGoodsVisible="updateLoadGoodsVisible" :currentLoadGoods="currentLoadGoods" />
   <TransportGoods :visible="transportGoodsVisible" @updateTransportGoodsVisible="updateTransportGoodsVisible" :currentTransportGoods="currentTransportGoods" />
   <ShelvesGoods :visible="shelvesGoodsVisible" @updateShelvesGoodsVisible="updateShelvesGoodsVisible" :currentShelvesGoods="currentShelvesGoods" />
 </template>
 <style scoped>
 .goods-status-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 1% 2%;
-}
-.goods-status {
-    width: 20%;
-    display: flex;
-    justify-content: space-between;
-}
-.goods-status>div {
-    display: flex;
-    align-items: center;
-}
-.goods-task-container {
-    padding: 20px;
+    padding: 20px
 }
 .task-table {
     height: calc(50vh);
+}
+.search {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.search .search-input {
+  width: 250px;
 }
 </style>
