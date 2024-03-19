@@ -2,12 +2,17 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
+import type { GoodsType } from '@/views/assignTask.vue';
 
 
 const props = defineProps({
     visible: {
         type: Boolean,
         default: false
+    },
+    currentShelvesGoods: {
+        type: Object as () => GoodsType,
+        default: {}
     }
 })
 const emits = defineEmits(['updateShelvesGoodsVisible'])
@@ -136,16 +141,11 @@ const onOk = (form: FormInstance | undefined) => {
 <template>
   <el-dialog v-model="visible" width="60%">
     <el-tag size="large">货物上架</el-tag>
+    <div>
+      <el-tag type="info" style="margin-top: 20px;">待上架货物：{{ props.currentShelvesGoods.goodsName }}</el-tag>
+    </div>
     <el-form class="load-form" ref="ruleFormRef" :model="shelvesGoodsData" :rules="rules" label-width="auto">
-        <el-space fill>
-            <el-alert type="info" show-icon :closable="false" center v-show="shelvesGoodsData.shelvesGoods && shelvesGoodsData.shelvesGoods !== '货物1'">当前选择的货物位于机械臂装载机器人，无需额外机械臂进行夹取</el-alert>
-            <el-form-item label="待上架货物" prop="shelvesGoods">
-                <el-select v-model="shelvesGoodsData.shelvesGoods" placeholder="请选择上架货物" filterable clearable no-match-text="无匹配选项">
-                    <el-option v-for="item in goodsData" :key="item.id" :label="item.value" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
-        </el-space>
-        <el-form-item label="机械臂" prop="arms" v-show="shelvesGoodsData.shelvesGoods === '货物1'">
+        <el-form-item label="机械臂" prop="arms">
             <el-select v-model="shelvesGoodsData.arms" placeholder="请选择机械臂" filterable clearable no-match-text="无匹配选项">
                 <el-option v-for="item in armsData" :key="item.id" :label="item.value" :value="item.value"></el-option>
             </el-select>

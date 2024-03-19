@@ -59,6 +59,15 @@ export const asyncRoute: Array<menuListType> = [
     ]
   },
   {
+    path: 'assignTask',
+    name: '任务分配',
+    meta: {
+      icon: 'Operation',
+      permission: [1, 2]
+    },
+    component: () => import('@/views/assignTask.vue')
+  },
+  {
     path: 'mapWatch',
     name: '地图&监测',
     meta: {

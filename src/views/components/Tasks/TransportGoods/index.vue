@@ -2,12 +2,16 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
-
+import type { GoodsType } from '@/views/assignTask.vue';
 
 const props = defineProps({
     visible: {
         type: Boolean,
         default: false
+    },
+    currentTransportGoods: {
+        type: Object as () => GoodsType,
+        default: {}
     }
 })
 const emits = defineEmits(['updateTransportGoodsVisible'])
@@ -102,23 +106,22 @@ const onOk = (form: FormInstance | undefined) => {
 </script>
 <template>
   <el-dialog v-model="visible" width="60%">
-    <el-tag size="large">运送货物</el-tag>
+    <el-tag size="large">运输货物</el-tag>
+    <div style="margin-top: 20px;">
+        <el-tag type="info">待运输货物：{{ props.currentTransportGoods.goodsName }}</el-tag>
+    </div>
     <el-form class="load-form" ref="ruleFormRef" :model="transportGoodsData" :rules="rules" label-width="auto">
-        <el-form-item label="机器人类型" prop="robotType">
+        <el-space fill>
+            <el-alert type="info" show-icon :closable="false" center>请选择是否需要机械臂装载机器人</el-alert>
             <el-radio-group v-model="transportGoodsData.robotType">
-                <el-radio :label="1">机械臂装载机器人</el-radio>
-                <el-radio :label="2">装载机器人</el-radio>
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="2">否</el-radio>
             </el-radio-group>
-        </el-form-item>
-        <el-form-item label="运送机器人" prop="transportRobot">
-            <el-select v-model="transportGoodsData.transportRobot" placeholder="请选择运送货物机器人" filterable clearable no-match-text="无匹配选项">
-                <el-option v-for="item in transportRobots" :key="item.id" :label="item.value" :value="item.value"></el-option>
-            </el-select>
-        </el-form-item>
+        </el-space>
         <el-space fill v-show="transportGoodsData.robotType === 1">
-            <el-alert type="info" show-icon :closable="false" center>请选择一台装载机器人用于夹取货物</el-alert>
-            <el-form-item label="装载机器人" prop="loadRobot">
-                <el-select v-model="transportGoodsData.loadRobot" placeholder="请选择装载机器人" filterable clearable no-match-text="无匹配选项">
+            <el-alert type="info" show-icon :closable="false" center>请选择一台机械臂装载机器人用于夹取货物</el-alert>
+            <el-form-item label="机械臂装载机器人" prop="loadRobot">
+                <el-select v-model="transportGoodsData.loadRobot" placeholder="请选择机械臂装载机器人" filterable clearable no-match-text="无匹配选项">
                     <el-option v-for="item in transportRobots" :key="item.id" :label="item.value" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>

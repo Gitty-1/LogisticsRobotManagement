@@ -2,23 +2,22 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
-
+import type { GoodsType } from '@/views/assignTask.vue';
 
 const props = defineProps({
     visible: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
+    },
+    currentLoadGoods: {
+      type: Object as () => GoodsType,
+      default: {}
     }
 })
 const emits = defineEmits(['updateLoadGoodsVisible'])
 
 const visible = ref(false)
 
-
-interface LoadRobotsType {
-  id: number,
-  value: string
-}
 const loadRobots = [
   {
     id: 1,
@@ -105,15 +104,13 @@ const onOk = (form: FormInstance | undefined) => {
 <template>
   <el-dialog v-model="visible" width="60%">
     <el-tag size="large">装载货物</el-tag>
+    <div>
+      <el-tag type="info" style="margin-top: 20px;">待装载货物：{{ props.currentLoadGoods.goodsName }}</el-tag>
+    </div>
     <el-form class="load-form" ref="ruleFormRef" :model="loadGoodsData" :rules="rules" label-width="auto">
       <el-form-item label="装载机器人" prop="loadRobot">
         <el-select v-model="loadGoodsData.loadRobot" placeholder="请选择装载机器人" filterable clearable no-match-text="无匹配选项">
           <el-option v-for="item in loadRobots" :key="item.id" :label="item.value" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="装载货物" prop="loadGoods">
-        <el-select v-model="loadGoodsData.loadGoods" placeholder="请选择装载货物" filterable clearable no-match-text="无匹配选项">
-          <el-option v-for="item in loadGoods" :key="item.id" :label="item.value" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
     </el-form>

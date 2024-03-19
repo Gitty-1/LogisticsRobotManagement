@@ -47,6 +47,19 @@ const loadData = async () => {
   pagination.total = total
 }
 
+const userType = [
+  {
+    type: 1,
+    typeName: '普通用户',
+    tagType: 'info'
+  },
+  {
+    type: 2,
+    typeName: '用户管理员',
+    tagType: 'primary'
+  }
+]
+
 </script>
 <template>
     <div>
@@ -62,7 +75,11 @@ const loadData = async () => {
             <el-table :data="usersData">
                 <el-table-column prop="userId" label="用户ID" min-width="140"></el-table-column>
                 <el-table-column prop="username" label="用户名称" min-width="120"></el-table-column>
-                <el-table-column prop="userType" label="类型" min-width="120"></el-table-column>
+                <el-table-column prop="userType" label="用户类型" min-width="120">
+                  <template #default="scope">
+                    <el-tag :type="userType[scope.row.userType-1].tagType">{{ userType[scope.row.userType-1].typeName }}</el-tag>
+                  </template>
+                </el-table-column>
                 <el-table-column prop="email" label="邮箱" min-width="200"></el-table-column>
                 <el-table-column prop="loginTime" label="最近登录时间" min-width="200"></el-table-column>
                 <el-table-column prop="task" label="动作" min-width="200"></el-table-column>
