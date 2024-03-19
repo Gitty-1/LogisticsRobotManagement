@@ -52,40 +52,31 @@ const taskProgressType: stringKey = {
             <el-tag type="info" style="margin: 20px 0;">当前任务进度: {{ taskProgressType[props.currentTaskProgressGoods.taskStatus] }}</el-tag>
         </div>
         <el-collapse class="collapse">
-            <el-collapse-item>
-                <template #title>
-                    <el-text type="primary">任务进度详情</el-text>
-                </template>
-                <el-steps :active="props.currentTaskProgressGoods.taskStatus <= 2 ? 0 : props.currentTaskProgressGoods.taskStatus <= 4 ? 1 : 2">
-                    <el-step title="装载货物">
-                        <template #icon>
-                            <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskStatus === 0"><RemoveFilled /></el-icon>
-                            <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskStatus === 1"><HelpFilled /></el-icon>
-                            <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
-                        </template>
-                    </el-step>
-                    <el-step title="运输货物">
-                        <template #icon>
-                            <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskStatus <= 2"><RemoveFilled /></el-icon>
-                            <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskStatus === 3"><HelpFilled /></el-icon>
-                            <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
-                        </template>
-                    </el-step>
-                    <el-step title="货物上架">
-                        <template #icon>
-                            <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskStatus <= 4"><RemoveFilled /></el-icon>
-                            <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskStatus === 5"><HelpFilled /></el-icon>
-                            <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
-                        </template>
-                    </el-step>
-                </el-steps>
-            </el-collapse-item>
+            <el-steps :active="props.currentTaskProgressGoods.taskStatus <= 2 ? 0 : props.currentTaskProgressGoods.taskStatus <= 4 ? 1 : 2">
+                <el-step title="装载货物">
+                    <template #icon>
+                        <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskStatus === 0"><RemoveFilled /></el-icon>
+                        <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskStatus === 1"><HelpFilled /></el-icon>
+                        <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
+                    </template>
+                </el-step>
+                <el-step title="运输货物">
+                    <template #icon>
+                        <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskStatus <= 2"><RemoveFilled /></el-icon>
+                        <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskStatus === 3"><HelpFilled /></el-icon>
+                        <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
+                    </template>
+                </el-step>
+                <el-step title="货物上架">
+                    <template #icon>
+                        <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskStatus <= 4"><RemoveFilled /></el-icon>
+                        <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskStatus === 5"><HelpFilled /></el-icon>
+                        <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
+                    </template>
+                </el-step>
+            </el-steps>
         </el-collapse>
     </el-dialog>
 </template>
 <style scoped>
-.collapse {
-    width: 98%;
-    margin: 0 auto;
-}
 </style>
