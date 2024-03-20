@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, onBeforeUnmount } from 'vue';
 import Konva from 'konva';
 import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
@@ -13,12 +13,19 @@ const paths = reactive([
     [100, 500],
     [500, 500]
 ])
-
-let pathColor: string
+const pathColors = [
+  getRandomColor(),
+  getRandomColor()
+]
 
 onMounted(() => {
   init()
 });
+
+onBeforeUnmount(() => {
+  console.log('id')
+  stage.destroy()
+})
 
 const init = () => {
   stage = new Konva.Stage({
@@ -37,12 +44,10 @@ const init = () => {
 
     toolTip(icon, index)
 
-    pathColor = getRandomColor()
-
     // 监听容器的点击事件，调用 addPoint 方法
-    addPoint(path[0], path[1], path, pathColor);
+    addPoint(path[0], path[1], path, index);
 
-    animationStart(icon, path)
+    animationStart(icon, path, index)
     
     
   });
@@ -119,19 +124,19 @@ const toolTip = (icon: any, index: number) => {
 
 }
 // 动态增加路径坐标点，同时更新路径
-const addPoint = (offsetX: number, offsetY: number, path: Array<number>, pathColor: string) => {
+const addPoint = (offsetX: number, offsetY: number, path: Array<number>, index: number) => {
   path.push(offsetX, offsetY); // 在路径坐标数组中添加新的坐标点
 
   // 更新路径的坐标点
   // @ts-ignore
   layer.findOne('.konvajs-content')?.destroy()
 
-  drawPath(path, pathColor)
+  drawPath(path, pathColors[index])
 
   stage.batchDraw();
 };
 // 绘制动画
-const animationStart = (icon: any, path: any) => {
+const animationStart = (icon: any, path: any, index: number) => {
   // 计算路径总长度
   let totalLength = 0
   for (let i = 0; i < path.length - 2; i += 2) {
@@ -149,7 +154,7 @@ const animationStart = (icon: any, path: any) => {
     if (pos >= totalLength) {
       animation.stop();
       icon.position({ x: path[path.length - 2], y: path[path.length - 1] });
-      addPoint(path[path.length - 2] + 1, path[path.length - 1] - 1, path, pathColor)
+      addPoint(path[path.length - 2] + 1, path[path.length - 1] - 1, path, index)
       animation.start()
     } else {
       let currentPos = 0;
