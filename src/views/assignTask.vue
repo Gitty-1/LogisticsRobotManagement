@@ -83,7 +83,6 @@ const updateTaskProgressVisible = () => {
 }
 const currentTaskProgressGoods = ref<GoodsType>()
 const handleTaskProgress = (goods: GoodsType) => {
-    console.log('111')
     taskProgressVisible.value = true
     currentTaskProgressGoods.value = goods
 }
@@ -124,6 +123,23 @@ const handleOut = (goods: GoodsType) => {
         message('出库成功', 'success')
     })
 }
+
+const isAbleAssignTask = (taskStatus: number) => {
+    if([0, 2, 4].includes(taskStatus)) return true
+    return false
+}
+
+type stringKey = Record<number, string>
+const taskProgressType: stringKey = {
+    1: '装载中',
+    3: '运输中',
+    5: '上架中',
+    6: '已上架完成'
+}
+const getTooltipContent = (goods: GoodsType) => {
+    const { goodsName, taskStatus } = goods
+    return `${goodsName}${taskProgressType[taskStatus]}，无法分配任务`
+}
 </script>
 <template>
   <div>
@@ -146,8 +162,12 @@ const handleOut = (goods: GoodsType) => {
             </el-table-column>
             <el-table-column prop="operator" label="操作" width="200">
                 <template #default="scope">
-                    <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="scope.row.taskStatus !== 0 && scope.row.taskStatus !== 2 && scope.row.taskStatus !== 4" >分配任务</el-button>
-                    <el-button type="primary" link size="small" :disabled="scope.row.taskStatus < 6" @click="handleOut(scope.row)">出库</el-button>
+                    <el-tooltip effect="dark" placement="top-start" :content="getTooltipContent(scope.row)" :hide-after="0" :disabled="isAbleAssignTask(scope.row.taskStatus)">
+                        <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="!isAbleAssignTask(scope.row.taskStatus)" >分配任务</el-button>
+                    </el-tooltip>
+                    <el-tooltip effect="dark" placement="top-start" :content="`${scope.row.goodsName}未上架，无法出库`" :disabled="scope.row.taskStatus === 6">
+                        <el-button type="primary" link size="small" :disabled="scope.row.taskStatus < 6" @click="handleOut(scope.row)">出库</el-button>
+                    </el-tooltip>
                 </template>
             </el-table-column>
         </el-table>

@@ -3,6 +3,7 @@ import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import AddGoods from '@/views/components/AddGoods/index.vue'
 import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
+import AddGoodsType from '@/views/components/AddGoodsType/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData } from '@/api/manage'
 
@@ -83,6 +84,12 @@ const handleGoodsDetail = (row: GoodsDataType) => {
   goodDetailVisible.value = true
 }
 
+// 添加货物类型
+const addGoodsTypeVisible = ref(false)
+const updateGoodsTypeVisible = () => {
+  addGoodsTypeVisible.value = false
+}
+
 </script>
 <template>
   <div>
@@ -94,7 +101,10 @@ const handleGoodsDetail = (row: GoodsDataType) => {
             <el-button icon="Search" @click="initData" />
           </template>
         </el-input>
-        <el-button type="primary" @click="addGoodsVisible = true">添加</el-button>
+        <div>
+          <el-button type="primary" @click="addGoodsTypeVisible = true">添加货物类型</el-button>
+          <el-button type="primary" @click="addGoodsVisible = true">添加</el-button>
+        </div>
       </div>
       <el-table :data="goodsData" class="goods-table">
         <el-table-column prop="goodsId" label="货物ID" min-width="140"></el-table-column>
@@ -124,8 +134,9 @@ const handleGoodsDetail = (row: GoodsDataType) => {
       </el-table>
       <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"/>
     </div>
-    <AddGoods :visible="addGoodsVisible" @updateAddGoodsVisible="updateAddGoodsVisible"></AddGoods>
-    <GoodsDetail :visible="goodDetailVisible" @updateGoodsDetailVisible="updateGoodsDetailVisible" :goodsDetail="goodsDetail"></GoodsDetail>
+    <AddGoods :visible="addGoodsVisible" @updateAddGoodsVisible="updateAddGoodsVisible" />
+    <GoodsDetail :visible="goodDetailVisible" @updateGoodsDetailVisible="updateGoodsDetailVisible" :goodsDetail="goodsDetail" />
+    <AddGoodsType :visible="addGoodsTypeVisible" @updateGoodsTypeVisible="updateGoodsTypeVisible"/>
   </div>
 </template>
 <style scoped>
