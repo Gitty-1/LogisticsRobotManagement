@@ -10,8 +10,8 @@ const stageContainer = ref()
 let stage: Stage, layer: Layer
 // 定义路径数组，每个路径包含一系列坐标点
 const paths = reactive([
-    [100, 500],
-    [500, 500]
+    [100, 200],
+    [500, 200]
 ])
 const pathColors = [
   getRandomColor(),
@@ -150,12 +150,14 @@ const animationStart = (icon: any, path: any, index: number) => {
   // 动画
   let pos = 0
   const animation = new Konva.Animation((frame: any) => {
-    pos += speed * frame.timeDiff / 10000
+    pos += speed * frame.timeDiff / 1000
     if (pos >= totalLength) {
       animation.stop();
       icon.position({ x: path[path.length - 2], y: path[path.length - 1] });
-      addPoint(path[path.length - 2] + 1, path[path.length - 1] - 1, path, index)
-      animation.start()
+      setTimeout(() => {
+        addPoint(path[path.length - 2] + 10, path[path.length - 1] - 10, path, index)
+        animation.start()
+      }, 2000)
     } else {
       let currentPos = 0;
       let segLength = 0;
