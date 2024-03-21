@@ -6,6 +6,7 @@ import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
 import AddGoodsType from '@/views/components/AddGoodsType/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData } from '@/api/manage'
+import { getCookie } from '@/utils/setCookie'
 
 onBeforeMount(() => {
   initData()
@@ -102,7 +103,7 @@ const updateGoodsTypeVisible = () => {
           </template>
         </el-input>
         <div>
-          <el-button type="primary" @click="addGoodsTypeVisible = true">添加货物类型</el-button>
+          <el-button type="primary" @click="addGoodsTypeVisible = true" v-if="getCookie('userType') === '2'">添加货物类型</el-button>
           <el-button type="primary" @click="addGoodsVisible = true">添加</el-button>
         </div>
       </div>
