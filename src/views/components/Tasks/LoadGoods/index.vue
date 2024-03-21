@@ -2,7 +2,7 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
-import type { GoodsType } from '@/views/assignTask.vue';
+import type { RuleForm, GoodsType } from './type';
 
 const props = defineProps({
     visible: {
@@ -47,10 +47,6 @@ const loadGoods = [
   }
 ]
 
-interface RuleForm {
-  loadRobot: String,
-  loadGoods: String
-}
 const ruleFormRef = ref<FormInstance>()
 interface LoadGoodsType {
   loadRobot: string,

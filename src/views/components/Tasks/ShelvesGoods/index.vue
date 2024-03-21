@@ -2,7 +2,7 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
-import type { GoodsType } from '@/views/assignTask.vue';
+import type { RuleForm, GoodsType } from './type';
 
 
 const props = defineProps({
@@ -19,25 +19,6 @@ const emits = defineEmits(['updateShelvesGoodsVisible'])
 
 const visible = ref(false)
 
-
-interface LoadRobotsType {
-  id: number,
-  value: string
-}
-const goodsData = [
-  {
-    id: 1,
-    value: '货物1'
-  },
-  {
-    id: 2,
-    value: '货物2'
-  },
-  {
-    id: 3,
-    value: '货物3'
-  }
-]
 const armsData = [
   {
     id: 1,
@@ -67,38 +48,20 @@ const shelfData = [
   }
 ]
 
-interface RuleForm {
-  shelvesGoods: String,
-  targetShelf: String,
-  arms: String
-}
 const ruleFormRef = ref<FormInstance>()
-interface ShelvesGoodsType {
-  shelvesGoods: string,
-  targetShelf: string,
-  arms: string
-}
-const shelvesGoodsData = reactive<ShelvesGoodsType>({
-  shelvesGoods: '',
+
+const shelvesGoodsData = reactive<RuleForm>({
   targetShelf: '',
   arms: ''
 })
+
 const validateArms = (rule: any, value: any, callback: any) => {
-    if(shelvesGoodsData.shelvesGoods === '货物1') {
-        if(value === '') {
-            callback(new Error('请选择机械臂'))
-        }
+    if(value === '') {
+      callback(new Error('请选择机械臂'))
     }
     callback()
 }
 const rules = reactive<FormRules<RuleForm>>({
-    shelvesGoods: [
-        {
-            required: true,
-            message: '请选择上架货物',
-            trigger: 'blur'
-        }
-    ],
     targetShelf: [
         {
             required: true,

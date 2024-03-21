@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { message ,messageBox } from '@/utils/message'
+import { messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
+import type { RuleForm } from './type';
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -12,12 +13,8 @@ const emits = defineEmits(['updateAddRobotsVisible'])
 
 const visible = ref(false)
 
-// 表单数据
-interface RuleForm {
-    robotsName: string,
-    robotsType: string
-}
 const ruleFormRef = ref<FormInstance>()
+
 const robotsForm = reactive<RuleForm>({
     robotsName: '',
     robotsType: ''

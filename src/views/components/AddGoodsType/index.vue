@@ -2,6 +2,7 @@
 import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { messageBox } from '@/utils/message'
+import type { RuleForm } from './type'
 
 const props = defineProps({
     visible: {
@@ -22,10 +23,8 @@ watch(() => visible.value, () => {
     }
 })
 
-interface RuleForm {
-    goodsTypeName: string
-}
 const ruleFormRef = ref<FormInstance>()
+
 const goodsTypeData = reactive<RuleForm>({
     goodsTypeName: ''
 })
@@ -45,7 +44,7 @@ const onCancel = () => {
 
 const onOk = (form: FormInstance | undefined) => {
     if(!form) return
-    form.validate((valid, fields) => {
+    form.validate((valid, _) => {
         if(valid) {
             messageBox(`确认添加货物类型：${goodsTypeData.goodsTypeName}`, 'info', () => {
                 // addGoods(goodsTypeData)

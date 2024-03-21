@@ -17,6 +17,7 @@ const pathColors = [
   getRandomColor(),
   getRandomColor()
 ]
+let timeout: number | undefined
 
 onMounted(() => {
   init()
@@ -25,6 +26,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   console.log('id')
   stage.destroy()
+  clearTimeout(timeout)
 })
 
 const init = () => {
@@ -45,7 +47,7 @@ const init = () => {
     toolTip(icon, index)
 
     // 监听容器的点击事件，调用 addPoint 方法
-    addPoint(path[0], path[1], path, index);
+    addPoint(path[0], path[1], path, index)
 
     animationStart(icon, path, index)
     
@@ -154,7 +156,7 @@ const animationStart = (icon: any, path: any, index: number) => {
     if (pos >= totalLength) {
       animation.stop();
       icon.position({ x: path[path.length - 2], y: path[path.length - 1] });
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         addPoint(path[path.length - 2] + 10, path[path.length - 1] - 10, path, index)
         animation.start()
       }, 2000)

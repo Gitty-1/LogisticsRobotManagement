@@ -3,7 +3,7 @@ import { reactive, ref, watch } from 'vue'
 import { message ,messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
 import { addShelves } from '@/api/manage'
-import router from '@/router';
+import type { RuleForm } from './type'
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -14,12 +14,8 @@ const emits = defineEmits(['updateAddShelvesVisible'])
 
 const visible = ref(false)
 
-// 表单数据
-interface RuleForm {
-    shelfName: string,
-    shelfType: number
-}
 const ruleFormRef = ref<FormInstance>()
+
 const shelvesForm = reactive<RuleForm>({
     shelfName: '',
     shelfType: 0

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { message ,messageBox } from '@/utils/message'
+import { messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
 import { addGoods, getGoodsType } from '@/api/manage'
+import type { GoodsTypeDataType, RuleForm } from './type'
 
 const props = defineProps({
     visible: {
@@ -14,19 +15,10 @@ const emits = defineEmits(['updateAddGoodsVisible'])
 
 const visible = ref(false)
 
-interface GoodsTypeDataType {
-    goodsTypeId: number,
-    goodsTypeName: string
-}
 const goodsTypeData = ref<GoodsTypeDataType[]>()
 
-// 表单数据
-interface RuleForm {
-    goodsName: string,
-    goodsTypeId: number | null,
-    details: string
-}
 const ruleFormRef = ref<FormInstance>()
+
 const goodsForm = reactive<RuleForm>({
     goodsName: '',
     goodsTypeId: null,

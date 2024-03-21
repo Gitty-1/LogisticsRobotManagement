@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { message } from '@/utils/message'
+import type { RuleForm } from './type'
+
 
 import { updatePassword } from '@/api/user';
 
@@ -12,10 +13,6 @@ const props = defineProps({
     }
 })
 
-interface RuleForm {
-    password: string
-    newPassword: string
-}
 const ruleFormRef = ref<FormInstance>()
 const form = reactive<RuleForm>({
     password: '',
@@ -70,7 +67,6 @@ const onReset = () => {
 }
 
 watch(() => props.isReset, () => {
-    console.log('111')
     onReset()
 })
 

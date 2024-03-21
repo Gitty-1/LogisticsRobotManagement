@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
-import { message ,messageBox } from '@/utils/message'
-import type { FormInstance, FormRules } from 'element-plus'
-import { addGoods, getGoodsType } from '@/api/manage'
-import type { GoodsType } from '@/views/assignTask.vue';
+import { ref, watch } from 'vue'
+import type { GoodsType } from './type';
 
 const props = defineProps({
     visible: {

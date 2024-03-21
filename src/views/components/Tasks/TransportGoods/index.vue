@@ -2,7 +2,7 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
-import type { GoodsType } from '@/views/assignTask.vue';
+import type { RuleForm, GoodsType } from './type';
 
 const props = defineProps({
     visible: {
@@ -34,26 +34,17 @@ const transportRobots = [
   }
 ]
 
-interface RuleForm {
-    robotType: number | null,
-    transportRobot: String,
-    loadRobot: String
-}
+
 const ruleFormRef = ref<FormInstance>()
-interface TransportGoodsType {
-    robotType: number | null,
-    transportRobot: string,
-    loadRobot: string
-}
-const transportGoodsData = reactive<TransportGoodsType>({
+
+const transportGoodsData = reactive<RuleForm>({
     robotType: null,
-    transportRobot: '',
-    loadRobot: ''
+    armsTransportRobot: '',
 })
-const validateLoadRobot = (rule: any, value: any, callback: any) => {
+const validateArmsTransportRobot = (rule: any, value: any, callback: any) => {
     if(transportGoodsData.robotType === 1) {
         if(value === '') {
-            callback(new Error('请选择装载机器人'))
+            callback(new Error('请选择机械臂装载机器人'))
         }
     }
     callback()
@@ -63,21 +54,15 @@ const rules = reactive<FormRules<RuleForm>>({
         {
             required: true,
             message: '请选择机器人类别',
+            trigger: 'change'
+        }
+    ],
+    armsTransportRobot: [
+        {
+            validator: validateArmsTransportRobot,
             trigger: 'blur'
         }
     ],
-    transportRobot: [
-        {
-            required: true,
-            message: '请选择运送机器人',
-            trigger: 'blur'
-        }
-    ],
-    loadRobot: [
-        {
-            validator: validateLoadRobot
-        }
-    ]
 })
 
 watch(() => props.visible, (newValue) => {
@@ -113,15 +98,17 @@ const onOk = (form: FormInstance | undefined) => {
     <el-form class="load-form" ref="ruleFormRef" :model="transportGoodsData" :rules="rules" label-width="auto">
         <el-space fill>
             <el-alert type="info" show-icon :closable="false" center>请选择是否需要机械臂装载机器人</el-alert>
-            <el-radio-group v-model="transportGoodsData.robotType">
-                <el-radio :label="1">是</el-radio>
-                <el-radio :label="2">否</el-radio>
-            </el-radio-group>
+            <el-form-item prop="robotType">
+                <el-radio-group v-model="transportGoodsData.robotType">
+                    <el-radio :label="1">是</el-radio>
+                    <el-radio :label="2">否</el-radio>
+                </el-radio-group>
+            </el-form-item>
         </el-space>
         <el-space fill v-show="transportGoodsData.robotType === 1">
             <el-alert type="info" show-icon :closable="false" center>请选择一台机械臂装载机器人用于夹取货物</el-alert>
-            <el-form-item label="机械臂装载机器人" prop="loadRobot">
-                <el-select v-model="transportGoodsData.loadRobot" placeholder="请选择机械臂装载机器人" filterable clearable no-match-text="无匹配选项">
+            <el-form-item label="机械臂装载机器人" prop="armsTransportRobot">
+                <el-select v-model="transportGoodsData.armsTransportRobot" placeholder="请选择机械臂装载机器人" filterable clearable no-match-text="无匹配选项">
                     <el-option v-for="item in transportRobots" :key="item.id" :label="item.value" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>
