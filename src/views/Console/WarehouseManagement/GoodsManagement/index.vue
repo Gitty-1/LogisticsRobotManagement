@@ -7,21 +7,13 @@ import AddGoodsType from '@/views/components/AddGoodsType/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData } from '@/api/manage'
 import { getCookie } from '@/utils/setCookie'
+import type { GoodsDataType } from './type'
+import type { PaginationType } from '../../type'
 
 onBeforeMount(() => {
   initData()
 })
 
-export interface GoodsDataType {
-  goodsId: number,
-  goodsName: string,
-  goodsStatus: number,
-  goodsType: number,
-  createTime: string,
-  shelvingTime: string,
-  details: string,
-  shelfId: number
-}
 const goodsData = ref<GoodsDataType[]>()
 
 type numStrKey = Record<number, string>
@@ -39,11 +31,6 @@ const tagType: stringKey = {
 
 const keyWord = ref('')
 
-interface PaginationType {
-  currentPage: number,
-  pageSize: number,
-  total: number
-}
 const pagination = reactive<PaginationType>({
   currentPage: 1,
   pageSize: 10,

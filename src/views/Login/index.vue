@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick, watch, onBeforeMount } from "vue";
+import { ref, reactive, watch, onBeforeMount } from "vue";
 import { User, Lock, Key, Message } from "@element-plus/icons";
 import type { FormInstance, FormRules } from "element-plus";
 // @ts-ignore
@@ -10,6 +10,7 @@ import { getUserInfo } from '@/api/user'
 import { setTokenToCookie, deleteCookie, setUserMsgToCookie } from "@/utils/setCookie";
 import { useUserStore } from '@/stores/user';
 import { message } from '@/utils/message'
+import type { LoginFormType, RegisterFormType } from "./type";
 
 onBeforeMount(() => {
     getCaptchaImg()
@@ -37,12 +38,6 @@ const validateEmail = (rule: any, value: any, callback: any) => {
 };
 
 // 校验
-// 登录表单类型
-interface LoginFormType {
-    email: string,
-    password: string,
-    imgValidateCode: string
-}
 const loginRuleFormRef = ref<FormInstance>()
 const loginForm = reactive<LoginFormType>({
     email: '',
@@ -90,13 +85,6 @@ const loginFormRules = reactive<FormRules<LoginFormType>>({
 })
 
 // 注册相关
-interface RegisterFormType {
-    email: string,
-    username: string,
-    password: string,
-    validateCode: string,
-    userType: string,
-}
 const registerRuleFormRef = ref<FormInstance>()
 const registerForm = reactive<RegisterFormType>({
     email: '',
@@ -318,7 +306,7 @@ const onReset = () => {
     width: calc(100vw);
     height: calc(100vh);
     box-sizing: border-box;
-    background: url('../assets/robot.jpg') no-repeat left/60%;
+    background: url('../../assets/robot.jpg') no-repeat left/60%;
 }
 .login-menu {
     width: 400px;

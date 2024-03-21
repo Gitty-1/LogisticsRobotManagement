@@ -4,22 +4,16 @@ import MyPagination from '@/components/myPagination.vue'
 import AddShelves from '@/views/components/AddShelves/index.vue'
 import { ref, reactive, onBeforeMount } from 'vue'
 import { getShelvesData } from '@/api/manage'
+import type { ShelvesDataType } from './type'
+import type { PaginationType } from '../../type'
 
 onBeforeMount(() => {
   initData()
 })
 
-interface ShelvesDataType {
-  shelfId: number,
-  shelfName: string,
-  shelfStatus: number,
-  shelfType: number,
-  goodsAmount: number,
-  createTime: string
-}
 const shelvesData = ref<ShelvesDataType[]>()
 
-const pagination = reactive({
+const pagination = reactive<PaginationType>({
   currentPage: 1,
   pageSize: 10,
   total: 0

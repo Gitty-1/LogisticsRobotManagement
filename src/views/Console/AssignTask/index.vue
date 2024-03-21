@@ -6,6 +6,8 @@ import ShelvesGoods from '@/views/components/Tasks/ShelvesGoods/index.vue'
 import { message, messageBox } from '@/utils/message'
 import MyPagination from '@/components/myPagination.vue'
 import TaskProgress from '@/views/components/TaskProgress/index.vue'
+import type {PaginationType} from '../type'
+import type { GoodsType } from './type'
 
 const goodsData = [
     {
@@ -47,11 +49,6 @@ const goodsData = [
 
 const keyWord = ref('')
 
-interface PaginationType {
-  currentPage: number,
-  pageSize: number,
-  total: number
-}
 const pagination = reactive<PaginationType>({
   currentPage: 1,
   pageSize: 10,
@@ -68,13 +65,6 @@ const loadData = async () => {
     currentPage: pagination.currentPage,
     pageSize: pagination.pageSize
   }
-}
-
-export interface GoodsType {
-    goodsId: number,
-    goodsName: string,
-    taskStatus: number,
-    transportType: number
 }
 
 const taskProgressVisible = ref(false)

@@ -18,7 +18,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'HomeFilled',
       permission: [1, 2]
     },
-    component: () => import('@/views/home.vue'),
+    component: () => import('@/views/Console/Home/index.vue'),
   },
   {
     path: 'management',
@@ -27,7 +27,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'Menu',
       permission: [1, 2]
     },
-    component: () => import('@/views/management/index.vue'),
+    component: () => import('@/views/Console/WarehouseManagement/index.vue'),
     children: [
       {
         path: 'goods',
@@ -36,7 +36,7 @@ export const asyncRoute: Array<menuListType> = [
           icon: 'SetUp',
           permission: [1, 2]
         },
-        component: () => import('@/views/management/goods.vue')
+        component: () => import('@/views/Console/WarehouseManagement/GoodsManagement/index.vue')
       },
       {
         path: 'shelves',
@@ -45,7 +45,7 @@ export const asyncRoute: Array<menuListType> = [
           icon: 'Tickets',
           permission: [1, 2]
         },
-        component: () => import('@/views/management/shelves.vue')
+        component: () => import('@/views/Console/WarehouseManagement/ShelvesManagement/index.vue')
       },
       {
         path: 'robots',
@@ -54,7 +54,7 @@ export const asyncRoute: Array<menuListType> = [
           icon: 'Edit',
           permission: [1, 2]
         },
-        component: () => import('@/views/management/robots.vue')
+        component: () => import('@/views/Console/WarehouseManagement/RobotsManagement/index.vue')
       }
     ]
   },
@@ -65,7 +65,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'Operation',
       permission: [1, 2]
     },
-    component: () => import('@/views/assignTask.vue')
+    component: () => import('@/views/Console/AssignTask/index.vue')
   },
   {
     path: 'mapWatch',
@@ -74,7 +74,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'Location',
       permission: [1, 2]
     },
-    component: () => import('@/views/mapWatch.vue')
+    component: () => import('@/views/Console/MapWatch/index.vue')
   },
   {
     path: 'errorWatch',
@@ -83,7 +83,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'Warning',
       permission: [1, 2]
     },
-    component: () => import('@/views/errorWatch.vue')
+    component: () => import('@/views/Console/ErrorWatch/index.vue')
   },
   {
     path: 'userManage',
@@ -92,7 +92,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'UserFilled',
       permission: [2]
     },
-    component: () => import('@/views/userManage.vue')
+    component: () => import('@/views/Console/UserManagement/index.vue')
   },
   {
     path: 'setting',
@@ -101,7 +101,7 @@ export const asyncRoute: Array<menuListType> = [
       icon: 'Setting',
       permission: [2]
     },
-    component: () => import('@/views/setting.vue')
+    component: () => import('@/views/Console/Setting/index.vue')
   },
 ]
 
@@ -118,7 +118,7 @@ const router = createRouter({
       meta: {
         permission: [1, 2]
       },
-      component: ()=>import('@/views/login.vue')
+      component: ()=>import('@/views/Login/index.vue')
     },
     {
       path: '/console',
@@ -126,7 +126,7 @@ const router = createRouter({
       meta: {
         permission: [1, 2]
       },
-      component: () => import('@/views/console.vue'),
+      component: () => import('@/views/Console/index.vue'),
       children : <any>asyncRoute
     },
     {
@@ -135,7 +135,7 @@ const router = createRouter({
       meta: {
         permission: [1, 2]
       },
-      component: () => import('@/views/userControl.vue')
+      component: () => import('@/views/UserCenter/index.vue')
     },
     {
       path: '/404',

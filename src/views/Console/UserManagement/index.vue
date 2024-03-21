@@ -2,24 +2,13 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import { onBeforeMount, reactive, ref } from 'vue'
-
 import { getUserManageData } from '@/api/userManage'
+import type { UsersDataType } from './type'
 
 onBeforeMount(() => {
     initData()
 })
 
-interface UsersDataType {
-    userId: number,
-    username: string,
-    email: string,
-    userType: number,
-    isActive: boolean,
-    loginTime: string,
-    taskId: number,
-    taskName: string,
-    taskStartTime: string
-} 
 const usersData = ref<UsersDataType>()
 
 const keyWord = ref('')
