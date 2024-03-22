@@ -139,42 +139,15 @@ const addPoint = (offsetX: number, offsetY: number, path: Array<number>, index: 
 };
 // 绘制动画
 const animationStart = (icon: any, path: any, index: number) => {
-  // 计算路径总长度
-  let totalLength = 0
-  for (let i = 0; i < path.length - 2; i += 2) {
-    totalLength += Math.sqrt(Math.pow(path[i + 2] - path[i], 2) + Math.pow(path[i + 3] - path[i + 1], 2));
-  }
-
-  // 设置动画持续时间为 5 秒
-  const duration = 5000;
-  const speed = totalLength / duration;
 
   // 动画
-  let pos = 0
   const animation = new Konva.Animation((frame: any) => {
-    pos += speed * frame.timeDiff / 1000
-    if (pos >= totalLength) {
-      animation.stop();
-      icon.position({ x: path[path.length - 2], y: path[path.length - 1] });
-      timeout = setTimeout(() => {
-        addPoint(path[path.length - 2] + 10, path[path.length - 1] - 10, path, index)
-        animation.start()
-      }, 2000)
-    } else {
-      let currentPos = 0;
-      let segLength = 0;
-      const dx = path[path.length - 2] - path[path.length - 4];
-      const dy = path[path.length - 1] - path[path.length - 3];
-      segLength = Math.sqrt(dx * dx + dy * dy);
-      if (currentPos + segLength >= pos) {
-        const t = (pos - currentPos) / segLength;
-        icon.position({
-          x: path[path.length - 4] + dx * t,
-          y: path[path.length - 3] + dy * t
-        });
-      }
-      currentPos += segLength;
-    }
+    animation.stop();
+    icon.position({ x: path[path.length - 2], y: path[path.length - 1] });
+    timeout = setTimeout(() => {
+      addPoint(path[path.length - 2] + 1, path[path.length - 1] - 1, path, index)
+      animation.start()
+    }, 500)
   }, layer);
 
   animation.start();
