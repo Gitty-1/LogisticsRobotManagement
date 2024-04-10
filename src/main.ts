@@ -11,6 +11,7 @@ import * as echarts from 'echarts'
 
 import App from './App.vue'
 import router from './router'
+import axios from 'axios'
 
 const app = createApp(App)
 
@@ -26,3 +27,4 @@ Object.keys(Icons).forEach(key => {
 app.config.globalProperties.$echarts = echarts
 
 app.mount('#app')
+
