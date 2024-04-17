@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { ref, reactive, watch, onBeforeMount } from "vue";
-import { User, Lock, Key, Message } from "@element-plus/icons";
-import type { FormInstance, FormRules } from "element-plus";
+import { ref, reactive, watch, onBeforeMount } from "vue"
+import { User, Lock, Key, Message } from "@element-plus/icons"
+import type { FormInstance, FormRules } from "element-plus"
 // @ts-ignore
-import { v4 as uuidV4 } from 'uuid';
-import router from "@/router";
-import { login, getCaptcha, validateCode, register } from '@/api/login'
+import { v4 as uuidV4 } from 'uuid'
+import router from "@/router"
+import { login, getCaptcha, validateCode, register, getPublicKey } from '@/api/login'
 import { getUserInfo } from '@/api/user'
-import { setTokenToCookie, deleteCookie, setUserMsgToCookie } from "@/utils/setCookie";
-import { useUserStore } from '@/stores/user';
+import { setTokenToCookie, deleteCookie, setUserMsgToCookie } from "@/utils/setCookie"
+import { useUserStore } from '@/stores/user'
 import { message } from '@/utils/message'
-import type { LoginFormType, RegisterFormType } from "./type";
+import { encrypt } from "@/utils/encrypt"
+import type { LoginFormType, RegisterFormType } from "./type"
 
 onBeforeMount(() => {
     getCaptchaImg()
@@ -203,9 +204,12 @@ const onSubmit = (form: FormInstance | undefined) => {
     form.validate(async (valid, _) => {
         if (valid) {
             if(activeIndex.value === '1') {
+                // 请求公钥
+                const res1 = await getPublicKey()
+                const publicKey = res1.data.publicKey
                 const params = {
-                    email: loginForm.email,
-                    password: loginForm.password,
+                    email: encrypt(publicKey, loginForm.email),
+                    password: encrypt(publicKey, loginForm.password),
                     captchaCode: loginForm.imgValidateCode,
                     captchaKey: captchaKey.value
                 }

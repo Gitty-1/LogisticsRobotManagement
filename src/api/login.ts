@@ -36,3 +36,11 @@ export const validateCode = (data: any) => {
         data
     })
 }
+
+// 获取公钥
+export const getPublicKey = () => {
+    return request({
+        url: baseURL + '/getPublicKey',
+        method: 'get'
+    })
+}
