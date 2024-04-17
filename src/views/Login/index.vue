@@ -208,7 +208,7 @@ const onSubmit = (form: FormInstance | undefined) => {
                 const res1 = await getPublicKey()
                 const publicKey = res1.data.publicKey
                 const params = {
-                    email: encrypt(publicKey, loginForm.email),
+                    email: loginForm.email,
                     password: encrypt(publicKey, loginForm.password),
                     captchaCode: loginForm.imgValidateCode,
                     captchaKey: captchaKey.value
