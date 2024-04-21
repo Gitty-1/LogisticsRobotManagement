@@ -179,6 +179,7 @@ const intervalId = ref(0)
 const text = ref(60)
 const isSendValidateCode = ref(true)
 const intervalFn = () => {
+    // @ts-ignore
     intervalId.value = setInterval(() => {
         if(text.value > 1) {
             text.value--
@@ -202,11 +203,11 @@ const onSubmit = (form: FormInstance | undefined) => {
     if(!form) return
     // @ts-ignore
     form.validate(async (valid, _) => {
+        // 请求公钥
+        const res1 = await getPublicKey()
+        const publicKey = res1.data.publicKey
         if (valid) {
             if(activeIndex.value === '1') {
-                // 请求公钥
-                const res1 = await getPublicKey()
-                const publicKey = res1.data.publicKey
                 const params = {
                     email: loginForm.email,
                     password: encrypt(publicKey, loginForm.password),
@@ -220,6 +221,7 @@ const onSubmit = (form: FormInstance | undefined) => {
                 message('登录成功', 'success')
             } else {
                 // 注册
+                registerForm.password = encrypt(publicKey, registerForm.password) as string
                 const res = await register(registerForm)
                 const { data } = res
                 deleteCookie()

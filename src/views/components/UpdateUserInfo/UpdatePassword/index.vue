@@ -5,6 +5,8 @@ import type { RuleForm } from './type'
 
 
 import { updatePassword } from '@/api/user';
+import { encrypt } from "@/utils/encrypt"
+import { getPublicKey } from '@/api/login'
 
 const props = defineProps({
     isReset: {
@@ -50,13 +52,15 @@ const rules = reactive<FormRules<RuleForm>>({
 // 方法
 const onsubmit = (formEl: FormInstance | undefined) => {
     if(!formEl) return
-    formEl.validate((valid: any, _) => {
+    formEl.validate(async (valid: any, _) => {
         if (valid) {
+            const res1 = await getPublicKey()
+            const publicKey = res1.data.publicKey
             const params = {
-                oldPassword: form.password,
-                newPassword: form.newPassword
+                oldPassword: encrypt(publicKey, form.password),
+                newPassword: encrypt(publicKey, form.newPassword)
             }
-            updatePassword(params);
+            await updatePassword(params);
         }
     })
 }
