@@ -17,11 +17,11 @@ const visible = ref(false)
 const ruleFormRef = ref<FormInstance>()
 
 const robotsForm = reactive<RuleForm>({
-    robotsName: '',
-    robotsType: 0
+    robotName: '',
+    robotType: 0
 })
 const rules = reactive<FormRules<RuleForm>>({
-    robotsName: [
+    robotName: [
         {
             required: true,
             message: '请输入机器人名称',
@@ -33,7 +33,7 @@ const rules = reactive<FormRules<RuleForm>>({
             trigger: 'change'
         }
     ],
-    robotsType: [
+    robotType: [
         {
             required: true,
             message: '请选择机器人类型',
@@ -62,7 +62,7 @@ const onOk = (form: FormInstance | undefined) => {
     if(!form) return
     form.validate((valid, fields) => {
         if(valid) {
-            messageBox(`确认添加机器人：${robotsForm.robotsName}`, 'info', () => {
+            messageBox(`确认添加机器人：${robotsForm.robotName}`, 'info', () => {
                 addRobots(robotsForm)
                 visible.value = false
             })
@@ -77,10 +77,10 @@ const onOk = (form: FormInstance | undefined) => {
         <el-tag size="large">添加机器人</el-tag>
         <el-form class="robots-form" ref="ruleFormRef" :model="robotsForm" :rules="rules">
             <el-form-item label="机器人名称" prop="robotsName">
-                <el-input v-model="robotsForm.robotsName" placeholder="请输入机器人名称" clearable></el-input>
+                <el-input v-model="robotsForm.robotName" placeholder="请输入机器人名称" clearable></el-input>
             </el-form-item>
             <el-form-item label="机器人类型" prop="robotsType">
-                <el-radio-group v-model="robotsForm.robotsType">
+                <el-radio-group v-model="robotsForm.robotType">
                     <el-radio :label="1">装卸机器人</el-radio>
                     <el-radio :label="2">机械臂装卸机器人</el-radio>
                     <el-radio :label="3">机械臂</el-radio>

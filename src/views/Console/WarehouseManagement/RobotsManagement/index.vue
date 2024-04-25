@@ -26,6 +26,17 @@ const tagType: stringKey = {
   启动中: 'success',
 }
 
+type numStrKey = Record<number, string>
+const robotsType: numStrKey = {
+  1: '装载机器人',
+  2: '机械臂装载机器人',
+  3: '机械臂'
+}
+const robotsStatus: numStrKey = {
+  0: '未启动',
+  1: '启动中'
+}
+
 const initData = () => {
   pagination.currentPage = 1
   loadData()
@@ -68,12 +79,16 @@ const updateAddRobotsVisible = () => {
       <el-table :data="robotData">
         <el-table-column prop="robotId" label="机器人ID" min-width="140"></el-table-column>
         <el-table-column prop="robotName" label="机器人名称" min-width="140"></el-table-column>
-        <el-table-column prop="robotType" label="机器人类型" min-width="140"></el-table-column>
+        <el-table-column prop="robotType" label="机器人类型" min-width="140">
+          <template #default="scope">
+            {{ robotsType[scope.row.robotType] }}
+          </template>
+        </el-table-column>
         <el-table-column prop="power" label="机器人电量" min-width="140"></el-table-column>
         <el-table-column prop="robotStatus" label="机器人状态" min-width="140">
-          <!-- <template #default="scope">
-            <el-tag :type="tagType[scope.row.status]">{{ scope.row.status }}</el-tag>
-          </template> -->
+          <template #default="scope">
+            <el-tag :type="tagType[robotsStatus[scope.row.robotStatus]]">{{ robotsStatus[scope.row.robotStatus] }}</el-tag>
+          </template>
         </el-table-column>
       </el-table>
       <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"/>
