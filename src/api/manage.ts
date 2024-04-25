@@ -38,3 +38,19 @@ export const addShelves = (data: any) => {
         data
     })
 }
+
+export const getRobotsData = (params: any) => {
+    return request({
+        url: '/robotManage/page',
+        method: 'get',
+        params
+    })
+}
+
+export const addRobots = (data: any) => {
+    return request({
+        url: '/robotManage/addRobot',
+        method: 'post',
+        data
+    })
+}
