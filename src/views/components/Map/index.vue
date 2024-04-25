@@ -1,164 +1,257 @@
 <script setup lang="ts">
-import { ref, onMounted, reactive, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, reactive, watch } from 'vue';
 import Konva from 'konva';
 import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
-import { getRandomColor } from '@/utils/randomColor'
 
-const stageContainer = ref()
+const stageContainer = ref();
 
-let stage: Stage, layer: Layer
+let stage: Stage, layer: Layer;
 // 定义路径数组，每个路径包含一系列坐标点
-const paths = reactive([
-    [100, 200],
-    [500, 200]
-])
-const pathColors = [
-  getRandomColor(),
-  getRandomColor()
-]
-let timeout: number | undefined
+let path = reactive([[]]);
 
-onMounted(() => {
+const robot = ref('')
+const robots = [
+  {
+    value: '机器人1',
+    label: '机器人1'
+  },
+  {
+    value: '机器人2',
+    label: '机器人2'
+  },
+  {
+    value: '机器人3',
+    label: '机器人3'
+  },
+]
+const paths = {
+  '机器人1': [
+      [100, 200],
+      [200, 100],
+      [300, 400],
+      [550, 120],
+      [600, 220],
+      [730, 220],
+      [800, 212],
+      [1000, 60]
+  ],
+  '机器人2': [
+      [50, 200],
+      [130, 50],
+      [240, 400],
+      [430, 120],
+      [700, 220],
+      [860, 220],
+      [980, 212],
+      [1000, 160]
+  ],
+  '机器人3': [
+      [30, 200],
+      [120, 100],
+      [230, 400],
+      [430, 120],
+      [580, 220],
+      [860, 220],
+      [910, 212],
+      [1000, 260]
+  ],
+}
+
+watch(() => robot.value, () => {
+  // @ts-ignore
+  path = paths[robot.value]
   init()
-});
+})
+
+// onMounted(() => {
+//   if(robot.value) {
+//     console.log(1)
+//     init();
+//   }
+// });
 
 onBeforeUnmount(() => {
-  console.log('id')
-  stage.destroy()
-  clearTimeout(timeout)
-})
+  stage.destroy();
+});
 
 const init = () => {
   stage = new Konva.Stage({
     container: stageContainer.value,
     width: 1200,
     height: 450,
-    antialias: true
+    antialias: true,
   });
 
   layer = new Konva.Layer();
   stage.add(layer);
 
-  paths.forEach((path, index) => {
+  // 创建多个长方形
+  createRectangles();
 
-    const icon = createNode(path[0], path[1])
+  // 绘制路径线
+  drawPath(path);
 
-    toolTip(icon, index)
+  // 创建图标
+  const icon = createNode(path[0][0], path[0][1]);
 
-    // 监听容器的点击事件，调用 addPoint 方法
-    addPoint(path[0], path[1], path, index)
+  // 开始动画，按路径上的每个点移动
+  animateIcon(icon, path);
 
-    animationStart(icon, path, index)
-    
-    
-  });
-}
+  // 在路径上的每个转折点显示小圆圈和坐标信息
+  for (let i = 0; i < path.length; i++) {
+    createPointCircle(path[i][0], path[i][1], i + 1);
+  }
+};
+
 // 创建图标
 const createNode = (x: number, y: number) => {
-  const icon = new Konva.Rect({
+  const group = new Konva.Group({
     x: x,
     y: y,
-    width: 10,
-    height: 10,
-    fill: getRandomColor()
   });
-  layer.add(icon);
-  return icon
-}
+
+  const rect = new Konva.Rect({
+    x: -10,
+    y: -15,
+    width: 25,
+    height: 10,
+    fill: 'black'
+  })
+  group.add(rect)
+
+  const circle1 = new Konva.Circle({
+    x: -5,
+    y: 0,
+    radius: 5,
+    fill: 'black',
+  });
+  group.add(circle1);
+
+  const circle2 = new Konva.Circle({
+    x: 10,
+    y: 0,
+    radius: 5,
+    fill: 'black',
+  });
+  group.add(circle2);
+
+  layer.add(group);
+  return group;
+};
+
+// 创建路径上的每个转折点的小圆圈和坐标信息
+const createPointCircle = (x: number, y: number, index: number) => {
+  const circle = new Konva.Circle({
+    x: x,
+    y: y,
+    radius: 5,
+    fill: 'green',
+  });
+  layer.add(circle);
+
+  const text = new Konva.Text({
+    x: x + 10,
+    y: y - 10,
+    text: `(${x},${y})`,
+    fontSize: 12,
+    fill: 'black',
+  });
+  layer.add(text);
+};
+
 // 绘制路径
-const drawPath = (path: Array<number>, pathColor: string) => {
+const drawPath = (path: Array<Array<number>>) => {
   const line = new Konva.Line({
-    points: path,
-    stroke: pathColor,
+    points: path.flat(),
+    stroke: 'red',
     strokeWidth: 2,
     lineCap: 'round',
-    lineJoin: 'round'
+    lineJoin: 'round',
   });
   layer.add(line);
-}
-// 创建信息提示框
-const toolTip = (icon: any, index: number) => {
-  // 创建信息展示框
-  const tooltip = new Konva.Label({
-    x: 0,
-    y: 0,
-    opacity: 0
-  });
-  tooltip.add(new Konva.Tag({
-    fill: 'skyblue',
-    pointerDirection: 'down',
-    pointerWidth: 10,
-    pointerHeight: 10,
-    lineJoin: 'round',
-    shadowColor: 'black',
-    shadowBlur: 10,
-    shadowOffsetX: 10,
-    shadowOffsetY: 10
-  }));
-
-  const information = `货物${index + 1}`
-
-  tooltip.add(new Konva.Text({
-    text: information,
-    fontFamily: 'Calibri',
-    fontSize: 18,
-    padding: 5,
-    fill: 'black'
-  }));
-  layer.add(tooltip);
-
-  // 鼠标悬停显示信息
-  icon.on('mouseover', () => {
-    tooltip.position({
-      x: icon.x() + 30,
-      y: icon.y() - 30
-    });
-    tooltip.opacity(1);
-    layer.batchDraw();
-  });
-
-  // 鼠标移开隐藏信息
-  icon.on('mouseout', () => {
-    tooltip.opacity(0);
-    layer.batchDraw();
-  });
-
-}
-// 动态增加路径坐标点，同时更新路径
-const addPoint = (offsetX: number, offsetY: number, path: Array<number>, index: number) => {
-  path.push(offsetX, offsetY); // 在路径坐标数组中添加新的坐标点
-
-  // 更新路径的坐标点
-  // @ts-ignore
-  layer.findOne('.konvajs-content')?.destroy()
-
-  drawPath(path, pathColors[index])
-
-  stage.batchDraw();
 };
-// 绘制动画
-const animationStart = (icon: any, path: any, index: number) => {
 
-  // 动画
-  const animation = new Konva.Animation((frame: any) => {
-    animation.stop();
-    icon.position({ x: path[path.length - 2], y: path[path.length - 1] });
-    timeout = setTimeout(() => {
-      addPoint(path[path.length - 2] + 1, path[path.length - 1] - 1, path, index)
-      animation.start()
-    }, 500)
-  }, layer);
+// 图标按路径移动的动画
+const animateIcon = (icon: any, path: any) => {
+  const moveToNextPoint = (currentIndex: any) => {
+    if (currentIndex >= path.length) {
+      return;
+    }
 
-  animation.start();
-}
+    const [x, y] = path[currentIndex];
+    const tween = new Konva.Tween({
+      node: icon,
+      x: x,
+      y: y,
+      duration: 5, // 增加持续时间以减慢动画速度
+      easing: Konva.Easings.Linear,
+      onFinish: () => {
+        moveToNextPoint(currentIndex + 1);
+      },
+    });
+
+    tween.play();
+  };
+
+  // 从第一个点开始
+  moveToNextPoint(1); // 从索引1开始，因为起点已经是索引0
+};
+
+// 创建长方形
+const createRectangle = (x: number, y: number) => {
+  const rect = new Konva.Rect({
+    x: x,
+    y: y,
+    width: 30,
+    height: 50,
+    fill: 'blue',
+    tooltip: '长方形'
+  });
+  layer.add(rect);
+  return rect;
+};
+
+// 创建多个长方形
+const rectangles = [
+  [1000, 50],
+  [1000, 150],
+  [1000, 250],
+  [1000, 350],
+  [1100, 50],
+  [1100, 150],
+  [1100, 250],
+  [1100, 350],
+
+]
+const createRectangles = () => {
+  for (let i = 0; i < rectangles.length; i++) {
+    createRectangle(rectangles[i][0], rectangles[i][1]);
+  }
+};
+
 </script>
+
 <template>
-  <el-button type="primary" @click="init">刷新</el-button>
+  <div class="map-select">
+    <span>请选择一个机器人</span>
+    <el-select v-model="robot" placeholder="请选择机器人" size="large">
+      <el-option v-for="item in robots" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    </el-select>
+  </div>
   <div id="stage" ref="stageContainer"></div>
 </template>
+
 <style scoped>
 #stage {
   border: 1px solid black;
+}
+.map-select {
+  height: calc(10vh);
+  padding: 20px;
+}
+.map-select span {
+  font-weight: bold;
+  margin-right: 20px;
 }
 </style>
