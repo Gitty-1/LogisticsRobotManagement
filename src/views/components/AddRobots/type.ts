@@ -1,4 +1,4 @@
 export type RuleForm = {
     robotsName: string,
-    robotsType: string
+    robotsType: number
 }

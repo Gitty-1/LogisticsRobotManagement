@@ -2,6 +2,7 @@
 import { reactive, ref, watch } from 'vue'
 import { messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
+import { addRobots } from '@/api/manage';
 import type { RuleForm } from './type';
 const props = defineProps({
     visible: {
@@ -17,7 +18,7 @@ const ruleFormRef = ref<FormInstance>()
 
 const robotsForm = reactive<RuleForm>({
     robotsName: '',
-    robotsType: ''
+    robotsType: 0
 })
 const rules = reactive<FormRules<RuleForm>>({
     robotsName: [
@@ -62,6 +63,7 @@ const onOk = (form: FormInstance | undefined) => {
     form.validate((valid, fields) => {
         if(valid) {
             messageBox(`确认添加机器人：${robotsForm.robotsName}`, 'info', () => {
+                addRobots(robotsForm)
                 visible.value = false
             })
         }
@@ -79,9 +81,9 @@ const onOk = (form: FormInstance | undefined) => {
             </el-form-item>
             <el-form-item label="机器人类型" prop="robotsType">
                 <el-radio-group v-model="robotsForm.robotsType">
-                    <el-radio label="类型一">装卸机器人</el-radio>
-                    <el-radio label="类型二">机械臂装卸机器人</el-radio>
-                    <el-radio label="类型三">机械臂</el-radio>
+                    <el-radio :label="1">装卸机器人</el-radio>
+                    <el-radio :label="2">机械臂装卸机器人</el-radio>
+                    <el-radio :label="3">机械臂</el-radio>
                 </el-radio-group>
             </el-form-item>
         </el-form>
