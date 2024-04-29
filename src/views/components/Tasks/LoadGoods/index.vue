@@ -3,6 +3,7 @@ import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
 import type { RuleForm, GoodsType } from './type';
+import { assignTask } from '@/api/assignTask';
 
 const props = defineProps({
     visible: {
@@ -30,20 +31,6 @@ const loadRobots = [
   {
     id: 3,
     value: '机器人3'
-  }
-]
-const loadGoods = [
-  {
-    id: 1,
-    value: '货物1'
-  },
-  {
-    id: 2,
-    value: '货物2'
-  },
-  {
-    id: 3,
-    value: '货物3'
   }
 ]
 
@@ -89,9 +76,15 @@ const onCancel = () => {
 }
 const onOk = (form: FormInstance | undefined) => {
   if(!form) return
-  form.validate((valid, _) => {
+  form.validate(async (valid, _) => {
     if(valid) {
-      message('添加成功', 'success')
+      const data = {
+        taskType: 1,
+        robotId: 1,
+        goodsId: props.currentLoadGoods.goodsId,
+        targetShelfId: null
+      }
+      await assignTask(data)
       visible.value = false
     }
   })

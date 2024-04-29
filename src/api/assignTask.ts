@@ -1,0 +1,19 @@
+import request from '@/utils/request'
+
+const baseURL = '/taskManage'
+
+export const getTaskData = (params: any) => {
+    return request({
+        url: baseURL + '/page',
+        method: 'get',
+        params
+    })
+}
+
+export const assignTask = (data: any) => {
+    return request({
+        url: baseURL + '/assignTask',
+        method: 'post',
+        data
+    })
+}
