@@ -71,9 +71,9 @@ watch(() => robot.value, () => {
 //   }
 // });
 
-onBeforeUnmount(() => {
-  stage.destroy();
-});
+// onBeforeUnmount(() => {
+//   stage.destroy();
+// });
 
 const init = () => {
   stage = new Konva.Stage({

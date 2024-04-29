@@ -17,3 +17,11 @@ export const assignTask = (data: any) => {
         data
     })
 }
+
+export const getAvailableRobot = (params: any) => {
+    return request({
+        url: baseURL + '/getAvailableRobot',
+        method: 'get',
+        params
+    })
+}

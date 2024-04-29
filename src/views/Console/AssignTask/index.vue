@@ -82,13 +82,13 @@ const taskProgress: stringKey = {
 }
 
 const handleAssignTask = (goods: GoodsType) => {
-    if(goods.taskStatus === 1 || goods.taskStatus === null) {
+    if(goods.taskType === 0 && goods.taskStatus === 0) {
         loadGoodsVisible.value = true
         currentLoadGoods.value = goods
-    } else if(goods.taskStatus === 2 || goods.taskStatus === 3) {
+    } else if(goods.taskType === 1 && goods.taskStatus === 2) {
         transportGoodsVisible.value = true
         currentTransportGoods.value = goods
-    } else if(goods.taskStatus === 4) {
+    } else if((goods.taskType === 2 || goods.taskType === 3) && goods.taskStatus === 2 ) {
         shelvesGoodsVisible.value = true
         currentShelvesGoods.value = goods
     }
@@ -102,8 +102,8 @@ const handleOut = (goods: GoodsType) => {
 
 const isAbleAssignTask = (goods: GoodsType) => {
     const { taskStatus, taskType } = goods
-    if(taskStatus === 4 || taskType === 1) return false
-    return true
+    if(taskType === 0 && taskStatus === 0 || taskType === 1 && taskStatus === 2 || (taskType === 2 || taskType === 3) && taskStatus === 2) return true
+    return false
 }
 
 

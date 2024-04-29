@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { message } from '@/utils/message';
-import type { RuleForm, GoodsType } from './type';
-import { assignTask } from '@/api/assignTask';
+import type { RuleForm, GoodsType, RobotType } from './type';
+import { assignTask, getAvailableRobot } from '@/api/assignTask';
 
 const props = defineProps({
     visible: {
@@ -18,21 +17,6 @@ const props = defineProps({
 const emits = defineEmits(['updateLoadGoodsVisible'])
 
 const visible = ref(false)
-
-const loadRobots = [
-  {
-    id: 1,
-    value: '机器人1'
-  },
-  {
-    id: 2,
-    value: '机器人2'
-  },
-  {
-    id: 3,
-    value: '机器人3'
-  }
-]
 
 const ruleFormRef = ref<FormInstance>()
 interface LoadGoodsType {
@@ -59,15 +43,20 @@ const rules = reactive<FormRules<RuleForm>>({
     }
   ]
 })
+const loadRobots = ref<RobotType[]>()
 
 watch(() => props.visible, (newValue) => {
     visible.value = newValue
 }, {})
-watch(() => visible.value, (newValue) => {
+watch(() => visible.value, async (newValue) => {
     if(!visible.value) {
       // @ts-ignore
       Object.keys(loadGoodsData).forEach((item: string) => loadGoodsData[item] = '')
       emits('updateLoadGoodsVisible')
+    } else {
+      const res = await getAvailableRobot({taskType: 1})
+      const { data } = res
+      loadRobots.value = data
     }
 }, {})
 
@@ -99,7 +88,7 @@ const onOk = (form: FormInstance | undefined) => {
     <el-form class="load-form" ref="ruleFormRef" :model="loadGoodsData" :rules="rules" label-width="auto">
       <el-form-item label="装载机器人" prop="loadRobot">
         <el-select v-model="loadGoodsData.loadRobot" placeholder="请选择装载机器人" filterable clearable no-match-text="无匹配选项">
-          <el-option v-for="item in loadRobots" :key="item.id" :label="item.value" :value="item.value"></el-option>
+          <el-option v-for="item in loadRobots" :key="item.robotId" :label="item.robotName" :value="item.robotName"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
