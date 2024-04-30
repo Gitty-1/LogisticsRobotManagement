@@ -85,8 +85,10 @@ const handleEnableUser = async (userId: number) => {
                 <el-table-column prop="taskStartTime" label="动作分配时间" min-width="200"></el-table-column>
                 <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
                     <template #default="scope">
-                        <el-button type="primary" link size="small" v-if="!scope.row.isActive" @click="handleEnableUser(scope.row.userId)">解禁</el-button>
-                        <el-button type="danger" link size="small" v-else @click="handleDisableUser(scope.row.userId)">禁用</el-button>
+                        <div v-if="scope.row.userType === 1">
+                          <el-button type="primary" link size="small" v-if="!scope.row.isActive" @click="handleEnableUser(scope.row.userId)">解禁</el-button>
+                          <el-button type="danger" link size="small" v-else @click="handleDisableUser(scope.row.userId)">禁用</el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
