@@ -53,18 +53,21 @@ const handleTaskProgress = (goods: GoodsType) => {
 const loadGoodsVisible = ref(false)
 const updateLoadGoodsVisible = () => {
   loadGoodsVisible.value = false
+  initData()
 }
 const currentLoadGoods = ref<GoodsType>()
 
 const transportGoodsVisible = ref(false)
 const updateTransportGoodsVisible = () => {
   transportGoodsVisible.value = false
+  initData()
 }
 const currentTransportGoods = ref<GoodsType>()
 
 const shelvesGoodsVisible = ref(false)
 const updateShelvesGoodsVisible = () => {
   shelvesGoodsVisible.value = false
+  initData()
 }
 const currentShelvesGoods = ref<GoodsType>()
 
@@ -109,13 +112,14 @@ const isAbleAssignTask = (goods: GoodsType) => {
 
 const taskProgressType: stringKey = {
     1: '装载中',
+    2: '运输中',
     3: '运输中',
-    5: '上架中',
-    6: '已上架完成'
+    4: '上架中',
 }
 const getTooltipContent = (goods: GoodsType) => {
-    const { goodsName, taskStatus } = goods
-    return `${goodsName}${taskProgressType[taskStatus]}，无法分配任务`
+    const { goodsName, taskStatus, taskType } = goods
+    if(taskType === 4 && taskStatus === 2) return `${goodsName}已上架完成，无法分配任务`
+    return `${goodsName}${taskProgressType[taskType]}，无法分配任务`
 }
 </script>
 <template>

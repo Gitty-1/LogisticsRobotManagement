@@ -29,13 +29,28 @@ const onCancel = () => {
     visible.value = false
 }
 
-type stringKey = Record<number, string>
 
 const getTaskProgress = () => {
-    const { taskType } = props.currentTaskProgressGoods
-    if(taskType === 0) return '未执行'
-    else if(taskType === 1) return '执行中'
-    else return '已完成'
+    const { taskType, taskStatus } = props.currentTaskProgressGoods
+    type stringKey = Record<number, string>
+    const taskProgressType: stringKey = {
+        1: '装载货物',
+        2: '运输货物',
+        3: '运输货物',
+        4: '货物上架',
+    }
+    const taskProgress: stringKey = {
+        0: '未执行',
+        1: '执行中',
+        2: '已完成'
+    }
+    if(taskType === 0) return '无任务'
+    return `${taskProgressType[taskType]} ${taskProgress[taskStatus]}`
+}
+
+const getTaskProgressType = () => {
+    const { taskType, taskStatus } = props.currentTaskProgressGoods
+    return `${taskType} ${taskStatus}`
 }
 
 const getActiveCode = () => {
@@ -57,23 +72,23 @@ const getActiveCode = () => {
         <el-steps :active="getActiveCode()" finish-status="success">
             <el-step title="装载货物">
                 <template #icon>
-                    <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskType === 0"><RemoveFilled /></el-icon>
-                    <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskType === 1"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
+                    <el-icon color="lightGrey" size="25" v-if="getTaskProgressType() === '1 0'"><RemoveFilled /></el-icon>
+                    <el-icon color="deepSkyblue" size="25" v-else-if="getTaskProgressType() === '1 1'"><HelpFilled /></el-icon>
+                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() === '1 2'"><SuccessFilled /></el-icon>
                 </template>
             </el-step>
             <el-step title="运输货物">
                 <template #icon>
-                    <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskType <= 2"><RemoveFilled /></el-icon>
-                    <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskType === 3"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
+                    <el-icon color="lightGrey" size="25" v-if="getTaskProgressType() === '2 0' || getTaskProgressType() === '3 0'"><RemoveFilled /></el-icon>
+                    <el-icon color="deepSkyblue" size="25" v-else-if="getTaskProgressType() === '2 1' || getTaskProgressType() === '3 1'"><HelpFilled /></el-icon>
+                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() === '2 2' || getTaskProgressType() === '3 2'"><SuccessFilled /></el-icon>
                 </template>
             </el-step>
             <el-step title="货物上架">
                 <template #icon>
-                    <el-icon color="lightGrey" size="25" v-if="props.currentTaskProgressGoods.taskType <= 4"><RemoveFilled /></el-icon>
-                    <el-icon color="deepSkyblue" size="25" v-else-if="props.currentTaskProgressGoods.taskType === 5"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="25" v-else><SuccessFilled /></el-icon>
+                    <el-icon color="lightGrey" size="25" v-if="getTaskProgressType() === '4 0'"><RemoveFilled /></el-icon>
+                    <el-icon color="deepSkyblue" size="25" v-else-if="getTaskProgressType() === '4 1'"><HelpFilled /></el-icon>
+                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() === '4 2'"><SuccessFilled /></el-icon>
                 </template>
             </el-step>
         </el-steps>
