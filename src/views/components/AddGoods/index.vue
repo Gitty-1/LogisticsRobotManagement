@@ -22,7 +22,10 @@ const ruleFormRef = ref<FormInstance>()
 const goodsForm = reactive<RuleForm>({
     goodsName: '',
     goodsTypeId: null,
-    details: ''
+    details: '',
+    positionX: null,
+    positionY: null
+
 })
 const rules = reactive<FormRules<RuleForm>>({
     goodsName: [
@@ -43,7 +46,21 @@ const rules = reactive<FormRules<RuleForm>>({
             message: '请选择货物类型',
             trigger: 'blur'
         }
-    ]
+    ],
+    positionX: [
+        {
+            required: true,
+            message: '请输入货物位置(x)',
+            trigger: 'blur'
+        }
+    ],
+    positionY: [
+        {
+            required: true,
+            message: '请输入货物位置(y)',
+            trigger: 'blur'
+        }
+    ],
 })
 
 
@@ -84,7 +101,7 @@ const onOk = (form: FormInstance | undefined) => {
 <template>
     <el-dialog v-model="visible" width="60%">
         <el-tag size="large">添加货物</el-tag>
-        <el-form class="goods-form" ref="ruleFormRef" :model="goodsForm" :rules="rules" label-width="auto">
+        <el-form class="goods-form" ref="ruleFormRef" :model="goodsForm" :rules="rules" label-width="100px">
             <el-form-item label="货物名称" prop="goodsName">
                 <el-input v-model="goodsForm.goodsName" placeholder="请输入货物名称" clearable></el-input>
             </el-form-item>
@@ -95,6 +112,12 @@ const onOk = (form: FormInstance | undefined) => {
             </el-form-item>
             <el-form-item label="货物描述" prop="details">
                 <el-input v-model="goodsForm.details" type="textarea" placeholder="请输入货物描述" autosize></el-input>
+            </el-form-item>
+            <el-form-item label="货物位置(x)" prop="positionX">
+                <el-input v-model="goodsForm.positionX" placeholder="请输入货物位置(x)" clearable style="width: 150px;"></el-input>
+            </el-form-item>
+            <el-form-item label="货物位置(y)" prop="positionY">
+                <el-input v-model="goodsForm.positionY" placeholder="请输入货物位置(y)" clearable style="width: 150px;"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>

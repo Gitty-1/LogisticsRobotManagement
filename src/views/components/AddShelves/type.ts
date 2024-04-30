@@ -1,4 +1,6 @@
 export type RuleForm = {
     shelfName: string,
-    shelfType: number
+    shelfType: number,
+    positionX: number | null,
+    positionY: number | null
 }

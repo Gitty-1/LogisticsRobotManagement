@@ -18,7 +18,8 @@ const ruleFormRef = ref<FormInstance>()
 
 const robotsForm = reactive<RuleForm>({
     robotName: '',
-    robotType: 0
+    robotType: 0,
+    robotIP: ''
 })
 const rules = reactive<FormRules<RuleForm>>({
     robotName: [
@@ -37,6 +38,13 @@ const rules = reactive<FormRules<RuleForm>>({
         {
             required: true,
             message: '请选择机器人类型',
+            trigger: 'blur'
+        }
+    ],
+    robotIP: [
+        {
+            required: true,
+            message: '请输入机器人IP',
             trigger: 'blur'
         }
     ]
@@ -75,16 +83,19 @@ const onOk = (form: FormInstance | undefined) => {
 <template>
     <el-dialog v-model="visible" width="60%">
         <el-tag size="large">添加机器人</el-tag>
-        <el-form class="robots-form" ref="ruleFormRef" :model="robotsForm" :rules="rules">
-            <el-form-item label="机器人名称" prop="robotsName">
+        <el-form class="robots-form" ref="ruleFormRef" :model="robotsForm" :rules="rules" label-width="100px">
+            <el-form-item label="机器人名称" prop="robotName">
                 <el-input v-model="robotsForm.robotName" placeholder="请输入机器人名称" clearable></el-input>
             </el-form-item>
-            <el-form-item label="机器人类型" prop="robotsType">
+            <el-form-item label="机器人类型" prop="robotType">
                 <el-radio-group v-model="robotsForm.robotType">
                     <el-radio :label="1">装卸机器人</el-radio>
                     <el-radio :label="2">机械臂装卸机器人</el-radio>
                     <el-radio :label="3">机械臂</el-radio>
                 </el-radio-group>
+            </el-form-item>
+            <el-form-item label="机器人IP" prop="robotIP">
+                <el-input v-model="robotsForm.robotIP" placeholder="请输入机器人IP" clearable style="width: 150px;"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>

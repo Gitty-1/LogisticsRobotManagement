@@ -18,7 +18,9 @@ const ruleFormRef = ref<FormInstance>()
 
 const shelvesForm = reactive<RuleForm>({
     shelfName: '',
-    shelfType: 0
+    shelfType: 0,
+    positionX: null,
+    positionY: null
 })
 
 const rules = reactive<FormRules<RuleForm>>({
@@ -40,7 +42,21 @@ const rules = reactive<FormRules<RuleForm>>({
             message: '请选择货架类型',
             trigger: 'change'
         }
-    ]
+    ],
+    positionX: [
+        {
+            required: true,
+            message: '请输入货物位置(x)',
+            trigger: 'blur'
+        }
+    ],
+    positionY: [
+        {
+            required: true,
+            message: '请输入货物位置(y)',
+            trigger: 'blur'
+        }
+    ],
 })
 
 
@@ -76,7 +92,7 @@ const onOk = (form: FormInstance | undefined) => {
 <template>
     <el-dialog v-model="visible" width="60%">
         <el-tag size="large">添加货架</el-tag>
-        <el-form class="shelves-form" ref="ruleFormRef" :model="shelvesForm" :rules="rules">
+        <el-form class="shelves-form" ref="ruleFormRef" :model="shelvesForm" :rules="rules" label-width="100px">
             <el-form-item label="货架名称" prop="shelfName">
                 <el-input v-model="shelvesForm.shelfName" placeholder="请输入货架名称" clearable></el-input>
             </el-form-item>
@@ -86,6 +102,12 @@ const onOk = (form: FormInstance | undefined) => {
                     <el-radio :label="2">middle</el-radio>
                     <el-radio :label="3">large</el-radio>
                 </el-radio-group>
+            </el-form-item>
+            <el-form-item label="货架位置(x)" prop="positionX">
+                <el-input v-model="shelvesForm.positionX" placeholder="请输入货架位置(x)" clearable style="width: 150px;"></el-input>
+            </el-form-item>
+            <el-form-item label="货架位置(y)" prop="positionY">
+                <el-input v-model="shelvesForm.positionY" placeholder="请输入货架位置(y)" clearable style="width: 150px;"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>

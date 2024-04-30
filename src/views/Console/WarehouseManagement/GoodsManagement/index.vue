@@ -114,6 +114,11 @@ const updateGoodsTypeVisible = () => {
           </template>
         </el-table-column>
         <el-table-column prop="shelfId" label="所在货架Id" min-width="140"></el-table-column>
+        <el-table-column label="货物位置" min-width="140">
+          <template #default="scope">
+            <span>( {{ scope.row.positionX }}, {{ scope.row.positionY }} )</span>
+          </template>
+        </el-table-column>
         <el-table-column fixed="right" prop="detail" label="货物明细">
           <template #default="scope">
             <el-button link type="primary" :underline="false" icon="InfoFilled" @click="handleGoodsDetail(scope.row)">详情</el-button>
