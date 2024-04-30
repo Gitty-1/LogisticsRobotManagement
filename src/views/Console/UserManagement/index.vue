@@ -2,7 +2,7 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import { onBeforeMount, reactive, ref } from 'vue'
-import { getUserManageData } from '@/api/userManage'
+import { getUserManageData, disableUser, enableUser } from '@/api/userManage'
 import type { UsersDataType } from './type'
 
 onBeforeMount(() => {
@@ -49,6 +49,16 @@ const userType = [
   }
 ]
 
+const handleDisableUser = async (userId: number) => {
+  await disableUser({userId: userId})
+  initData()
+}
+
+const handleEnableUser = async (userId: number) => {
+  await enableUser({userId: userId})
+  initData()
+}
+
 </script>
 <template>
     <div>
@@ -74,9 +84,9 @@ const userType = [
                 <el-table-column prop="task" label="动作" min-width="200"></el-table-column>
                 <el-table-column prop="taskStartTime" label="动作分配时间" min-width="200"></el-table-column>
                 <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
-                    <template #default>
-                        <el-button type="primary" link size="small">编辑</el-button>
-                        <el-button type="danger" link size="small">删除</el-button>
+                    <template #default="scope">
+                        <el-button type="primary" link size="small" v-if="!scope.row.isActive" @click="handleEnableUser(scope.row.userId)">解禁</el-button>
+                        <el-button type="danger" link size="small" v-else @click="handleDisableUser(scope.row.userId)">禁用</el-button>
                     </template>
                 </el-table-column>
             </el-table>

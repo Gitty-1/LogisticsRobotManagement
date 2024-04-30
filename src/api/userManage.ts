@@ -9,3 +9,19 @@ export const getUserManageData = (params: any) => {
         params
     })
 }
+
+export const disableUser = (data: any) => {
+    return request({
+        url: baseURL + '/disableUserAccount',
+        method: 'post',
+        data
+    })
+}
+
+export const enableUser = (data: any) => {
+    return request({
+        url: baseURL + '/enableUserAccount',
+        method: 'post',
+        data
+    })
+}
