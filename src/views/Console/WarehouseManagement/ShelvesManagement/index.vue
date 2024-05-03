@@ -93,6 +93,11 @@ const updateAddShelvesVisible = () => {
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="激活时间" min-width="200"></el-table-column>
+        <el-table-column label="货架位置" min-width="140">
+          <template #default="scope">
+            <span>( {{ scope.row.positionX }}, {{ scope.row.positionY }} )</span>
+          </template>
+        </el-table-column>
         <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
             <template #default>
                 <el-button type="primary" link size="small">编辑</el-button>

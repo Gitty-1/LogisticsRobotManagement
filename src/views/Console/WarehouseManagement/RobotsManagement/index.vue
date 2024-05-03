@@ -78,6 +78,7 @@ const updateAddRobotsVisible = () => {
       </div>
       <el-table :data="robotData">
         <el-table-column prop="robotId" label="机器人ID" min-width="140"></el-table-column>
+        <el-table-column prop="robotIP" label="机器人IP" min-width="140"></el-table-column>
         <el-table-column prop="robotName" label="机器人名称" min-width="140"></el-table-column>
         <el-table-column prop="robotType" label="机器人类型" min-width="140">
           <template #default="scope">
