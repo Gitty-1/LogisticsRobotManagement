@@ -1,8 +1,25 @@
 import request from '@/utils/request'
 
-export const getMapSvg = () => {
+const baseURL = '/map'
+
+
+export const getRobotPath = (robotId: number) => {
     return request({
-        url: 'https://echarts.apache.org/examples/data/asset/geo/MacOdrum-LV5-floorplan-web.svg',
+        url: baseURL + `/getRobotPath/${robotId}`,
+        method: 'get'
+    })
+}
+
+export const getRobotList = () => {
+    return request({
+        url: baseURL + '/getRobotList',
+        method: 'get'
+    })
+}
+
+export const getMap = () => {
+    return request({
+        url: baseURL + '/getMap',
         method: 'get'
     })
 }
