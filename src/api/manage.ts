@@ -23,6 +23,14 @@ export const getGoodsType = () => {
     })
 }
 
+export const updateGoods = (data: any) => {
+    return request({
+        url: 'goodsManage/updateGoods',
+        method: 'post',
+        data
+    })
+}
+
 export const getShelvesData = (params: any) => {
     return request({
         url: '/shelfManage/page',
@@ -39,6 +47,14 @@ export const addShelves = (data: any) => {
     })
 }
 
+export const updateShelves = (data: any) => {
+    return request({
+        url: '/shelfManage/updateShelf',
+        method: 'post',
+        data
+    })
+}
+
 export const getRobotsData = (params: any) => {
     return request({
         url: '/robotManage/page',
@@ -50,6 +66,14 @@ export const getRobotsData = (params: any) => {
 export const addRobots = (data: any) => {
     return request({
         url: '/robotManage/addRobot',
+        method: 'post',
+        data
+    })
+}
+
+export const updateRobots = (data: any) => {
+    return request({
+        url: '/robotManage/updateRobot',
         method: 'post',
         data
     })

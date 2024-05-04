@@ -2,9 +2,12 @@ export type GoodsDataType = {
     goodsId: number,
     goodsName: string,
     goodsStatus: number,
-    goodsType: number,
+    goodsTypeId: number,
+    goodsTypeName: string,
     createTime: string,
     shelvingTime: string,
     details: string,
-    shelfId: number
-  }
+    shelfId: number,
+    positionX: number,
+    positionY: number
+}

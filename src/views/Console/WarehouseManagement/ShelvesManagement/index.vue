@@ -2,6 +2,7 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import AddShelves from '@/views/components/AddShelves/index.vue'
+import UpdateShelves from '@/views/components/UpdateShelves/index.vue'
 import { ref, reactive, onBeforeMount } from 'vue'
 import { getShelvesData } from '@/api/manage'
 import type { ShelvesDataType } from './type'
@@ -65,6 +66,18 @@ const updateAddShelvesVisible = () => {
   initData()
 }
 
+const updateShelvesVisible = ref(false)
+const updateUpdateShelvesVisible = () => {
+  updateShelvesVisible.value = false
+  initData()
+}
+const currentShelves = ref<ShelvesDataType>()
+const handleUpdateShelves = (shelves: ShelvesDataType) => {
+  updateShelvesVisible.value = true
+  currentShelves.value = shelves
+}
+
+
 </script>
 <template>
   <div>
@@ -99,8 +112,8 @@ const updateAddShelvesVisible = () => {
           </template>
         </el-table-column>
         <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
-            <template #default>
-                <el-button type="primary" link size="small">编辑</el-button>
+            <template #default="scope">
+                <el-button type="primary" link size="small" @click="handleUpdateShelves(scope.row)">编辑</el-button>
                 <el-button type="danger" link size="small">删除</el-button>
             </template>
         </el-table-column>
@@ -108,6 +121,7 @@ const updateAddShelvesVisible = () => {
       <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"></MyPagination>
     </div>
     <AddShelves :visible="addShelvesVisible" @updateAddShelvesVisible="updateAddShelvesVisible"></AddShelves>
+    <UpdateShelves :visible="updateShelvesVisible" @updateUpdateShelvesVisible="updateUpdateShelvesVisible" :currentShelves="currentShelves" />
   </div>
 </template>
 <style scoped>

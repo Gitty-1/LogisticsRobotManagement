@@ -2,6 +2,7 @@
 import MyBreadcrumb from '@/components/myBreadcrumb.vue'
 import MyPagination from '@/components/myPagination.vue'
 import AddRobots from '@/views/components/AddRobots/index.vue'
+import UpdateRobots from '@/views/components/UpdateRobots/index.vue'
 import { ref, reactive, onBeforeMount } from 'vue'
 import { getRobotsData } from '@/api/manage'
 import type { RobotDataType } from './type'
@@ -36,6 +37,10 @@ const robotsStatus: numStrKey = {
   0: '未启动',
   1: '启动中'
 }
+const onlineStatus: numStrKey ={
+  0: '离线',
+  1: '在线'
+}
 
 const initData = () => {
   pagination.currentPage = 1
@@ -63,6 +68,17 @@ const updateAddRobotsVisible = () => {
   initData()
 }
 
+const updateRobotsVisible = ref(false)
+const updateUpdateRobotsVisible = () => {
+  updateRobotsVisible.value = false
+  initData()
+}
+const currentRobots = ref<RobotDataType>()
+const handleUpdateRobots = (robot: RobotDataType) => {
+  updateRobotsVisible.value = true
+  currentRobots.value = robot
+}
+
 </script>
 <template>
   <div>
@@ -85,16 +101,27 @@ const updateAddRobotsVisible = () => {
             {{ robotsType[scope.row.robotType] }}
           </template>
         </el-table-column>
-        <el-table-column prop="power" label="机器人电量" min-width="140"></el-table-column>
+        <el-table-column prop="isOnline" label="在线状态" min-width="140">
+          <template #default="scope">
+            {{ onlineStatus[scope.row.isOnline] }}
+          </template>
+        </el-table-column>
         <el-table-column prop="robotStatus" label="机器人状态" min-width="140">
           <template #default="scope">
             <el-tag :type="tagType[robotsStatus[scope.row.robotStatus]]">{{ robotsStatus[scope.row.robotStatus] }}</el-tag>
           </template>
         </el-table-column>
+        <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
+            <template #default="scope">
+                <el-button type="primary" link size="small" @click="handleUpdateRobots(scope.row)">编辑</el-button>
+                <el-button type="danger" link size="small">删除</el-button>
+            </template>
+        </el-table-column>
       </el-table>
       <MyPagination :pagination-data="pagination" @size-change="initData" @current-change="loadData"/>
     </div>
     <AddRobots :visible="addRobotVisible" @updateAddRobotsVisible="updateAddRobotsVisible"></AddRobots>
+    <UpdateRobots :visible="updateRobotsVisible" @updateUpdateRobotsVisible="updateUpdateRobotsVisible" :currentRobots="currentRobots"></UpdateRobots>
   </div>
 </template>
 <style scoped>

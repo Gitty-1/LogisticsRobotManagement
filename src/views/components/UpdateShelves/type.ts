@@ -1,4 +1,4 @@
-export type ShelvesDataType = {
+export type RuleForm = {
     shelfId: number,
     shelfName: string,
     shelfStatus: number,
@@ -7,4 +7,4 @@ export type ShelvesDataType = {
     createTime: string,
     positionX: number,
     positionY: number
-  }
+}

@@ -4,6 +4,7 @@ import MyPagination from '@/components/myPagination.vue'
 import AddGoods from '@/views/components/AddGoods/index.vue'
 import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
 import AddGoodsType from '@/views/components/AddGoodsType/index.vue'
+import UpdateGoods from '@/views/components/UpdateGoods/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData } from '@/api/manage'
 import { getCookie } from '@/utils/setCookie'
@@ -78,6 +79,18 @@ const updateGoodsTypeVisible = () => {
   addGoodsTypeVisible.value = false
 }
 
+// 编辑货物
+const updateGoodsVisible = ref(false)
+const updateUpdateGoodsVisible = () => {
+  updateGoodsVisible.value = false
+  initData()
+}
+const currentGoods = ref<GoodsDataType>()
+const handleUpdateGoods = (goods: GoodsDataType) => {
+  updateGoodsVisible.value = true
+  currentGoods.value = goods
+}
+
 </script>
 <template>
   <div>
@@ -119,6 +132,12 @@ const updateGoodsTypeVisible = () => {
             <span>( {{ scope.row.positionX }}, {{ scope.row.positionY }} )</span>
           </template>
         </el-table-column>
+        <el-table-column prop="operation" label="操作" min-width="100">
+            <template #default="scope">
+                <el-button type="primary" link size="small" @click="handleUpdateGoods(scope.row)">编辑</el-button>
+                <el-button type="danger" link size="small">删除</el-button>
+            </template>
+        </el-table-column>
         <el-table-column fixed="right" prop="detail" label="货物明细">
           <template #default="scope">
             <el-button link type="primary" :underline="false" icon="InfoFilled" @click="handleGoodsDetail(scope.row)">详情</el-button>
@@ -130,6 +149,7 @@ const updateGoodsTypeVisible = () => {
     <AddGoods :visible="addGoodsVisible" @updateAddGoodsVisible="updateAddGoodsVisible" />
     <GoodsDetail :visible="goodDetailVisible" @updateGoodsDetailVisible="updateGoodsDetailVisible" :goodsDetail="goodsDetail" />
     <AddGoodsType :visible="addGoodsTypeVisible" @updateGoodsTypeVisible="updateGoodsTypeVisible"/>
+    <UpdateGoods :visible="updateGoodsVisible" @updateUpdateGoodsVisible="updateUpdateGoodsVisible" :currentGoods="currentGoods"/>
   </div>
 </template>
 <style scoped>

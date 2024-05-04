@@ -1,4 +1,4 @@
-export type RobotDataType = {
+export type RuleForm = {
     robotId: number,
     robotName: string,
     robotType: number,
