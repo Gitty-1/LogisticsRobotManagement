@@ -6,8 +6,9 @@ import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
 import AddGoodsType from '@/views/components/AddGoodsType/index.vue'
 import UpdateGoods from '@/views/components/UpdateGoods/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
-import { getGoodsData } from '@/api/manage'
+import { getGoodsData, deleteGoods } from '@/api/manage'
 import { getCookie } from '@/utils/setCookie'
+import { messageBox } from '@/utils/message'
 import type { GoodsDataType } from './type'
 import type { PaginationType } from '../../type'
 
@@ -91,6 +92,14 @@ const handleUpdateGoods = (goods: GoodsDataType) => {
   currentGoods.value = goods
 }
 
+// 删除货物
+const handleDeleteGoods = (goods: GoodsDataType) => {
+  messageBox(`确认删除货物：${goods.goodsName}`, 'info', () => {
+      deleteGoods(goods.goodsId)
+      initData()
+  })
+}
+
 </script>
 <template>
   <div>
@@ -135,7 +144,7 @@ const handleUpdateGoods = (goods: GoodsDataType) => {
         <el-table-column prop="operation" label="操作" min-width="100">
             <template #default="scope">
                 <el-button type="primary" link size="small" @click="handleUpdateGoods(scope.row)">编辑</el-button>
-                <el-button type="danger" link size="small">删除</el-button>
+                <el-button type="danger" link size="small" @click="handleDeleteGoods(scope.row)">删除</el-button>
             </template>
         </el-table-column>
         <el-table-column fixed="right" prop="detail" label="货物明细">

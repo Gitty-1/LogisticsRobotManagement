@@ -4,7 +4,8 @@ import MyPagination from '@/components/myPagination.vue'
 import AddShelves from '@/views/components/AddShelves/index.vue'
 import UpdateShelves from '@/views/components/UpdateShelves/index.vue'
 import { ref, reactive, onBeforeMount } from 'vue'
-import { getShelvesData } from '@/api/manage'
+import { messageBox } from '@/utils/message'
+import { getShelvesData, deleteShelves } from '@/api/manage'
 import type { ShelvesDataType } from './type'
 import type { PaginationType } from '../../type'
 
@@ -77,6 +78,14 @@ const handleUpdateShelves = (shelves: ShelvesDataType) => {
   currentShelves.value = shelves
 }
 
+// 删除货架
+const handleDeleteShelves = (shelf: ShelvesDataType) => {
+  messageBox(`确认删除货架：${shelf.shelfName}`, 'info', () => {
+      deleteShelves(shelf.shelfId)
+      initData()
+  })
+}
+
 
 </script>
 <template>
@@ -114,7 +123,7 @@ const handleUpdateShelves = (shelves: ShelvesDataType) => {
         <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
             <template #default="scope">
                 <el-button type="primary" link size="small" @click="handleUpdateShelves(scope.row)">编辑</el-button>
-                <el-button type="danger" link size="small">删除</el-button>
+                <el-button type="danger" link size="small" @click="handleDeleteShelves(scope.row)">删除</el-button>
             </template>
         </el-table-column>
       </el-table>

@@ -4,7 +4,8 @@ import MyPagination from '@/components/myPagination.vue'
 import AddRobots from '@/views/components/AddRobots/index.vue'
 import UpdateRobots from '@/views/components/UpdateRobots/index.vue'
 import { ref, reactive, onBeforeMount } from 'vue'
-import { getRobotsData } from '@/api/manage'
+import { getRobotsData, deleteRobots } from '@/api/manage'
+import { messageBox } from '@/utils/message'
 import type { RobotDataType } from './type'
 import type { PaginationType } from '../../type'
 
@@ -79,6 +80,14 @@ const handleUpdateRobots = (robot: RobotDataType) => {
   currentRobots.value = robot
 }
 
+// 删除机器人
+const handleDeleteRobots = (robot: RobotDataType) => {
+  messageBox(`确认删除机器人：${robot.robotName}`, 'info', () => {
+      deleteRobots(robot.robotId)
+      initData()
+  })
+}
+
 </script>
 <template>
   <div>
@@ -114,7 +123,7 @@ const handleUpdateRobots = (robot: RobotDataType) => {
         <el-table-column fixed="right" prop="operation" label="操作" min-width="100">
             <template #default="scope">
                 <el-button type="primary" link size="small" @click="handleUpdateRobots(scope.row)">编辑</el-button>
-                <el-button type="danger" link size="small">删除</el-button>
+                <el-button type="danger" link size="small" @click="handleDeleteRobots(scope.row)">删除</el-button>
             </template>
         </el-table-column>
       </el-table>

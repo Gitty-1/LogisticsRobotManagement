@@ -31,6 +31,13 @@ export const updateGoods = (data: any) => {
     })
 }
 
+export const deleteGoods = (goodsId: number) => {
+    return request({
+        url: `goodsManage/deleteGoods/${goodsId}`,
+        method: 'delete',
+    })
+}
+
 export const getShelvesData = (params: any) => {
     return request({
         url: '/shelfManage/page',
@@ -55,6 +62,13 @@ export const updateShelves = (data: any) => {
     })
 }
 
+export const deleteShelves = (shelfId: number) => {
+    return request({
+        url: `/shelfManage/deleteShelf/${shelfId}`,
+        method: 'delete'
+    })
+}
+
 export const getRobotsData = (params: any) => {
     return request({
         url: '/robotManage/page',
@@ -76,5 +90,12 @@ export const updateRobots = (data: any) => {
         url: '/robotManage/updateRobot',
         method: 'post',
         data
+    })
+}
+
+export const deleteRobots = (robotId: number) => {
+    return request({
+        url: `/robotManage/deleteRobot/${robotId}`,
+        method: 'delete'
     })
 }
