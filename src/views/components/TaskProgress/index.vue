@@ -74,21 +74,21 @@ const getActiveCode = () => {
                 <template #icon>
                     <el-icon color="lightGrey" size="25" v-if="getTaskProgressType() === '1 0'"><RemoveFilled /></el-icon>
                     <el-icon color="deepSkyblue" size="25" v-else-if="getTaskProgressType() === '1 1'"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() === '1 2'"><SuccessFilled /></el-icon>
+                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType()[0] >= '1'"><SuccessFilled /></el-icon>
                 </template>
             </el-step>
             <el-step title="运输货物">
                 <template #icon>
                     <el-icon color="lightGrey" size="25" v-if="getTaskProgressType() === '2 0' || getTaskProgressType() === '3 0'"><RemoveFilled /></el-icon>
                     <el-icon color="deepSkyblue" size="25" v-else-if="getTaskProgressType() === '2 1' || getTaskProgressType() === '3 1'"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() === '2 2' || getTaskProgressType() === '3 2'"><SuccessFilled /></el-icon>
+                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType()[0] >= '2'"><SuccessFilled /></el-icon>
                 </template>
             </el-step>
             <el-step title="货物上架">
                 <template #icon>
                     <el-icon color="lightGrey" size="25" v-if="getTaskProgressType() === '4 0'"><RemoveFilled /></el-icon>
                     <el-icon color="deepSkyblue" size="25" v-else-if="getTaskProgressType() === '4 1'"><HelpFilled /></el-icon>
-                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() === '4 2'"><SuccessFilled /></el-icon>
+                    <el-icon color="springGreen" size="25" v-else-if="getTaskProgressType() >= '4'"><SuccessFilled /></el-icon>
                 </template>
             </el-step>
         </el-steps>

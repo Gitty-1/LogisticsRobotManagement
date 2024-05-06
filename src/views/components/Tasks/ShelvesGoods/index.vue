@@ -2,8 +2,8 @@
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { message } from '@/utils/message';
-import type { RuleForm, GoodsType } from './type';
-
+import type { RuleForm, GoodsType, RobotType } from './type';
+import { assignTask, getAvailableRobot } from '@/api/assignTask';
 
 const props = defineProps({
     visible: {
@@ -19,20 +19,6 @@ const emits = defineEmits(['updateShelvesGoodsVisible'])
 
 const visible = ref(false)
 
-const armsData = [
-  {
-    id: 1,
-    value: '机械臂1'
-  },
-  {
-    id: 2,
-    value: '机械臂2'
-  },
-  {
-    id: 3,
-    value: '机械臂3'
-  }
-]
 const shelfData = [
   {
     id: 1,
@@ -77,14 +63,20 @@ const rules = reactive<FormRules<RuleForm>>({
     ]
 })
 
+const armsRobots = ref<RobotType[]>()
+
 watch(() => props.visible, (newValue) => {
     visible.value = newValue
 }, {})
-watch(() => visible.value, (newValue) => {
+watch(() => visible.value, async (newValue) => {
     if(!visible.value) {
         // @ts-ignore
         Object.keys(shelvesGoodsData).forEach((item: string) => shelvesGoodsData[item] = '')
         emits('updateShelvesGoodsVisible')
+    } else {
+      const res = await getAvailableRobot({taskType: 4})
+      const { data } = res
+      armsRobots.value = data
     }
 }, {})
 
@@ -110,7 +102,7 @@ const onOk = (form: FormInstance | undefined) => {
     <el-form class="load-form" ref="ruleFormRef" :model="shelvesGoodsData" :rules="rules" label-width="auto">
         <el-form-item label="机械臂" prop="arms" v-show="props.currentShelvesGoods.taskType === 3">
             <el-select v-model="shelvesGoodsData.arms" placeholder="请选择机械臂" filterable clearable no-match-text="无匹配选项">
-                <el-option v-for="item in armsData" :key="item.id" :label="item.value" :value="item.value"></el-option>
+                <el-option v-for="item in armsRobots" :key="item.robotId" :label="item.robotName" :value="item.robotName"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="目标货架" prop="targetShelf">

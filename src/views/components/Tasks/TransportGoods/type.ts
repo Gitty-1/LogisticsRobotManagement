@@ -9,3 +9,9 @@ export type GoodsType = {
     taskType: number
     taskStatus: number,
 }
+
+export type RobotType = {
+    robotId: number,
+    robotName: string
+}
+
