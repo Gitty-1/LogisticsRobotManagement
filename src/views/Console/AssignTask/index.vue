@@ -149,9 +149,6 @@ const getTooltipContent = (goods: GoodsType) => {
                     <el-tooltip effect="dark" placement="top-start" :content="getTooltipContent(scope.row)" :hide-after="0" :disabled="isAbleAssignTask(scope.row)">
                         <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="!isAbleAssignTask(scope.row)" >分配任务</el-button>
                     </el-tooltip>
-                    <el-tooltip effect="dark" placement="top-start" :content="`${scope.row.goodsName}未上架，无法出库`" :disabled="scope.row.taskStatus === 6">
-                        <el-button type="primary" link size="small" :disabled="scope.row.taskStatus < 6" @click="handleOut(scope.row)">出库</el-button>
-                    </el-tooltip>
                 </template>
             </el-table-column>
         </el-table>

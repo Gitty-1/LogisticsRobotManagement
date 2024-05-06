@@ -68,7 +68,7 @@ const init = () => {
   stage = new Konva.Stage({
     container: stageContainer.value,
     width: 1200,
-    height: 450,
+    height: 500,
     antialias: true,
   });
 

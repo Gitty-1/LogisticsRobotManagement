@@ -77,15 +77,6 @@ export const asyncRoute: Array<menuListType> = [
     component: () => import('@/views/Console/MapWatch/index.vue')
   },
   {
-    path: 'errorWatch',
-    name: '故障检测',
-    meta: {
-      icon: 'Warning',
-      permission: [1, 2]
-    },
-    component: () => import('@/views/Console/ErrorWatch/index.vue')
-  },
-  {
     path: 'userManage',
     name: '用户管理',
     meta: {
@@ -93,15 +84,6 @@ export const asyncRoute: Array<menuListType> = [
       permission: [2]
     },
     component: () => import('@/views/Console/UserManagement/index.vue')
-  },
-  {
-    path: 'setting',
-    name: '设置',
-    meta: {
-      icon: 'Setting',
-      permission: [2]
-    },
-    component: () => import('@/views/Console/Setting/index.vue')
   },
 ]
 

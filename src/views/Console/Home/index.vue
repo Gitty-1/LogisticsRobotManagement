@@ -101,13 +101,10 @@ const option2 = {
 
 const option3 = {
   title: {
-    text: '货物日出入库数量'
+    text: '每日货物上架数量'
   },
   tooltip: {
     trigger: 'axis'
-  },
-  legend: {
-    data: ['入库', '出库']
   },
   grid: {
     left: "1%",
@@ -135,15 +132,9 @@ const option3 = {
   },
   series: [
     {
-      name: '入库',
       type: 'line',
       data: [50, 60, 70, 20, 40, 11, 44]
     },
-    {
-      name: '出库',
-      type: 'line',
-      data: [20, 43, 65, 44, 22, 11, 42]
-    }
   ]
 }
 
