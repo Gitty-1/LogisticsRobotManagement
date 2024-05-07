@@ -192,7 +192,7 @@ const animateIcon = (icon: any, path: any) => {
 const createRectangle = (item: any) => {
   // 创建一个组
   const group = new Konva.Group({
-    x: item.positionX * 5,
+    x: item.positionX * 2,
     y: item.positionY * 5,
   });
 

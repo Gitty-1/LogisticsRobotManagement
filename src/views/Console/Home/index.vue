@@ -177,7 +177,7 @@ const initData = async () => {
   const res1 = await getDAU()
   const { data } = res1
   dauDate.value = data.map((item: any) => item.date)
-  dau.value = data.map((item: any) => item.dau)
+  dau.value = data.map((item: any) => item.value)
 
   const res2 = await getGoodsType()
   const data2 = res2.data
