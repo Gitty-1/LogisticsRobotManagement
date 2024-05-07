@@ -1,6 +1,6 @@
 export type RuleForm = {
-    targetShelf: String,
-    arms: String
+    targetShelf: number | null,
+    arms: number | null
 }
 
 export type GoodsType = {
@@ -13,4 +13,9 @@ export type GoodsType = {
 export type RobotType = {
     robotId: number,
     robotName: string
+}
+
+export type ShelfType = {
+    shelfId: number,
+    shelfName: string
 }

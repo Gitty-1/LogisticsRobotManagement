@@ -15,7 +15,6 @@ onBeforeMount(async () => {
   // 获取地图数据
   const res2 = await getMap()
   map.value = res2.data.shelfPositionList
-  console.log('map', map.value)
 })
 
 const stageContainer = ref();
@@ -36,6 +35,8 @@ const initData = async () => {
   const res = await getRobotPath(robot.value)
   const { data } = res
   currentPath.value = data.path
+
+  path.splice(0)
 
   // @ts-ignore
   currentPath.value = currentPath.value.reverse()
@@ -82,7 +83,6 @@ const init = () => {
   drawPath(path);
 
   // 创建图标
-  path = path.slice(1)
   const icon = createNode(path[0][0], path[0][1]);
 
   // 开始动画，按路径上的每个点移动
@@ -143,7 +143,7 @@ const createPointCircle = (x: number, y: number, index: number) => {
   const text = new Konva.Text({
     x: x + 10,
     y: y - 10,
-    text: `(${x},${y})`,
+    text: `(${x.toFixed(0)},${y.toFixed(0)})`,
     fontSize: 12,
     fill: 'black',
   });

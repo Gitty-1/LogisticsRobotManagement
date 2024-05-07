@@ -2,7 +2,7 @@
 import Echarts from '@/components/echarts.vue'
 import { computed, onBeforeMount, ref, reactive } from 'vue';
 
-import { getGoodsType, getDAU } from '@/api/home'
+import { getGoodsType, getDAU, getAssignTaskCountChart } from '@/api/home'
 
 onBeforeMount(() => {
   initData()
@@ -58,7 +58,9 @@ const option1 = reactive({
   ],
 });
 
-const option2 = {
+const assignTaskDate = ref<string[]>()
+const assignTaskData = ref<number[]>()
+const option2 = reactive({
   title: {
     text: "任务分配数量",
   },
@@ -66,8 +68,8 @@ const option2 = {
     trigger: "axis",
   },
   grid: {
-    left: "1%",
-    right: "10%",
+    left: "4%",
+    right: "8%",
     bottom: "11%",
     containLabel: true
   },
@@ -76,28 +78,35 @@ const option2 = {
       saveAsImage: {},
     },
   },
-  dataZoom: [
-    {
-      startValue: '2014-06-01'
-    },
-  ],
+  dataZoom: {
+    startValue: computed(() => [...assignTaskDate.value || []][0] || null)
+  },
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05", "2024-01-06", "2024-01-07"],
+    data: computed(() => assignTaskDate.value),
   },
   yAxis: {
     type: "value",
+    axisLabel: {
+      interval: 'auto',
+      formatter: function(value: number) {
+        if(value % 1 === 0) {
+          return value
+        }
+        return ''
+      }
+    }
   },
   series: [
     {
       name: '任务分配数量',
       type: "line",
       stack: "总量",
-      data: [120, 132, 101, 134, 90, 230, 210],
+      data: computed(() => assignTaskData.value),
     },
   ],
-};
+});
 
 const option3 = {
   title: {
@@ -178,6 +187,11 @@ const initData = async () => {
       value: item.value
     }
   })
+
+  const res3 = await getAssignTaskCountChart()
+  const data3 = res3.data
+  assignTaskData.value = data3.map((item: any) => item.value)
+  assignTaskDate.value = data3.map((item: any) => item.date)
 }
 </script>
 <template>

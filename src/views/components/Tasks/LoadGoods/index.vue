@@ -21,11 +21,9 @@ const visible = ref(false)
 const ruleFormRef = ref<FormInstance>()
 interface LoadGoodsType {
   loadRobot: string,
-  loadGoods: string
 }
 const loadGoodsData = reactive<LoadGoodsType>({
   loadRobot: '',
-  loadGoods: ''
 })
 const rules = reactive<FormRules<RuleForm>>({
   loadRobot: [
@@ -35,13 +33,6 @@ const rules = reactive<FormRules<RuleForm>>({
       trigger: 'blur'
     }
   ],
-  loadGoods: [
-    {
-      required: true,
-      message: '请选择装载货物',
-      trigger: 'blur'
-    }
-  ]
 })
 const loadRobots = ref<RobotType[]>()
 
@@ -69,7 +60,7 @@ const onOk = (form: FormInstance | undefined) => {
     if(valid) {
       const data = {
         taskType: 1,
-        robotId: 1,
+        robotId: loadGoodsData.loadRobot,
         goodsId: props.currentLoadGoods.goodsId,
         targetShelfId: null
       }
@@ -88,7 +79,7 @@ const onOk = (form: FormInstance | undefined) => {
     <el-form class="load-form" ref="ruleFormRef" :model="loadGoodsData" :rules="rules" label-width="auto">
       <el-form-item label="装载机器人" prop="loadRobot">
         <el-select v-model="loadGoodsData.loadRobot" placeholder="请选择装载机器人" filterable clearable no-match-text="无匹配选项">
-          <el-option v-for="item in loadRobots" :key="item.robotId" :label="item.robotName" :value="item.robotName"></el-option>
+          <el-option v-for="item in loadRobots" :key="item.robotId" :label="item.robotName" :value="item.robotId"></el-option>
         </el-select>
       </el-form-item>
     </el-form>

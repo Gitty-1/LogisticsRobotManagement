@@ -54,10 +54,10 @@ const getTaskProgressType = () => {
 }
 
 const getActiveCode = () => {
-    const { taskStatus } = props.currentTaskProgressGoods
-    if(taskStatus === 1) return 0
-    else if(taskStatus === 2 || taskStatus === 3) return 1
-    else if(taskStatus === 4) return 2
+    const { taskType, taskStatus } = props.currentTaskProgressGoods
+    if(taskType === 1 && taskStatus !== 2) return 0
+    else if((taskType === 2 || taskType === 3) && taskStatus !==2) return 1
+    else if(taskType === 4 && taskStatus !== 2) return 2
     return null
 }
 

@@ -25,3 +25,10 @@ export const getAvailableRobot = (params: any) => {
         params
     })
 }
+
+export const getShelfList = () => {
+    return request({
+        url: baseURL + '/getShelfList',
+        method: 'get'
+    })
+}

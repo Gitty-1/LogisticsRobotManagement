@@ -15,3 +15,10 @@ export const getDAU = () => {
         method: 'get'
     })
 }
+
+export const getAssignTaskCountChart = () => {
+    return request({
+        url: baseURL + '/assignTaskCountChart',
+        method: 'get'
+    })
+}

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { message } from '@/utils/message';
 import type { RuleForm, GoodsType, RobotType } from './type';
 import { assignTask, getAvailableRobot } from '@/api/assignTask';
 
@@ -24,11 +23,11 @@ const ruleFormRef = ref<FormInstance>()
 
 const transportGoodsData = reactive<RuleForm>({
     robotType: null,
-    armsTransportRobot: '',
+    armsTransportRobot: null,
 })
 const validateArmsTransportRobot = (rule: any, value: any, callback: any) => {
     if(transportGoodsData.robotType === 1) {
-        if(value === '') {
+        if(value === null) {
             callback(new Error('请选择机械臂装载机器人'))
         }
     }
@@ -81,7 +80,7 @@ const onOk = (form: FormInstance | undefined) => {
             }
             const data = {
                 taskType: taskType,
-                robotId: 1,
+                robotId: transportGoodsData.armsTransportRobot,
                 goodsId: props.currentTransportGoods.goodsId,
                 targetShelfId: null
             }
@@ -111,7 +110,7 @@ const onOk = (form: FormInstance | undefined) => {
             <el-alert type="info" show-icon :closable="false" center>请选择一台机械臂装载机器人用于夹取货物</el-alert>
             <el-form-item label="机械臂装载机器人" prop="armsTransportRobot">
                 <el-select v-model="transportGoodsData.armsTransportRobot" placeholder="请选择机械臂装载机器人" filterable clearable no-match-text="无匹配选项">
-                    <el-option v-for="item in transportRobots" :key="item.robotId" :label="item.robotName" :value="item.robotName"></el-option>
+                    <el-option v-for="item in transportRobots" :key="item.robotId" :label="item.robotName" :value="item.robotId"></el-option>
                 </el-select>
             </el-form-item>
         </el-space>
