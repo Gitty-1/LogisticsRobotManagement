@@ -20,9 +20,11 @@ const errorHandle = (error: any) => {
 }
 
 const successHandle = (response: any) => {
+    console.log('response', response)
     const data = response?.data
-    const { code, msg } = data
+    const { code, msg } = data as any
     if(code !== '200') {
+        message(msg, 'error')
         throw new Error('请求失败')
     } else {
         message(msg, 'success')
