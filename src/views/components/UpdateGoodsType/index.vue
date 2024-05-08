@@ -2,7 +2,7 @@
 import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { messageBox } from '@/utils/message'
-import type { RuleForm, GoodsType } from './type'
+import type { GoodsType } from './type'
 import { getGoodsType, updateGoodsType } from '@/api/manage'
 
 const props = defineProps({
@@ -20,6 +20,8 @@ watch(() => props.visible, (newValue) => {
 }, {})
 watch(() => visible.value, async () => {
     if(!visible.value) {
+        // @ts-ignore
+        Object.keys(goodsTypeData).forEach((item: any) => goodsTypeData[item] = '')
         emits('updateUpdateGoodsTypeVisible')
     } else {
         const res = await getGoodsType()
@@ -30,19 +32,19 @@ watch(() => visible.value, async () => {
 
 const ruleFormRef = ref<FormInstance>()
 
-const goodsTypeData = reactive<RuleForm>({
-    oldGoodsTypeName: '',
-    newGoodsTypeName: ''
+const goodsTypeData = reactive<GoodsType>({
+    goodsTypeId: null,
+    goodsTypeName: ''
 })
-const rules = reactive<FormRules<RuleForm>>({
-    oldGoodsTypeName: [
+const rules = reactive<FormRules<GoodsType>>({
+    goodsTypeId: [
         {
             required: true,
             message: '请选择货物类型',
             trigger: 'blur'
         }
     ],
-    newGoodsTypeName: [
+    goodsTypeName: [
         {
             required: true,
             message: '请输入货物类型',
@@ -61,8 +63,8 @@ const onOk = (form: FormInstance | undefined) => {
     if(!form) return
     form.validate((valid, _) => {
         if(valid) {
-            messageBox(`确认更新货物类型：${goodsTypeData.oldGoodsTypeName} 为 ${goodsTypeData.newGoodsTypeName}`, 'info', () => {
-                // addGoods(goodsTypeData)
+            messageBox(`确认更新货物类型为 ${goodsTypeData.goodsTypeName}`, 'info', async () => {
+                await updateGoodsType(goodsTypeData)
                 visible.value = false
             })
             
@@ -75,12 +77,12 @@ const onOk = (form: FormInstance | undefined) => {
         <el-tag size="large">编辑货物类型</el-tag>
         <el-form class="goods-type-form" ref="ruleFormRef" :model="goodsTypeData" :rules="rules" label-width="auto">
             <el-form-item label="原货物类型名称" prop="oldGoodsTypeName">
-                <el-select v-model="goodsTypeData.oldGoodsTypeName" placeholder="请选择原货物类型名称" filterable clearable no-match-text="无匹配选项">
-                    <el-option v-for="item in goodsTypeList" :key="item.goodsTypeId" :label="item.goodsTypeName" :value="item.goodsTypeName"></el-option>
+                <el-select v-model="goodsTypeData.goodsTypeId" placeholder="请选择原货物类型名称" filterable clearable no-match-text="无匹配选项">
+                    <el-option v-for="item in goodsTypeList" :key="item.goodsTypeId" :label="item.goodsTypeName" :value="item.goodsTypeId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="新货物类型名称" prop="newGoodsTypeName">
-                <el-input v-model="goodsTypeData.newGoodsTypeName" placeholder="请输入新货物类型名称"></el-input>
+                <el-input v-model="goodsTypeData.goodsTypeName" placeholder="请输入新货物类型名称"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>

@@ -1,9 +1,4 @@
-export type RuleForm = {
-    oldGoodsTypeName: string,
-    newGoodsTypeName: string
-}
-
 export type GoodsType = {
-    goodsTypeId: number,
+    goodsTypeId: number | null,
     goodsTypeName: string
 }

@@ -100,18 +100,21 @@ const handleDeleteGoods = (goods: GoodsDataType) => {
 const addGoodsTypeVisible = ref(false)
 const updateAddGoodsTypeVisible = () => {
   addGoodsTypeVisible.value = false
+  initData()
 }
 
 // 编辑货物类型
 const updateGoodsTypeVisible = ref(false)
 const updateUpdateGoodsTypeVisible = () => {
   updateGoodsTypeVisible.value = false
+  initData()
 }
 
 // 删除货物类型
 const deleteGoodsTypeVisible = ref(false)
 const updateDeleteGoodsTypeVisible = () => {
   deleteGoodsTypeVisible.value = false
+  initData()
 }
 
 </script>

@@ -20,6 +20,8 @@ watch(() => props.visible, (newValue) => {
 }, {})
 watch(() => visible.value, () => {
     if(!visible.value) {
+        // @ts-ignore
+        Object.keys(goodsTypeData).forEach((item: any) => goodsTypeData[item] = '')
         emits('updateAddGoodsTypeVisible')
     }
 })
