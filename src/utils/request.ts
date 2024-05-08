@@ -10,7 +10,12 @@ const request = axios.create({
 
 // 异常处理
 const errorHandle = (error: any) => {
-    const data = error?.response?.data
+    const code = error?.response?.status
+    const msg = error?.response?.data
+    message(msg, 'error')
+    if(code === 401) {
+        router.push('/login-register')
+    }
     return Promise.reject(error)
 }
 
@@ -18,10 +23,6 @@ const successHandle = (response: any) => {
     const data = response?.data
     const { code, msg } = data
     if(code !== '200') {
-        if(code === '401') {
-            router.push('/login-register')
-            message('用户token过期', 'error')
-        }
         throw new Error('请求失败')
     } else {
         message(msg, 'success')
@@ -35,11 +36,6 @@ request.interceptors.request.use(
         const token = getCookie('token')
         if(token) {
             config.headers.Authorization = `${token}`
-        } else {
-            if(router.currentRoute.value.fullPath !== '/login-register') {
-                router.push('/login-register')
-                message('用户未登录', 'error')
-            }
         }
         return config;
     },
