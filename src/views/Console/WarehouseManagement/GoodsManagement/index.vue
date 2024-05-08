@@ -5,6 +5,8 @@ import AddGoods from '@/views/components/AddGoods/index.vue'
 import GoodsDetail from '@/views/components/GoodsDetail/index.vue'
 import AddGoodsType from '@/views/components/AddGoodsType/index.vue'
 import UpdateGoods from '@/views/components/UpdateGoods/index.vue'
+import UpdateGoodsType from '@/views/components/UpdateGoodsType/index.vue'
+import DeleteGoodsType from '@/views/components/DeleteGoodsType/index.vue'
 import { onBeforeMount, ref, reactive } from 'vue'
 import { getGoodsData, deleteGoods } from '@/api/manage'
 import { getCookie } from '@/utils/setCookie'
@@ -74,12 +76,6 @@ const handleGoodsDetail = (row: GoodsDataType) => {
   goodDetailVisible.value = true
 }
 
-// 添加货物类型
-const addGoodsTypeVisible = ref(false)
-const updateGoodsTypeVisible = () => {
-  addGoodsTypeVisible.value = false
-}
-
 // 编辑货物
 const updateGoodsVisible = ref(false)
 const updateUpdateGoodsVisible = () => {
@@ -100,6 +96,24 @@ const handleDeleteGoods = (goods: GoodsDataType) => {
   })
 }
 
+// 添加货物类型
+const addGoodsTypeVisible = ref(false)
+const updateAddGoodsTypeVisible = () => {
+  addGoodsTypeVisible.value = false
+}
+
+// 编辑货物类型
+const updateGoodsTypeVisible = ref(false)
+const updateUpdateGoodsTypeVisible = () => {
+  updateGoodsTypeVisible.value = false
+}
+
+// 删除货物类型
+const deleteGoodsTypeVisible = ref(false)
+const updateDeleteGoodsTypeVisible = () => {
+  deleteGoodsTypeVisible.value = false
+}
+
 </script>
 <template>
   <div>
@@ -113,6 +127,8 @@ const handleDeleteGoods = (goods: GoodsDataType) => {
         </el-input>
         <div>
           <el-button type="primary" @click="addGoodsTypeVisible = true" v-if="getCookie('userType') === '2'">添加货物类型</el-button>
+          <el-button type="primary" @click="updateGoodsTypeVisible = true" v-if="getCookie('userType') === '2'">编辑货物类型</el-button>
+          <el-button type="primary" @click="deleteGoodsTypeVisible = true" v-if="getCookie('userType') === '2'">删除货物类型</el-button>
           <el-button type="primary" @click="addGoodsVisible = true">添加</el-button>
         </div>
       </div>
@@ -157,9 +173,11 @@ const handleDeleteGoods = (goods: GoodsDataType) => {
     </div>
     <AddGoods :visible="addGoodsVisible" @updateAddGoodsVisible="updateAddGoodsVisible" />
     <GoodsDetail :visible="goodDetailVisible" @updateGoodsDetailVisible="updateGoodsDetailVisible" :goodsDetail="goodsDetail" />
-    <AddGoodsType :visible="addGoodsTypeVisible" @updateGoodsTypeVisible="updateGoodsTypeVisible"/>
     <UpdateGoods :visible="updateGoodsVisible" @updateUpdateGoodsVisible="updateUpdateGoodsVisible" :currentGoods="currentGoods"/>
-  </div>
+    <AddGoodsType :visible="addGoodsTypeVisible" @updateAddGoodsTypeVisible="updateAddGoodsTypeVisible"/>
+    <UpdateGoodsType :visible="updateGoodsTypeVisible" @updateUpdateGoodsTypeVisible="updateUpdateGoodsTypeVisible" />
+    <DeleteGoodsType :visible="deleteGoodsTypeVisible" @updateDeleteGoodsTypeVisible="updateDeleteGoodsTypeVisible" />
+ </div>
 </template>
 <style scoped>
 .goods-container {

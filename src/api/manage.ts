@@ -25,7 +25,7 @@ export const getGoodsType = () => {
 
 export const updateGoods = (data: any) => {
     return request({
-        url: 'goodsManage/updateGoods',
+        url: '/goodsManage/updateGoods',
         method: 'post',
         data
     })
@@ -33,8 +33,27 @@ export const updateGoods = (data: any) => {
 
 export const deleteGoods = (goodsId: number) => {
     return request({
-        url: `goodsManage/deleteGoods/${goodsId}`,
+        url: `/goodsManage/deleteGoods/${goodsId}`,
         method: 'delete',
+    })
+}
+
+export const addGoodsType = (data: any) => {
+    return request({
+        url: '/goodsManage/goodsTypeManage/addGoodsType',
+        method: 'post',
+        data
+    })
+}
+
+export const updateGoodsType = (data: any) => {
+
+}
+
+export const deleteGoodsType = (goodsTypeId: number) => {
+    return request({
+        url: `/goodsManage/goodsTypeManage/deleteGoodsType/${goodsTypeId}`,
+        method: 'delete'
     })
 }
 
