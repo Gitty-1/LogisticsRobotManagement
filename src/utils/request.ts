@@ -1,6 +1,7 @@
 import axios from "axios";
 import { message } from '@/utils/message'
 import { getCookie } from "@/utils/setCookie"
+import router from "@/router";
 
 const request = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -10,8 +11,6 @@ const request = axios.create({
 // 异常处理
 const errorHandle = (error: any) => {
     const data = error?.response?.data
-    const errorMessage = data ? data.msg : '网络错误'
-    message(errorMessage, 'error')
     return Promise.reject(error)
 }
 
@@ -19,7 +18,10 @@ const successHandle = (response: any) => {
     const data = response?.data
     const { code, msg } = data
     if(code !== '200') {
-        message(msg, 'error')
+        if(code === '401') {
+            router.push('/login-register')
+            message('用户token过期', 'error')
+        }
         throw new Error('请求失败')
     } else {
         message(msg, 'success')
@@ -33,6 +35,11 @@ request.interceptors.request.use(
         const token = getCookie('token')
         if(token) {
             config.headers.Authorization = `${token}`
+        } else {
+            if(router.currentRoute.value.fullPath !== '/login-register') {
+                router.push('/login-register')
+                message('用户未登录', 'error')
+            }
         }
         return config;
     },
