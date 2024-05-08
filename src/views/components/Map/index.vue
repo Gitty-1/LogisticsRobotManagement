@@ -5,6 +5,8 @@ import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
 import { getRobotPath, getRobotList, getMap } from '@/api/map'
 import type { RobotType } from './type';
+import robotCar from '@/assets/robotCar.png'
+import shelf from '@/assets/shelf.png'
 
 onBeforeMount(async () => {
   // 获取机器人列表
@@ -101,30 +103,20 @@ const createNode = (x: number, y: number) => {
     y: y,
   });
 
-  const rect = new Konva.Rect({
-    x: -10,
-    y: -15,
-    width: 25,
-    height: 10,
-    fill: 'black'
-  })
-  group.add(rect)
-
-  const circle1 = new Konva.Circle({
-    x: -5,
-    y: 0,
-    radius: 5,
-    fill: 'black',
-  });
-  group.add(circle1);
-
-  const circle2 = new Konva.Circle({
-    x: 10,
-    y: 0,
-    radius: 5,
-    fill: 'black',
-  });
-  group.add(circle2);
+  // 创建图片节点
+  const image = new Image();
+  image.onload = () => {
+    const konvaImage = new Konva.Image({
+      x: -image.width / 40,
+      y: -image.height / 40,
+      image: image,
+      width: image.width / 20,
+      height: image.height / 20,
+    });
+    group.add(konvaImage);
+    layer.batchDraw(); // 更新画布
+  };
+  image.src = robotCar;
 
   layer.add(group);
   return group;
@@ -196,22 +188,29 @@ const createRectangle = (item: any) => {
     y: item.positionY * 5,
   });
 
-  // 创建矩形并添加到组中
-  const rect = new Konva.Rect({
-    width: 35,
-    height: 50,
-    fill: 'blue',
-  });
-  group.add(rect);
+  // 创建图片节点
+  const image = new Image();
+  image.onload = () => {
+    const konvaImage = new Konva.Image({
+      x: -image.width / 6,
+      y: -image.height / 6,
+      image: image,
+      width: image.width / 3,
+      height: image.height / 3,
+    });
+    group.add(konvaImage);
+    layer.batchDraw(); // 更新画布
+  };
+  image.src = shelf;
 
   // 创建文本并添加到组中
   const text = new Konva.Text({
     text: item.name,
     fontSize: 12,
     fontFamily: 'Arial',
-    fill: 'white',
-    x: 0, // 根据需要调整文本位置
-    y: 25, // 根据需要调整文本位置
+    fill: 'black', // 确保文本颜色对比度足够高
+    x: -image.width / 6 + 20, // 调整文本位置，可能需要根据图片大小和文本长度进行调整
+    y: -image.height / 6 + 100, // 调整文本位置，确保位于图片上方
   });
   group.add(text);
 
