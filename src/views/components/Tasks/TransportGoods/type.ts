@@ -1,6 +1,7 @@
 export type RuleForm = {
     robotType: number | null,
     armsTransportRobot: number | null,
+    arms: number | null
 }
 
 export type GoodsType = {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import type { RuleForm, GoodsType, RobotType, ShelfType } from './type';
-import { assignTask, getAvailableRobot, getShelfList } from '@/api/assignTask';
+import type { RuleForm, GoodsType, ShelfType } from './type';
+import { assignTask, getShelfList } from '@/api/assignTask';
 
 const props = defineProps({
     visible: {
@@ -22,7 +22,6 @@ const ruleFormRef = ref<FormInstance>()
 
 const shelvesGoodsData = reactive<RuleForm>({
   targetShelf: null,
-  arms: null
 })
 
 const validateArms = (rule: any, value: any, callback: any) => {
@@ -41,15 +40,8 @@ const rules = reactive<FormRules<RuleForm>>({
             trigger: 'blur'
         }
     ],
-    arms: [
-        {
-            validator: validateArms,
-            trigger: 'change'
-        }
-    ]
 })
 
-const armsRobots = ref<RobotType[]>()
 const targetShelf = ref<ShelfType[]>()
 
 watch(() => props.visible, (newValue) => {
@@ -61,10 +53,6 @@ watch(() => visible.value, async (newValue) => {
         Object.keys(shelvesGoodsData).forEach((item: string) => shelvesGoodsData[item] = '')
         emits('updateShelvesGoodsVisible')
     } else {
-      const res = await getAvailableRobot({taskType: 4})
-      const { data } = res
-      armsRobots.value = data
-
       const res1 = await getShelfList()
       targetShelf.value = res1.data
     }
@@ -79,12 +67,11 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             const data = {
                 taskType: 4,
-                robotId: shelvesGoodsData.arms,
+                robotId: null,
                 goodsId: props.currentShelvesGoods.goodsId,
                 targetShelfId: shelvesGoodsData.targetShelf
             }
             await assignTask(data)
-            console.log(111)
             visible.value = false
         }
     })
@@ -97,11 +84,6 @@ const onOk = (form: FormInstance | undefined) => {
       <el-tag type="info" style="margin-top: 20px;">待上架货物：{{ props.currentShelvesGoods.goodsName }}</el-tag>
     </div>
     <el-form class="load-form" ref="ruleFormRef" :model="shelvesGoodsData" :rules="rules" label-width="auto">
-        <el-form-item label="机械臂" prop="arms" v-show="props.currentShelvesGoods.taskType === 3">
-            <el-select v-model="shelvesGoodsData.arms" placeholder="请选择机械臂" filterable clearable no-match-text="无匹配选项">
-                <el-option v-for="item in armsRobots" :key="item.robotId" :label="item.robotName" :value="item.robotId"></el-option>
-            </el-select>
-        </el-form-item>
         <el-form-item label="目标货架" prop="targetShelf">
             <el-select v-model="shelvesGoodsData.targetShelf" placeholder="请选择目标货架" filterable clearable no-match-text="无匹配选项">
                 <el-option v-for="item in targetShelf" :key="item.shelfId" :label="item.shelfName" :value="item.shelfId"></el-option>

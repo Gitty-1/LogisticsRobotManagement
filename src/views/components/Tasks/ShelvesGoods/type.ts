@@ -1,6 +1,5 @@
 export type RuleForm = {
     targetShelf: number | null,
-    arms: number | null
 }
 
 export type GoodsType = {
