@@ -4,10 +4,10 @@ import Konva from 'konva';
 import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
 import robotCar from '@/assets/robotCar.png'
-import armsRobot from '@/assets/armsRobots.png'
 import arms from '@/assets/arms.png'
 import shelf from '@/assets/shelf.png'
-import { getRobotCar, getArmsRobot, getArmsRobot2, getArms, getArmsShelf } from './api';
+import goods from '@/assets/goods.png'
+import { getRobotCar, getArmsRobot2, getArms, getArmsShelf } from './api';
 
 onBeforeMount(async () => {
   initData()
@@ -35,54 +35,54 @@ const isShlefFinish = ref<Boolean>(false)
 
 const step = ref<number>(0)
 const imageSrc = ref()
+const goodsIcon = ref()
 
 const taskProgress = ref<string>()
 
 
 watch(() => isGetGoodsFinish.value, (value) => {
-    console.log('1')
-  if(value) {
-    animation(path3)
-  }
+    if(value) {
+        animation(path3)
+    }
 })
 
 
 watch(() => isTransFinish.value, (value) => {
-    console.log('2')
-  // 运输完成，返回
-  const reversePath = [...path3.slice().reverse(), ...path.slice().reverse()]
-  animation(reversePath)
+    // 运输完成，返回
+    goodsIcon.value = createGoods(path3[path3.length - 1][0], path3[path3.length - 1][1])
+    const reversePath = [...path3.slice().reverse(), ...path.slice().reverse()]
+    animation(reversePath)
 
-  imageSrc.value = arms
-  animation(path4)
+    imageSrc.value = arms
+    animation(path4)
 })
 
 watch(() => isClampFinish.value, (value) => {
-  // 开始运输上架
-  animation(path5)
-  console.log('直接开始')
+    goodsIcon.value.remove()
+    // 开始运输上架
+    animation(path5)
+    console.log('直接开始')
 })
 
 watch(() => isShlefFinish.value, (value) => {
-    console.log('4')
-
-  if(value) {
-    // 上架完成，返回
-    const reversePath = [...path5.slice().reverse(), ...path4.slice().reverse()]
-    animation(reversePath)
-  }
+    if(value) {
+        // 上架完成，返回
+        goodsIcon.value = createGoods(path5[path5.length - 1][0], path5[path5.length - 1][1])
+        const reversePath = [...path5.slice().reverse(), ...path4.slice().reverse()]
+        animation(reversePath)
+    }
 })
 
 watch(() => step.value, (value) => {
-  if(value === 1) {
-    taskProgress.value = '货物运输中'
-  } else if(value === 2) {
-    taskProgress.value = '货物运输完成，准备夹取'
-  } else if(value === 3) {
-    taskProgress.value = '货物夹取完成，准备上架'
-  } else if(value === 4) {
-    taskProgress.value = '货物上架完成!!!'
-  }
+    if(value === 1) {
+        taskProgress.value = '货物运输中'
+    } else if(value === 2) {
+        taskProgress.value = '货物运输完成，准备夹取'
+    } else if(value === 3) {
+        taskProgress.value = '货物夹取完成，准备上架'
+    } else if(value === 4) {
+        taskProgress.value = '货物上架完成!!!'
+    }
 })
 
 
@@ -317,6 +317,34 @@ const createRectangle = (item: any) => {
   // 将组添加到舞台
   layer.add(group);
 };
+
+const createGoods = (x: number, y: number) => {
+    // 创建一个组
+  const group = new Konva.Group({
+    x: x,
+    y: y,
+  });
+
+  // 创建图片节点
+  const image = new Image();
+  image.onload = () => {
+    const konvaImage = new Konva.Image({
+      x: -image.width / 6 + 20,
+      y: -image.height / 6 + 10,
+      image: image,
+      width: image.width / 6,
+      height: image.height / 6,
+    });
+    group.add(konvaImage);
+    layer.batchDraw(); // 更新画布
+  };
+  image.src = goods;
+
+  // 将组添加到舞台
+  layer.add(group);
+
+  return group;
+}
 
 </script>
 

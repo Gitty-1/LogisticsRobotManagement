@@ -6,6 +6,7 @@ import type { Stage } from 'konva/lib/Stage';
 import robotCar from '@/assets/robotCar.png'
 import armsRobot from '@/assets/armsRobots.png'
 import shelf from '@/assets/shelf.png'
+import goods from '@/assets/goods.png'
 import { getRobotCar, getArmsRobot, getArmsRobot2, getArmsShelf } from './api';
 
 onBeforeMount(() => {
@@ -34,14 +35,18 @@ const isShlefFinish = ref<Boolean>(false)
 
 const step = ref<number>(0)
 const imageSrc = ref()
+const goodsIcon = ref()
 
 const taskProgress = ref<string>()
+
+
 
 
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
     // 货物搬运完成，返回
     animation(path.slice().reverse())
+    goodsIcon.value = createGoods(path[path.length - 1][0], path[path.length - 1][1])
     // 开始装载
     imageSrc.value = armsRobot
     animation(path2)
@@ -52,6 +57,8 @@ watch(() => isLoadFinish.value, (value) => {
   console.log('load', value)
   if(value) {
     // 运输
+    goodsIcon.value.remove()
+
     imageSrc.value = armsRobot
     animation(path3)
   }
@@ -68,6 +75,7 @@ watch(() => isTransFinish.value, (value) => {
 watch(() => isShlefFinish.value, (value) => {
   console.log('shelf', value)
   if(value) {
+    goodsIcon.value = createGoods(path5[path5.length - 1][0], path5[path5.length - 1][1])
     const reversePath = [...path5.slice().reverse(), ...path3.slice().reverse(), ...path2.slice().reverse()]
     animation(reversePath)
   }
@@ -322,6 +330,34 @@ const createRectangle = (item: any) => {
   // 将组添加到舞台
   layer.add(group);
 };
+
+const createGoods = (x: number, y: number) => {
+    // 创建一个组
+  const group = new Konva.Group({
+    x: x,
+    y: y,
+  });
+
+  // 创建图片节点
+  const image = new Image();
+  image.onload = () => {
+    const konvaImage = new Konva.Image({
+      x: -image.width / 6 + 20,
+      y: -image.height / 6 + 10,
+      image: image,
+      width: image.width / 6,
+      height: image.height / 6,
+    });
+    group.add(konvaImage);
+    layer.batchDraw(); // 更新画布
+  };
+  image.src = goods;
+
+  // 将组添加到舞台
+  layer.add(group);
+
+  return group;
+}
 
 </script>
 

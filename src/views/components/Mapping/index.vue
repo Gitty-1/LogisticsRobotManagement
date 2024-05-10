@@ -22,7 +22,7 @@ watch(() => scheme.value, (value) => {
     <span>请选择物流方案</span>
     <el-select v-model="scheme" placeholder="请选择物流方案" size="large">
       <el-option label="使用带机械臂装载机器人" :value="1"></el-option>
-      <el-option label="不使用带机械臂装载机器人" :value="2"></el-option>
+      <el-option label="使用机械臂" :value="2"></el-option>
     </el-select>
   </div>
   <component :is="currentSchemeComponent"/>
