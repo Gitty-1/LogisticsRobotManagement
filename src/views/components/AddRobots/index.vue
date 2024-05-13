@@ -21,6 +21,8 @@ const robotsForm = reactive<RuleForm>({
     robotType: 0,
     robotIP: ''
 })
+const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
 const rules = reactive<FormRules<RuleForm>>({
     robotName: [
         {
@@ -29,7 +31,7 @@ const rules = reactive<FormRules<RuleForm>>({
             trigger: 'blur'
         },
         {
-            max: 10,
+            max: 20,
             message: '机器人名称不能超过20字',
             trigger: 'change'
         }
@@ -45,6 +47,11 @@ const rules = reactive<FormRules<RuleForm>>({
         {
             required: true,
             message: '请输入机器人IP',
+            trigger: 'blur'
+        },
+        {
+            pattern: ipPattern,
+            message: '请输入合法的IP地址',
             trigger: 'blur'
         }
     ]
