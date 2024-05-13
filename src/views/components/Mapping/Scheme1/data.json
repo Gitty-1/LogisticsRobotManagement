@@ -1,156 +1,137 @@
 [
     [
         {
-            "positionX": 0.01,
-            "positionY": 0.02
+            "goodsId": 1,
+            "robotName": "机器人1",
+            "robotType": 1,
+            "path": [
+                {
+                    "positionX": 0.01,
+                    "positionY": 0.02
+                },
+                {
+                    "positionX": 0.05,
+                    "positionY": 0.06
+                },
+                {
+                    "positionX": 0.1,
+                    "positionY": 0.12
+                },
+                {
+                    "positionX": 0.15,
+                    "positionY": 0.04
+                },
+                {
+                    "positionX": 0.20,
+                    "positionY": 0.15
+                },
+                {
+                    "positionX": 0.25,
+                    "positionY": 0.25
+                },
+                {
+                    "positionX": 0.30,
+                    "positionY": 0.30
+                }
+            ]
         },
         {
-            "positionX": 0.05,
-            "positionY": 0.06
+            "goodsId": 1,
+            "robotName": "机器人2",
+            "robotType": 2,
+            "path": [
+                {
+                    "positionX": 0.01,
+                    "positionY": 0.87
+                },
+                {
+                    "positionX": 0.05,
+                    "positionY": 0.82
+                },
+                {
+                    "positionX": 0.1,
+                    "positionY": 0.74
+                },
+                {
+                    "positionX": 0.15,
+                    "positionY": 0.65
+                },
+                {
+                    "positionX": 0.20,
+                    "positionY": 0.62
+                },
+                {
+                    "positionX": 0.25,
+                    "positionY": 0.55
+                },
+                {
+                    "positionX": 0.27,
+                    "positionY": 0.43
+                },
+                {
+                    "positionX": 0.30,
+                    "positionY": 0.30
+                }
+            ]
         },
         {
-            "positionX": 0.1,
-            "positionY": 0.12
-        },
-        {
-            "positionX": 0.15,
-            "positionY": 0.04
-        },
-        {
-            "positionX": 0.20,
-            "positionY": 0.15
-        },
-        {
-            "positionX": 0.25,
-            "positionY": 0.25
-        },
-        {
-            "positionX": 0.30,
-            "positionY": 0.30
-        }
-    ],
-    [
-        {
-            "positionX": 0.01,
-            "positionY": 0.87
-        },
-        {
-            "positionX": 0.05,
-            "positionY": 0.82
-        },
-        {
-            "positionX": 0.1,
-            "positionY": 0.74
-        },
-        {
-            "positionX": 0.15,
-            "positionY": 0.65
-        },
-        {
-            "positionX": 0.20,
-            "positionY": 0.62
-        },
-        {
-            "positionX": 0.25,
-            "positionY": 0.55
-        },
-        {
-            "positionX": 0.27,
-            "positionY": 0.43
-        },
-        {
-            "positionX": 0.30,
-            "positionY": 0.30
-        }
-    ],
-    [
-        {
-            "positionX": 0.33,
-            "positionY": 0.31
-        },
-        {
-            "positionX": 0.42,
-            "positionY": 0.40
-        },
-        {
-            "positionX": 0.50,
-            "positionY": 0.43
-        },
-        {
-            "positionX": 0.55,
-            "positionY": 0.55
-        },
-        {
-            "positionX": 0.60,
-            "positionY": 0.60
-        },
-        {
-            "positionX": 0.67,
-            "positionY": 0.55
-        },
-        {
-            "positionX": 0.75,
-            "positionY": 0.77
-        }
-    ],
-    [
-        {
-            "positionX": 1.00,
-            "positionY": 0.05
-        },
-        {
-            "positionX": 0.95,
-            "positionY": 0.11
-        },
-        {
-            "positionX": 0.92,
-            "positionY": 0.21
-        },
-        {
-            "positionX": 0.90,
-            "positionY": 0.33
-        },
-        {
-            "positionX": 0.86,
-            "positionY": 0.44
-        },
-        {
-            "positionX": 0.80,
-            "positionY": 0.60
-        },
-        {
-            "positionX": 0.75,
-            "positionY": 0.77
-        }
-    ],
-    [
-        {
-            "positionX": 0.78,
-            "positionY": 0.76
-        },
-        {
-            "positionX": 0.80,
-            "positionY": 0.80
-        },
-        {
-            "positionX": 0.86,
-            "positionY": 0.84
-        },
-        {
-            "positionX": 0.90,
-            "positionY": 0.88
-        },
-        {
-            "positionX": 0.93,
-            "positionY": 0.90
-        },
-        {
-            "positionX": 0.96,
-            "positionY": 0.91
-        },
-        {
-            "positionX": 1.00,
-            "positionY": 0.93
+            "goodsId": 1,
+            "robotName": "机器人2",
+            "robotType": 2,
+            "path": [
+                {
+                    "positionX": 0.30,
+                    "positionY": 0.30
+                },
+                {
+                    "positionX": 0.42,
+                    "positionY": 0.40
+                },
+                {
+                    "positionX": 0.50,
+                    "positionY": 0.43
+                },
+                {
+                    "positionX": 0.55,
+                    "positionY": 0.55
+                },
+                {
+                    "positionX": 0.60,
+                    "positionY": 0.60
+                },
+                {
+                    "positionX": 0.67,
+                    "positionY": 0.55
+                },
+                {
+                    "positionX": 0.75,
+                    "positionY": 0.77
+                },
+                {
+                    "positionX": 0.80,
+                    "positionY": 0.80
+                },
+                {
+                    "positionX": 0.86,
+                    "positionY": 0.84
+                },
+                {
+                    "positionX": 0.90,
+                    "positionY": 0.88
+                },
+                {
+                    "positionX": 0.93,
+                    "positionY": 0.90
+                },
+                {
+                    "positionX": 0.96,
+                    "positionY": 0.91
+                },
+                {
+                    "positionX": 1.00,
+                    "positionY": 0.93
+                }
+            ]
         }
     ]
 ]

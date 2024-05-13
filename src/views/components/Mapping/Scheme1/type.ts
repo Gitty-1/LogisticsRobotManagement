@@ -1,4 +1,4 @@
 export type RobotType = {
-    robotId: number,
-    robotName: string
+    robotName: string | null,
+    robotType: string | null
 }
