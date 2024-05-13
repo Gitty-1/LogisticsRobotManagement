@@ -1,6 +1,6 @@
 import axios from "axios";
 import { message } from '@/utils/message'
-import { getCookie } from "@/utils/setCookie"
+import { getCookie, deleteCookie } from "@/utils/setCookie"
 import router from "@/router";
 
 const request = axios.create({
@@ -14,6 +14,7 @@ const errorHandle = (error: any) => {
     const msg = error?.response?.data
     message(msg, 'error')
     if(code === 401) {
+        deleteCookie()
         router.push('/login-register')
     }
     return Promise.reject(error)

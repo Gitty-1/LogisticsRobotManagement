@@ -115,8 +115,8 @@ const onOk = (form: FormInstance | undefined) => {
             </el-form-item>
             <el-form-item label="机器人类型" prop="robotType">
                 <el-radio-group v-model="robotsForm.robotType">
-                    <el-radio :label="1">装卸机器人</el-radio>
-                    <el-radio :label="2">机械臂装卸机器人</el-radio>
+                    <el-radio :label="1">装载机器人</el-radio>
+                    <el-radio :label="2">机械臂装载机器人</el-radio>
                     <el-radio :label="3">机械臂</el-radio>
                 </el-radio-group>
             </el-form-item>
