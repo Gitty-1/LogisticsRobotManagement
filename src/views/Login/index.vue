@@ -215,7 +215,13 @@ const onSubmit = (form: FormInstance | undefined) => {
                     captchaKey: captchaKey.value
                 }
                 const res = await login(params)
-                const { data } = res
+                // @ts-ignore
+                const { data, msg } = res
+                if(msg === '验证码错误') {
+                    updateImgCode()
+                    throw new Error('验证码错误');
+                    
+                }
                 deleteCookie()
                 setTokenToCookie(data)
                 message('登录成功', 'success')

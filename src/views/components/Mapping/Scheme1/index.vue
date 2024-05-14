@@ -51,9 +51,6 @@ const robotsType: numStrKey = {
   3: '机械臂'
 }
 
-
-
-
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
     // 货物搬运完成，返回
