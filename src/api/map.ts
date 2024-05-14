@@ -2,24 +2,23 @@ import request from '@/utils/request'
 
 const baseURL = '/map'
 
-
-export const getRobotPath = (robotId: number) => {
+export const getGoodsList = () => {
     return request({
-        url: baseURL + `/getRobotPath/${robotId}`,
+        url: baseURL + '/getGoodsList',
         method: 'get'
     })
 }
 
-export const getRobotList = () => {
+export const getScheme = (goodsId: number) => {
     return request({
-        url: baseURL + '/getRobotList',
+        url: baseURL + `/getScheme/${goodsId}`,
         method: 'get'
     })
 }
 
-export const getMap = () => {
+export const getMap = (goodsId: number) => {
     return request({
-        url: baseURL + '/getMap',
+        url: baseURL + `/getMap/${goodsId}`,
         method: 'get'
     })
 }

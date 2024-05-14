@@ -1,27 +1,35 @@
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, onBeforeMount } from 'vue'
 import Scheme1 from './Scheme1/index.vue'
 import Scheme2 from './Scheme2/index.vue'
 import Default from './Default/index.vue'
 import type { GoodsType } from './type'
+import { getGoodsList, getScheme } from '@/api/map'
+
+onBeforeMount(async () => {
+  const res = await getGoodsList()
+  const { data } = res
+  goodsList.value = data
+
+  currentSchemeComponent.value = Default
+})
 
 const currentSchemeComponent = ref<typeof Scheme1 | typeof Scheme2 | typeof Default | null>(null)
 
+const goodsList = ref<GoodsType[]>()
 const currentGoods = reactive<GoodsType>({
   goodsId: null,
   goodsName: ''
 })
 
-watch(() => currentGoods.goodsId, (value) => {
-  // await ...
-  if(currentGoods.goodsId === 1) {
+watch(() => currentGoods.goodsId, async (value) => {
+  const res = await getScheme(currentGoods.goodsId as number)
+  const { data } = res
+  const { scheme, pathCount } = data
+  if(pathCount === 3) {
     currentSchemeComponent.value = Scheme1
-  } else if(currentGoods.goodsId === 2) {
-    currentSchemeComponent.value = Scheme2
-  } else {
-    currentSchemeComponent.value = Default
   }
-}, {immediate: true})
+})
 
 </script>
 
@@ -30,11 +38,10 @@ watch(() => currentGoods.goodsId, (value) => {
   <div class="map-select">
     <span>请选择货物</span>
     <el-select v-model="currentGoods.goodsId" placeholder="请选择货物" size="large" clearable>
-      <el-option label="货物1" :value="1"></el-option>
-      <el-option label="货物2" :value="2"></el-option>
+      <el-option v-for="item in goodsList" :key="item.goodsId" :label="item.goodsName" :value="item.goodsId"></el-option>
     </el-select>
   </div>
-  <component :is="currentSchemeComponent"/>
+  <component :is="currentSchemeComponent" :goodsId="currentGoods.goodsId"/>
 </template>
 
 <style scoped>

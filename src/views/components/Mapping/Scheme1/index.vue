@@ -9,11 +9,36 @@ import robotCarReverse from '@/assets/robotCarReverse.png'
 import armsRobotReverse from '@/assets/armsRobotsReverse.png'
 import shelf from '@/assets/shelf.png'
 import goods from '@/assets/goods.png'
-import { getRobotCar, getArmsRobot, getArmsRobot2 } from './api';
+import { getMap } from '@/api/map';
 import type { RobotType } from './type';
 
-onBeforeMount(() => {
-    initData()
+const props = defineProps({
+  goodsId: {
+    type: Number,
+    default: 0
+  }
+})
+
+onBeforeMount(async () => {
+  const res = await getMap(props.goodsId)
+  const { data } = res
+  const { pathList, shelfPosition } = data
+  currentPath.value = pathList[0].path
+  robot1.value = {
+    robotName: pathList[0].robotName,
+    robotType: '装载机器人'
+  }
+  //@ts-ignore
+  robot1.value.robotType = '装载机器人'
+  currentPath2.value = pathList[1].path
+  currentPath3.value = pathList[2].path
+  robot2.value = {
+    robotName: pathList[2].robotName,
+    robotType: '机械臂装载机器人'
+  }
+  shelfPosition.value = shelfPosition
+  
+  initData()
 })
 
 const stageContainer = ref();
@@ -21,9 +46,7 @@ const stageContainer = ref();
 const currentPath = ref([])
 const currentPath2 = ref([])
 const currentPath3 = ref([])
-
-const robot1 = ref<RobotType>()
-const robot2 = ref<RobotType>()
+const shelfPosition = ref()
 
 const currentRobot = ref<RobotType>()
 
@@ -37,6 +60,10 @@ let path3 = reactive([[]])
 const isGetGoodsFinish = ref<Boolean>(false)
 const isLoadFinish = ref<Boolean>(false)
 const isShlefFinish = ref<Boolean>(false)
+
+const robot1 = ref<RobotType>()
+const robot2 = ref<RobotType>()
+
 
 const step = ref<number>(0)
 const imageSrc = ref()
@@ -100,16 +127,7 @@ watch(() => step.value, (value) => {
 
 
 const initData = async () => {
-  const data = await getRobotCar()
-  // @ts-ignore
-  currentPath.value = data.path
-  robot1.value = {
-    robotName: data.robotName,
-    robotType: robotsType[data.robotType]
-  }
   currentRobot.value = robot1.value
-  
-
 
   path.splice(0)
 
@@ -117,7 +135,7 @@ const initData = async () => {
   currentPath.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
     }
     if(index % 5 === 0) {
       //@ts-ignore
@@ -125,20 +143,10 @@ const initData = async () => {
     }
     if(index % 5 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
     }
   })
 
-
-
-  const data2 = await getArmsRobot()
-  // @ts-ignore
-  currentPath2.value = data2.path
-
-  robot2.value = {
-    robotName: data2.robotName,
-    robotType: robotsType[data2.robotType]
-  }
 
   path2.splice(0)
 
@@ -146,7 +154,7 @@ const initData = async () => {
   currentPath2.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
     }
     if(index % 5 === 0) {
       //@ts-ignore
@@ -154,14 +162,11 @@ const initData = async () => {
     }
     if(index % 5 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
     }
 
   })
 
-  const data3 = await getArmsRobot2()
-  // @ts-ignore
-  currentPath3.value = data3.path
 
   path3.splice(0)
 
@@ -169,7 +174,7 @@ const initData = async () => {
   currentPath3.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
     }
     if(index % 5 === 0) {
       //@ts-ignore
@@ -177,7 +182,7 @@ const initData = async () => {
     }
     if(index % 5 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path3.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path3.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
     }
   })
 

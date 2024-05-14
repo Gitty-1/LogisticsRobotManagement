@@ -3,6 +3,7 @@ import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import type { RuleForm, GoodsType, RobotType } from './type';
 import { assignTask, getAvailableRobot } from '@/api/assignTask';
+import { tr } from 'element-plus/es/locale/index.mjs';
 
 const props = defineProps({
     visible: {
@@ -66,6 +67,8 @@ const rules = reactive<FormRules<RuleForm>>({
 const transportRobots = ref<RobotType[]>()
 const armsRobots = ref<RobotType[]>()
 
+const isCancel = ref<Boolean>(false)
+
 watch(() => props.visible, (newValue) => {
     visible.value = newValue
 }, {})
@@ -73,7 +76,8 @@ watch(() => visible.value, async (newValue) => {
     if(!visible.value) {
       // @ts-ignore
       Object.keys(transportGoodsData).forEach((item: string) => transportGoodsData[item] = '')
-      emits('updateTransportGoodsVisible')
+      emits('updateTransportGoodsVisible', isCancel.value)
+      isCancel.value = false
     } else {
         // 机械臂装载机器人
         const res = await getAvailableRobot({taskType: 2})
@@ -87,6 +91,7 @@ watch(() => visible.value, async (newValue) => {
 
 const onCancel = () => {
     visible.value = false
+    isCancel.value = true
 }
 const onOk = (form: FormInstance | undefined) => {
     if(!form) return
@@ -114,7 +119,7 @@ const onOk = (form: FormInstance | undefined) => {
 }
 </script>
 <template>
-  <el-dialog v-model="visible" width="60%">
+  <el-dialog v-model="visible" width="60%" @close="onCancel">
     <el-tag size="large">运输货物</el-tag>
     <div style="margin-top: 20px;">
         <el-tag type="info">待运输货物：{{ props.currentTransportGoods.goodsName }}</el-tag>

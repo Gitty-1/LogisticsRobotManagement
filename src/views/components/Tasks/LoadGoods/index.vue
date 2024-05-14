@@ -36,6 +36,8 @@ const rules = reactive<FormRules<RuleForm>>({
 })
 const loadRobots = ref<RobotType[]>()
 
+const isCancel = ref<Boolean>(false)
+
 watch(() => props.visible, (newValue) => {
     visible.value = newValue
 }, {})
@@ -43,7 +45,8 @@ watch(() => visible.value, async (newValue) => {
     if(!visible.value) {
       // @ts-ignore
       Object.keys(loadGoodsData).forEach((item: string) => loadGoodsData[item] = '')
-      emits('updateLoadGoodsVisible')
+      emits('updateLoadGoodsVisible', isCancel.value)
+      isCancel.value = false
     } else {
       const res = await getAvailableRobot({taskType: 1})
       const { data } = res
@@ -53,6 +56,7 @@ watch(() => visible.value, async (newValue) => {
 
 const onCancel = () => {
   visible.value = false
+  isCancel.value = true
 }
 const onOk = (form: FormInstance | undefined) => {
   if(!form) return
@@ -71,7 +75,7 @@ const onOk = (form: FormInstance | undefined) => {
 }
 </script>
 <template>
-  <el-dialog v-model="visible" width="60%">
+  <el-dialog v-model="visible" width="60%" @close="onCancel">
     <el-tag size="large">装载货物</el-tag>
     <div>
       <el-tag type="info" style="margin-top: 20px;">待装载货物：{{ props.currentLoadGoods.goodsName }}</el-tag>

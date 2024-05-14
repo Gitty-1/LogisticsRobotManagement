@@ -51,16 +51,25 @@ const handleTaskProgress = (goods: GoodsType) => {
 }
 
 const loadGoodsVisible = ref(false)
-const updateLoadGoodsVisible = () => {
+const updateLoadGoodsVisible = (isCancel: boolean) => {
   loadGoodsVisible.value = false
-  transportGoodsVisible.value = true
+  console.log('can', isCancel)
+  if(!isCancel) {
+    currentTransportGoods.value = currentLoadGoods.value
+    transportGoodsVisible.value = true
+  }
+  initData()
 }
 const currentLoadGoods = ref<GoodsType>()
 
 const transportGoodsVisible = ref(false)
-const updateTransportGoodsVisible = () => {
+const updateTransportGoodsVisible = (isCancel: boolean) => {
   transportGoodsVisible.value = false
-  shelvesGoodsVisible.value = true
+  if(!isCancel) {
+    currentShelvesGoods.value = currentTransportGoods.value
+    shelvesGoodsVisible.value = true
+  }
+  initData()
 }
 const currentTransportGoods = ref<GoodsType>()
 
@@ -85,27 +94,21 @@ const taskProgress: stringKey = {
 }
 
 const handleAssignTask = (goods: GoodsType) => {
-    if(goods.taskType === 0 && goods.taskStatus === 0) {
+    if(goods.taskType === 0) {
         loadGoodsVisible.value = true
         currentLoadGoods.value = goods
-    } else if(goods.taskType === 1 && goods.taskStatus === 2) {
+    } else if(goods.taskType === 1) {
         transportGoodsVisible.value = true
         currentTransportGoods.value = goods
-    } else if((goods.taskType === 2 || goods.taskType === 3) && goods.taskStatus === 2 ) {
+    } else if(goods.taskType === 2 || goods.taskType === 3) {
         shelvesGoodsVisible.value = true
         currentShelvesGoods.value = goods
     }
 }
 
-const handleOut = (goods: GoodsType) => {
-    messageBox(`${goods.goodsName} 即将出库，是否继续`, 'warning', () => {
-        message('出库成功', 'success')
-    })
-}
 
 const isAbleAssignTask = (goods: GoodsType) => {
-    const { taskStatus, taskType } = goods
-    if(taskType === 0 && taskStatus === 0 || taskType === 1 && taskStatus === 2 || (taskType === 2 || taskType === 3) && taskStatus === 2) return true
+    if(goods.taskType !== 4) return true
     return false
 }
 
@@ -145,8 +148,8 @@ const getTooltipContent = (goods: GoodsType) => {
             </el-table-column>
             <el-table-column prop="operator" label="操作" fixed="right">
                 <template #default="scope">
-                    <el-tooltip effect="dark" placement="top-start" :content="getTooltipContent(scope.row)" :hide-after="0" :disabled="isAbleAssignTask(scope.row)">
-                        <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="!isAbleAssignTask(scope.row)" >分配任务</el-button>
+                    <el-tooltip effect="dark" placement="top-start" content="任务已分配完成" :hide-after="0" :disabled="isAbleAssignTask(scope.row)">
+                      <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="!isAbleAssignTask(scope.row)">分配任务</el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
