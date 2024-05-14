@@ -20,7 +20,6 @@ const stageContainer = ref();
 
 const currentPath = ref([])
 const currentPath2 = ref([])
-const currentPath3 = ref([])
 
 const robot1 = ref<RobotType>()
 const robot2 = ref<RobotType>()
@@ -31,12 +30,10 @@ let stage: Stage, layer: Layer;
 // 定义路径数组，每个路径包含一系列坐标点
 let path = reactive([[]])
 let path2 = reactive([[]])
-let path3 = reactive([[]])
 
 // 第一种方案
 const isGetGoodsFinish = ref<Boolean>(false)
 const isLoadFinish = ref<Boolean>(false)
-const isShlefFinish = ref<Boolean>(false)
 
 const step = ref<number>(0)
 const imageSrc = ref()
@@ -54,9 +51,7 @@ const robotsType: numStrKey = {
 
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
-    // 货物搬运完成，返回
     goodsIcon.value.remove()
-    console.log('1221')
     animation(path2)
 
     imageSrc.value = armsRobot
@@ -72,28 +67,15 @@ watch(() => isLoadFinish.value, (value) => {
     const reversePath = [...path2.slice().reverse(), ...path.slice().reverse()]
     animation(reversePath)
 
-    imageSrc.value = armsRobot
-    animation(path3)
-
   }
 })
 
-
-watch(() => isShlefFinish.value, (value) => {
-  if(value) {
-    goodsIcon.value = createGoods(path3[path3.length - 1][0], path3[path3.length - 1][1])
-    imageSrc.value = armsRobotReverse
-    animation(path3.slice().reverse())
-  }
-})
 
 watch(() => step.value, (value) => {
   if(value === 1) {
     taskProgress.value = '货物获取完成'
   } else if(value === 2) {
     taskProgress.value = '货物运输中'
-  } else if(value === 3) {
-    taskProgress.value = '货物上架完成!!!'
   }
   console.log(value)
 })
@@ -114,19 +96,9 @@ const initData = async () => {
   path.splice(0)
 
   // @ts-ignore
-  currentPath.value.map((item: any, index: number) => {
-    if(index === 0) {
+  currentPath.value.map((item: any) => {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
-    if(index % 5 === 0) {
-      //@ts-ignore
-      path.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
-    if(index % 5 !== 0 && index === currentPath.value.length - 1) {
-      //@ts-ignore
-      path.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
+      path.push([item.positionX * 1000, item.positionY * 500])
   })
 
 
@@ -144,41 +116,9 @@ const initData = async () => {
 
   // @ts-ignore
   currentPath2.value.map((item: any, index: number) => {
-    if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
-    if(index % 5 === 0) {
-      //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
-    if(index % 5 !== 0 && index === currentPath.value.length - 1) {
-      //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
+      path2.push([item.positionX * 1000, item.positionY * 500])
 
-  })
-
-  const data3 = await getArmsRobot2()
-  // @ts-ignore
-  currentPath3.value = data3.path
-
-  path3.splice(0)
-
-  // @ts-ignore
-  currentPath3.value.map((item: any, index: number) => {
-    if(index === 0) {
-      //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
-    if(index % 5 === 0) {
-      //@ts-ignore
-      path3.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
-    if(index % 5 !== 0 && index === currentPath.value.length - 1) {
-      //@ts-ignore
-      path3.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
-    }
   })
 
 
@@ -332,10 +272,6 @@ const animateIcon = (icon: any, path: any) => {
             isLoadFinish.value = true
             step.value = 2
             icon.remove()
-        } else if(!isShlefFinish.value && step.value === 2) {
-            isShlefFinish.value = true
-            step.value = 3
-            icon.remove()
         }
         return;
     }
@@ -388,7 +324,7 @@ const createRectangle = (item: any) => {
     fontSize: 12,
     fontFamily: 'Arial',
     fill: 'black', // 确保文本颜色对比度足够高
-    x: -image.width / 6 + 10, // 调整文本位置，可能需要根据图片大小和文本长度进行调整
+    x: -image.width / 6 + 20, // 调整文本位置，可能需要根据图片大小和文本长度进行调整
     y: -image.height / 6 + 100, // 调整文本位置，确保位于图片上方
   });
   group.add(text);
@@ -408,7 +344,7 @@ const createGoods = (x: number, y: number) => {
   const image = new Image();
   image.onload = () => {
     const konvaImage = new Konva.Image({
-      x: -image.width / 6 + 10,
+      x: -image.width / 6 + 20,
       y: -image.height / 6 + 10,
       image: image,
       width: image.width / 6,

@@ -53,14 +53,14 @@ const handleTaskProgress = (goods: GoodsType) => {
 const loadGoodsVisible = ref(false)
 const updateLoadGoodsVisible = () => {
   loadGoodsVisible.value = false
-  initData()
+  transportGoodsVisible.value = true
 }
 const currentLoadGoods = ref<GoodsType>()
 
 const transportGoodsVisible = ref(false)
 const updateTransportGoodsVisible = () => {
   transportGoodsVisible.value = false
-  initData()
+  shelvesGoodsVisible.value = true
 }
 const currentTransportGoods = ref<GoodsType>()
 
