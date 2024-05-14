@@ -134,17 +134,16 @@ const getTooltipContent = (goods: GoodsType) => {
             </el-input>
         </div>
         <el-table :data="goodsData" class="task-table">
-            <el-table-column prop="goodsId" label="货物ID" width="300"></el-table-column>
-            <el-table-column prop="goodsName" label="货物名称" width="300"></el-table-column>
-            <el-table-column prop="taskProgress" label="任务进度" width="300">
+            <el-table-column prop="goodsId" label="货物ID" width="380"></el-table-column>
+            <el-table-column prop="goodsName" label="货物名称" width="380"></el-table-column>
+            <el-table-column prop="taskProgress" label="任务进度" width="380">
                 <template #default="scope">
                     <el-tooltip effect="dark" placement="top-start" content="未分配任何任务，无法查看" :disabled="scope.row.taskStatus !== null || scope.row.taskType !== null">
                         <el-button type="primary" link size="small" :disabled="scope.row.taskStatus === null && scope.row.taskType === null" @click="handleTaskProgress(scope.row)">查看</el-button>
                     </el-tooltip>
-                    
                 </template>
             </el-table-column>
-            <el-table-column prop="operator" label="操作" width="200">
+            <el-table-column prop="operator" label="操作" fixed="right">
                 <template #default="scope">
                     <el-tooltip effect="dark" placement="top-start" :content="getTooltipContent(scope.row)" :hide-after="0" :disabled="isAbleAssignTask(scope.row)">
                         <el-button type="primary" link size="small" @click="handleAssignTask(scope.row)" :disabled="!isAbleAssignTask(scope.row)" >分配任务</el-button>

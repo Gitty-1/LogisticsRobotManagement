@@ -78,12 +78,10 @@ watch(() => isShlefFinish.value, (value) => {
 
 watch(() => step.value, (value) => {
     if(value === 1) {
-        taskProgress.value = '货物运输中'
-    } else if(value === 2) {
         taskProgress.value = '货物运输完成，准备夹取'
-    } else if(value === 3) {
+    } else if(value === 2) {
         taskProgress.value = '货物夹取完成，准备上架'
-    } else if(value === 4) {
+    } else if(value === 3) {
         taskProgress.value = '货物上架完成!!!'
     }
 })
@@ -139,7 +137,7 @@ const initData = async () => {
   })
 
 
-  taskProgress.value = '货物搬运中'
+  taskProgress.value = '货物运输中'
 
   init();
 
@@ -287,6 +285,7 @@ const animateIcon = (icon: any, path: any) => {
         } else if(!isShlefFinish.value && step.value === 2) {
             isShlefFinish.value = true
             step.value = 3
+            icon.remove()
         }
         return;
     }

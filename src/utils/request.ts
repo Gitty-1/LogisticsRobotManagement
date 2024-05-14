@@ -10,8 +10,9 @@ const request = axios.create({
 
 // 异常处理
 const errorHandle = (error: any) => {
+    console.log('error', error)
     const code = error?.response?.status
-    const msg = error?.response?.data
+    const msg = error?.response?.data || '服务器异常'
     message(msg, 'error')
     if(code === 401) {
         deleteCookie()
