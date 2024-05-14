@@ -5,6 +5,8 @@ import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
 import robotCar from '@/assets/robotCar.png'
 import arms from '@/assets/arms.png'
+import robotCarReverse from '@/assets/robotCarReverse.png'
+import armsReverse from '@/assets/armsReverse.png'
 import shelf from '@/assets/shelf.png'
 import goods from '@/assets/goods.png'
 import { getRobotCar, getClamp, getArmsShelf } from './api';
@@ -54,6 +56,7 @@ const taskProgress = ref<string>()
 watch(() => isTransFinish.value, (value) => {
     // 运输完成，返回
     goodsIcon.value = createGoods(path[path.length - 1][0], path[path.length - 1][1])
+    imageSrc.value = robotCarReverse
     animation(path.slice().reverse())
 
     imageSrc.value = arms
@@ -64,6 +67,7 @@ watch(() => isTransFinish.value, (value) => {
 watch(() => isClampFinish.value, (value) => {
     goodsIcon.value.remove()
     // 开始运输上架
+    imageSrc.value = armsReverse
     animation(path3)
 })
 
@@ -72,6 +76,7 @@ watch(() => isShlefFinish.value, (value) => {
         // 上架完成，返回
         goodsIcon.value = createGoods(path3[path3.length - 1][0], path3[path3.length - 1][1])
         const reversePath = [...path3.slice().reverse(), ...path2.slice().reverse()]
+        imageSrc.value = arms
         animation(reversePath)
     }
 })
