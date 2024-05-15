@@ -16,7 +16,7 @@ onBeforeMount(async () => {
   currentSchemeComponent.value = Default
 })
 
-const currentSchemeComponent = ref<typeof Path3 | typeof Path2 | typeof Default | null>(null)
+const currentSchemeComponent = ref<typeof Path3 | typeof Path2 | typeof Path1 | typeof Default | null>(null)
 
 const goodsList = ref<GoodsType[]>()
 const currentGoods = reactive<GoodsType>({
@@ -33,6 +33,10 @@ watch(() => currentGoods.goodsId, async (value) => {
     const { scheme, pathCount } = data
     currentScheme.value = scheme
     if(pathCount === 3) {
+      currentSchemeComponent.value = Path3
+    } else if(pathCount === 2) {
+      currentSchemeComponent.value = Path2
+    } else if(pathCount === 1) {
       currentSchemeComponent.value = Path1
     }
   } else {

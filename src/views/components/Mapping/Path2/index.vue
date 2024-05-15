@@ -84,8 +84,6 @@ watch(() => isGetGoodsFinish.value, (value) => {
 
 watch(() => isLoadFinish.value, (value) => {
   if(value) {
-    robotIcon.value.remove()
-
     imageSrc.value = robotCarReverse
     const reversePath = [...path2.slice().reverse(), ...path.slice().reverse()]
     animation(reversePath)
@@ -109,19 +107,37 @@ const initData = async () => {
   
   path.splice(0)
 
-  // @ts-ignore
-  currentPath.value.map((item: any) => {
+  currentPath.value.map((item: any, index: number) => {
+    if(index === 0) {
       //@ts-ignore
-      path.push([item.positionX * 1000, item.positionY * 500])
+      path.push([item.positionX * 300, item.positionY * 100 + 200])
+    }
+    if(index % 10 === 0) {
+      //@ts-ignore
+      path.push([item.positionX * 300, item.positionY * 100 + 200])
+    }
+    if(index % 10 !== 0 && index === currentPath.value.length) {
+      //@ts-ignore
+      path.push([item.positionX * 300, item.positionY * 100 + 200])
+    }
   })
 
   path2.splice(0)
 
   // @ts-ignore
   currentPath2.value.map((item: any, index: number) => {
+    if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 1000, item.positionY * 500])
-
+      path2.push([item.positionX * 300, item.positionY * 100 + 200])
+    }
+    if(index % 10 === 0) {
+      //@ts-ignore
+      path2.push([item.positionX * 300, item.positionY * 100 + 200])
+    }
+    if(index % 10 !== 0 && index === currentPath.value.length) {
+      //@ts-ignore
+      path2.push([item.positionX * 300, item.positionY * 100 + 200])
+    }
   })
 
 

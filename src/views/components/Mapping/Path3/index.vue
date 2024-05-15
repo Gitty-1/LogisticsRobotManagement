@@ -151,15 +151,15 @@ const initData = async () => {
   currentPath.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
+      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 5 === 0) {
+    if(index % 10 === 0) {
       //@ts-ignore
-      path.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 5 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
+      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
   })
 
@@ -169,15 +169,15 @@ const initData = async () => {
   currentPath2.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
+      path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 5 === 0) {
+    if(index % 10 === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 5 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
+      path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
 
   })
@@ -188,15 +188,17 @@ const initData = async () => {
   currentPath3.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
-    }
-    if(index % 5 === 0) {
+      path3.push(path2[path2.length - 1])
       //@ts-ignore
-      path3.push([item.positionX * 300 + index * 10 - 100, item.positionY * 300 + index * 5 - 50])
+      path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
     }
-    if(index % 5 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 10 === 0) {
       //@ts-ignore
-      path3.push([item.positionX * 300 - 100, item.positionY * 300 - 50])
+      path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
+    }
+    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
+      //@ts-ignore
+      path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
     }
   })
 
@@ -207,6 +209,8 @@ const initData = async () => {
     init();
   }
 
+  currentShelfPosition.value.positionX = path3[path3.length - 1][0]
+  currentShelfPosition.value.positionY = path3[path3.length - 1][1]
   createRectangle(currentShelfPosition.value)
 
 
@@ -384,8 +388,8 @@ const animateIcon = (icon: any, path: any) => {
 const createRectangle = (item: any) => {
   // 创建一个组
   const group = new Konva.Group({
-    x: item.positionX * 20,
-    y: item.positionY * 5,
+    x: item.positionX,
+    y: item.positionY
   });
 
   console.log(item.positionX * 20, item.positionY * 5)

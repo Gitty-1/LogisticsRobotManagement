@@ -73,9 +73,19 @@ const initData = async () => {
   path.splice(0)
 
   // @ts-ignore
-  currentPath.value.map((item: any) => {
+  currentPath.value.map((item: any, index: number) => {
+    if(index === 0) {
       //@ts-ignore
-      path.push([item.positionX * 1000, item.positionY * 500])
+      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+    }
+    if(index % 10 === 0) {
+      //@ts-ignore
+      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+    }
+    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
+      //@ts-ignore
+      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+    }
   })
 
 
@@ -222,7 +232,6 @@ const animateIcon = (icon: any, path: any) => {
         if(!isGetGoodsFinish.value && step.value === 0) {
             isGetGoodsFinish.value = true
             step.value = 1
-            icon.remove()
         }
         return;
     }
