@@ -7,6 +7,8 @@ import robotCar from '@/assets/robotCar.png'
 import armsRobot from '@/assets/armsRobots.png'
 import robotCarReverse from '@/assets/robotCarReverse.png'
 import armsRobotReverse from '@/assets/armsRobotsReverse.png'
+import arms from '@/assets/arms.png'
+import armsReverse from '@/assets/armsReverse.png'
 import shelf from '@/assets/shelf.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
@@ -14,6 +16,10 @@ import type { RobotType } from './type';
 
 const props = defineProps({
   goodsId: {
+    type: Number,
+    default: 0
+  },
+  scheme: {
     type: Number,
     default: 0
   }
@@ -28,17 +34,22 @@ onBeforeMount(async () => {
     robotName: pathList[0].robotName,
     robotType: '装载机器人'
   }
-  //@ts-ignore
-  robot1.value.robotType = '装载机器人'
   currentPath2.value = pathList[1].path
   currentPath3.value = pathList[2].path
-  robot2.value = {
-    robotName: pathList[2].robotName,
-    robotType: '机械臂装载机器人'
+  if(props.scheme === 1) {
+    robot2.value = {
+      robotName: pathList[2].robotName,
+      robotType: '机械臂装载机器人'
+    }
+  } else {
+    robot2.value = {
+      robotName: pathList[2].robotName,
+      robotType: '机械臂'
+    }
   }
-  shelfPosition.value = shelfPosition
-  
+  currentShelfPosition.value = shelfPosition  
   initData()
+
 })
 
 const stageContainer = ref();
@@ -46,7 +57,7 @@ const stageContainer = ref();
 const currentPath = ref([])
 const currentPath2 = ref([])
 const currentPath3 = ref([])
-const shelfPosition = ref()
+const currentShelfPosition = ref()
 
 const currentRobot = ref<RobotType>()
 
@@ -72,13 +83,6 @@ const robotIcon = ref()
 
 const taskProgress = ref<string>()
 
-type numStrKey = Record<number, string>
-const robotsType: numStrKey = {
-  1: '装载机器人',
-  2: '带臂装载机器人',
-  3: '机械臂'
-}
-
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
     // 货物搬运完成，返回
@@ -86,7 +90,11 @@ watch(() => isGetGoodsFinish.value, (value) => {
     console.log('1221')
     animation(path2)
 
-    imageSrc.value = armsRobot
+    if(props.scheme === 1) {
+      imageSrc.value = armsRobot
+    } else {
+      imageSrc.value = arms
+    }
     robotIcon.value = createNode(path2[path2.length-1][0], path2[path2.length-1][1])
   }
 })
@@ -99,7 +107,11 @@ watch(() => isLoadFinish.value, (value) => {
     const reversePath = [...path2.slice().reverse(), ...path.slice().reverse()]
     animation(reversePath)
 
-    imageSrc.value = armsRobot
+    if(props.scheme === 1) {
+      imageSrc.value = armsRobot
+    } else {
+      imageSrc.value = arms
+    }
     animation(path3)
 
   }
@@ -109,7 +121,12 @@ watch(() => isLoadFinish.value, (value) => {
 watch(() => isShlefFinish.value, (value) => {
   if(value) {
     goodsIcon.value = createGoods(path3[path3.length - 1][0], path3[path3.length - 1][1])
-    imageSrc.value = armsRobotReverse
+
+    if(props.scheme === 1) {
+      imageSrc.value = armsRobotReverse
+    } else {
+      imageSrc.value = armsReverse
+    }
     animation(path3.slice().reverse())
   }
 })
@@ -131,7 +148,6 @@ const initData = async () => {
 
   path.splice(0)
 
-  // @ts-ignore
   currentPath.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
@@ -150,7 +166,6 @@ const initData = async () => {
 
   path2.splice(0)
 
-  // @ts-ignore
   currentPath2.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
@@ -170,7 +185,6 @@ const initData = async () => {
 
   path3.splice(0)
 
-  // @ts-ignore
   currentPath3.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
@@ -193,6 +207,9 @@ const initData = async () => {
     init();
   }
 
+  createRectangle(currentShelfPosition.value)
+
+
   goodsIcon.value = createGoods(path[path.length - 1][0], path[path.length - 1][1])
 
 
@@ -212,9 +229,8 @@ const init = async () => {
   layer = new Konva.Layer();
   stage.add(layer);
 
-  createRectangle({positionX: 1.00, positionY: 0.93})
 
-};
+}
 
 const animation = async (path: any) => {
   // 绘制路径线
@@ -368,9 +384,11 @@ const animateIcon = (icon: any, path: any) => {
 const createRectangle = (item: any) => {
   // 创建一个组
   const group = new Konva.Group({
-    x: item.positionX * 1000,
-    y: item.positionY * 500,
+    x: item.positionX * 20,
+    y: item.positionY * 5,
   });
+
+  console.log(item.positionX * 20, item.positionY * 5)
 
   // 创建图片节点
   const image = new Image();

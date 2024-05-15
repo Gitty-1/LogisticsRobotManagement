@@ -4,10 +4,6 @@ import Konva from 'konva';
 import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
 import robotCar from '@/assets/robotCar.png'
-import armsRobot from '@/assets/armsRobots.png'
-import robotCarReverse from '@/assets/robotCarReverse.png'
-import arms from '@/assets/arms.png'
-import shelf from '@/assets/shelf.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
 import type { RobotType } from './type';
@@ -32,14 +28,12 @@ onBeforeMount(async () => {
     robotName: pathList[0].robotName,
     robotType: '装载机器人'
   }
-  currentPath2.value = pathList[1].path
   initData()
 })
 
 const stageContainer = ref();
 
 const currentPath = ref([])
-const currentPath2 = ref([])
 
 const robot1 = ref<RobotType>()
 
@@ -48,11 +42,9 @@ const currentRobot = ref<RobotType>()
 let stage: Stage, layer: Layer;
 // 定义路径数组，每个路径包含一系列坐标点
 let path = reactive([[]])
-let path2 = reactive([[]])
 
 // 第一种方案
 const isGetGoodsFinish = ref<Boolean>(false)
-const isLoadFinish = ref<Boolean>(false)
 
 const step = ref<number>(0)
 const imageSrc = ref()
@@ -61,35 +53,9 @@ const robotIcon = ref()
 
 const taskProgress = ref<string>()
 
-type numStrKey = Record<number, string>
-const robotsType: numStrKey = {
-  1: '装载机器人',
-  2: '带臂装载机器人',
-  3: '机械臂'
-}
-
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
     goodsIcon.value.remove()
-    animation(path2)
-
-    if(props.scheme === 1) {
-      imageSrc.value = armsRobot
-    } else {
-      imageSrc.value = arms
-    }
-    robotIcon.value = createNode(path2[path2.length-1][0], path2[path2.length-1][1])
-  }
-})
-
-watch(() => isLoadFinish.value, (value) => {
-  if(value) {
-    robotIcon.value.remove()
-
-    imageSrc.value = robotCarReverse
-    const reversePath = [...path2.slice().reverse(), ...path.slice().reverse()]
-    animation(reversePath)
-
   }
 })
 
@@ -97,10 +63,7 @@ watch(() => isLoadFinish.value, (value) => {
 watch(() => step.value, (value) => {
   if(value === 1) {
     taskProgress.value = '货物获取完成'
-  } else if(value === 2) {
-    taskProgress.value = '货物运输中'
   }
-  console.log(value)
 })
 
 
@@ -113,15 +76,6 @@ const initData = async () => {
   currentPath.value.map((item: any) => {
       //@ts-ignore
       path.push([item.positionX * 1000, item.positionY * 500])
-  })
-
-  path2.splice(0)
-
-  // @ts-ignore
-  currentPath2.value.map((item: any, index: number) => {
-      //@ts-ignore
-      path2.push([item.positionX * 1000, item.positionY * 500])
-
   })
 
 
@@ -269,10 +223,6 @@ const animateIcon = (icon: any, path: any) => {
             isGetGoodsFinish.value = true
             step.value = 1
             icon.remove()
-        } else if(!isLoadFinish.value && step.value === 1) {
-            isLoadFinish.value = true
-            step.value = 2
-            icon.remove()
         }
         return;
     }
@@ -294,44 +244,6 @@ const animateIcon = (icon: any, path: any) => {
 
   // 从第一个点开始
   moveToNextPoint(1); // 从索引1开始，因为起点已经是索引0
-};
-
-// 创建长方形
-const createRectangle = (item: any) => {
-  // 创建一个组
-  const group = new Konva.Group({
-    x: item.positionX * 1000,
-    y: item.positionY * 500,
-  });
-
-  // 创建图片节点
-  const image = new Image();
-  image.onload = () => {
-    const konvaImage = new Konva.Image({
-      x: -image.width / 6,
-      y: -image.height / 6,
-      image: image,
-      width: image.width / 3,
-      height: image.height / 3,
-    });
-    group.add(konvaImage);
-    layer.batchDraw(); // 更新画布
-  };
-  image.src = shelf;
-
-  // 创建文本并添加到组中
-  const text = new Konva.Text({
-    text: item.name,
-    fontSize: 12,
-    fontFamily: 'Arial',
-    fill: 'black', // 确保文本颜色对比度足够高
-    x: -image.width / 6 + 20, // 调整文本位置，可能需要根据图片大小和文本长度进行调整
-    y: -image.height / 6 + 100, // 调整文本位置，确保位于图片上方
-  });
-  group.add(text);
-
-  // 将组添加到舞台
-  layer.add(group);
 };
 
 const createGoods = (x: number, y: number) => {
