@@ -94,9 +94,9 @@ const handleDeleteRobots = (robot: RobotDataType) => {
     <MyBreadcrumb title="机器人管理"></MyBreadcrumb>
     <div class="robots-container">
       <div class="search">
-        <el-input v-model="keyWord" class="search-input" placeholder="搜索机器人名称或者机器人ID">
+        <el-input v-model="keyWord" class="search-input" placeholder="搜索机器人名称或者机器人ID" @keyup.enter="initData">
           <template #append>
-            <el-button icon="Search" />
+            <el-button icon="Search" @click="initData" />
           </template>
         </el-input>
         <el-button type="primary" @click="addRobotVisible = true">添加</el-button>
