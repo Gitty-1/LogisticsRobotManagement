@@ -173,11 +173,11 @@ const initData = async () => {
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 === 0) { 
+    if(index % 15 === 0) { 
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
@@ -191,11 +191,11 @@ const initData = async () => {
       //@ts-ignore
       path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 === 0) {
+    if(index % 15 === 0) {
       //@ts-ignore
       path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
       path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
@@ -212,11 +212,11 @@ const initData = async () => {
       //@ts-ignore
       path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
     }
-    if(index % 10 === 0) {
+    if(index % 15 === 0) {
       //@ts-ignore
       path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
     }
-    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
       path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
     }
@@ -337,7 +337,7 @@ const createPointCircle = (x: number, y: number, index: number) => {
   const circle = new Konva.Circle({
     x: x,
     y: y,
-    radius: 2,
+    radius: 4,
     fill: 'green',
   });
   layer.add(circle);

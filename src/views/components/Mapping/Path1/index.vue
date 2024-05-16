@@ -81,11 +81,11 @@ const initData = async () => {
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 === 0) {
+    if(index % 15 === 0) {
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 !== 0 && index === currentPath.value.length - 1) {
+    if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
@@ -201,7 +201,7 @@ const createPointCircle = (x: number, y: number, index: number) => {
   const circle = new Konva.Circle({
     x: x,
     y: y,
-    radius: 5,
+    radius: 4,
     fill: 'green',
   });
   layer.add(circle);
@@ -210,7 +210,7 @@ const createPointCircle = (x: number, y: number, index: number) => {
     x: x + 10,
     y: y - 10,
     text: `(${x.toFixed(0)},${y.toFixed(0)})`,
-    fontSize: 12,
+    fontSize: 10,
     fill: 'black',
   });
   layer.add(text);
