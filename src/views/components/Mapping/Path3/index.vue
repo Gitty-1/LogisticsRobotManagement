@@ -7,8 +7,8 @@ import robotCar from '@/assets/robotCar.png'
 import armsRobot from '@/assets/armsRobots.png'
 import robotCarReverse from '@/assets/robotCarReverse.png'
 import armsRobotReverse from '@/assets/armsRobotsReverse.png'
-import arms from '@/assets/arms.png'
 import armsReverse from '@/assets/armsReverse.png'
+import arms from '@/assets/arms.png'
 import shelf from '@/assets/shelf.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
@@ -85,11 +85,10 @@ const taskProgress = ref<string>()
 
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
-    // 货物搬运完成，返回
     goodsIcon.value.remove()
-    console.log('1221')
     animation(path2)
 
+    currentRobot.value = robot2.value
     if(props.scheme === 1) {
       imageSrc.value = armsRobot
     } else {
@@ -103,10 +102,12 @@ watch(() => isLoadFinish.value, (value) => {
   if(value) {
     robotIcon.value.remove()
 
+    currentRobot.value = robot1.value
     imageSrc.value = robotCarReverse
     const reversePath = [...path2.slice().reverse(), ...path.slice().reverse()]
     animation(reversePath)
 
+    currentRobot.value = robot2.value
     if(props.scheme === 1) {
       imageSrc.value = armsRobot
     } else {
@@ -276,8 +277,8 @@ const createNode = (x: number, y: number) => {
 
   // 创建提示信息
   const tooltip = new Konva.Label({
-    x: -image.width / 30 + 130,
-    y: -image.height / 30 + 50,
+    x: -image.width / 30 + 100,
+    y: -image.height / 30 + 20,
     opacity: 0.75,
     visible: false,
   });
@@ -391,8 +392,6 @@ const createRectangle = (item: any) => {
     x: item.positionX,
     y: item.positionY
   });
-
-  console.log(item.positionX * 20, item.positionY * 5)
 
   // 创建图片节点
   const image = new Image();

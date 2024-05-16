@@ -34,6 +34,7 @@ watch(() => currentGoods.goodsId, async (value) => {
     currentScheme.value = scheme
     if(pathCount === 3) {
       currentSchemeComponent.value = Path3
+      currentScheme.value = 2
     } else if(pathCount === 2) {
       currentSchemeComponent.value = Path2
     } else if(pathCount === 1) {
