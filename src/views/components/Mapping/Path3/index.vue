@@ -9,6 +9,9 @@ import robotCarReverse from '@/assets/robotCarReverse.png'
 import armsRobotReverse from '@/assets/armsRobotsReverse.png'
 import armsReverse from '@/assets/armsReverse.png'
 import arms from '@/assets/arms.png'
+import robotCarWithGoods from '@/assets/robotCarWithGoods.png'
+import armsRobotWithGoods from '@/assets/armsRobotsWithGoods.png'
+import armsWithGoods from '@/assets/armsWithGoods.png'
 import shelf from '@/assets/shelf.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
@@ -26,6 +29,7 @@ const props = defineProps({
 })
 
 onBeforeMount(async () => {
+  // 获取地图信息，包括机器人信息、路径信息、货架信息
   const res = await getMap(props.goodsId)
   const { data } = res
   const { pathList, shelfPosition } = data
@@ -54,38 +58,53 @@ onBeforeMount(async () => {
 
 const stageContainer = ref();
 
+// 三条路径的原始信息
 const currentPath = ref([])
 const currentPath2 = ref([])
 const currentPath3 = ref([])
+
+// 货架位置信息
 const currentShelfPosition = ref()
 
+// 当前运行路径对应的机器人信息
 const currentRobot = ref<RobotType>()
 
+// 画布对象
 let stage: Stage, layer: Layer;
-// 定义路径数组，每个路径包含一系列坐标点
+
+// 三条路径处理后的数据
 let path = reactive([[]])
 let path2 = reactive([[]])
 let path3 = reactive([[]])
 
-// 第一种方案
+// 路径是否完成变量
 const isGetGoodsFinish = ref<Boolean>(false)
 const isLoadFinish = ref<Boolean>(false)
 const isShlefFinish = ref<Boolean>(false)
 
+// 两个机器人的信息
 const robot1 = ref<RobotType>()
 const robot2 = ref<RobotType>()
 
-
+// 物流步骤
 const step = ref<number>(0)
+
+// 当前机器人运行图标
 const imageSrc = ref()
+
+// 货物图标
 const goodsIcon = ref()
+
+// 机器人静态图标
 const robotIcon = ref()
 
+// 任务进度
 const taskProgress = ref<string>()
 
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
     goodsIcon.value.remove()
+    imageSrc.value = robotCarWithGoods
     animation(path2)
 
     currentRobot.value = robot2.value
@@ -109,9 +128,9 @@ watch(() => isLoadFinish.value, (value) => {
 
     currentRobot.value = robot2.value
     if(props.scheme === 1) {
-      imageSrc.value = armsRobot
+      imageSrc.value = armsRobotWithGoods
     } else {
-      imageSrc.value = arms
+      imageSrc.value = armsWithGoods
     }
     animation(path3)
 
@@ -218,7 +237,6 @@ const initData = async () => {
   goodsIcon.value = createGoods(path[path.length - 1][0], path[path.length - 1][1])
 
 
-  // 装载货物
   imageSrc.value = robotCar
   animation(path);
 
@@ -319,7 +337,7 @@ const createPointCircle = (x: number, y: number, index: number) => {
   const circle = new Konva.Circle({
     x: x,
     y: y,
-    radius: 5,
+    radius: 2,
     fill: 'green',
   });
   layer.add(circle);
@@ -328,7 +346,7 @@ const createPointCircle = (x: number, y: number, index: number) => {
     x: x + 10,
     y: y - 10,
     text: `(${x.toFixed(0)},${y.toFixed(0)})`,
-    fontSize: 12,
+    fontSize: 10,
     fill: 'black',
   });
   layer.add(text);

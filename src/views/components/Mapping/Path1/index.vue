@@ -4,6 +4,7 @@ import Konva from 'konva';
 import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
 import robotCar from '@/assets/robotCar.png'
+import robotCarWithGoods from '@/assets/robotCarWithGoods.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
 import type { RobotType } from './type';
@@ -22,7 +23,7 @@ const props = defineProps({
 onBeforeMount(async () => {
   const res = await getMap(props.goodsId)
   const { data } = res
-  const { pathList, shelfPosition } = data
+  const { pathList } = data
   currentPath.value = pathList[0].path
   robot1.value = {
     robotName: pathList[0].robotName,
@@ -56,6 +57,8 @@ const taskProgress = ref<string>()
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
     goodsIcon.value.remove()
+    imageSrc.value = robotCarWithGoods
+    robotIcon.value = createNode(path[path.length-1][0], path[path.length-1][1])
   }
 })
 

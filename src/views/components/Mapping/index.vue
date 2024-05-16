@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onBeforeMount } from 'vue'
-import Scheme2 from './Scheme2/index.vue'
 import Default from './Default/index.vue'
 import Path1 from './Path1/index.vue'
 import Path2 from './Path2/index.vue'
@@ -34,7 +33,7 @@ watch(() => currentGoods.goodsId, async (value) => {
     currentScheme.value = scheme
     if(pathCount === 3) {
       currentSchemeComponent.value = Path3
-      currentScheme.value = 2
+      // currentScheme.value = 2
     } else if(pathCount === 2) {
       currentSchemeComponent.value = Path2
     } else if(pathCount === 1) {
