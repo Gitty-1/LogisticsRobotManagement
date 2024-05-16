@@ -134,7 +134,7 @@ watch(() => isShlefFinish.value, (value) => {
 
 watch(() => step.value, (value) => {
   if(value === 1) {
-    taskProgress.value = '货物获取完成'
+    taskProgress.value = '货物准备装载'
   } else if(value === 2) {
     taskProgress.value = '货物运输中'
   } else if(value === 3) {
@@ -154,7 +154,7 @@ const initData = async () => {
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
-    if(index % 10 === 0) {
+    if(index % 10 === 0) { 
       //@ts-ignore
       path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
     }
