@@ -3,6 +3,7 @@ import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import type { RuleForm, GoodsType, RobotType } from './type';
 import { assignTask, getAvailableRobot } from '@/api/assignTask';
+import { message } from '@/utils/message'
 
 const props = defineProps({
     visible: {
@@ -69,6 +70,7 @@ const onOk = (form: FormInstance | undefined) => {
         targetShelfId: null
       }
       await assignTask(data)
+      message('分配成功', 'success')
       visible.value = false
     }
   })

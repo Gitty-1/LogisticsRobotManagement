@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { messageBox } from '@/utils/message'
+import { message, messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
 import { updateGoods, getGoodsType } from '@/api/manage'
 import type { GoodsTypeDataType, RuleForm } from './type'
@@ -118,6 +118,8 @@ const onOk = (form: FormInstance | undefined) => {
                     positionY: goodsForm.positionY
                 }
                 updateGoods(data)
+                message('编辑成功', 'success')
+
                 visible.value = false
             })
             

@@ -3,6 +3,8 @@ import { ref, reactive, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import type { RuleForm, GoodsType, ShelfType } from './type';
 import { assignTask, getShelfList } from '@/api/assignTask';
+import { message } from '@/utils/message'
+
 
 const props = defineProps({
     visible: {
@@ -72,6 +74,7 @@ const onOk = (form: FormInstance | undefined) => {
                 targetShelfId: shelvesGoodsData.targetShelf
             }
             await assignTask(data)
+            message('分配成功', 'success')
             visible.value = false
         }
     })

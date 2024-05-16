@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { messageBox } from '@/utils/message'
+import { message, messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
 import { addGoods, getGoodsType } from '@/api/manage'
 import type { GoodsTypeDataType, RuleForm } from './type'
@@ -89,6 +89,7 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             messageBox(`确认添加货物：${goodsForm.goodsName}`, 'info', () => {
                 addGoods(goodsForm)
+                message('添加成功', 'success')
                 visible.value = false
             })
             

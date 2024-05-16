@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { messageBox } from '@/utils/message'
+import { message, messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
 import { addRobots } from '@/api/manage';
 import type { RuleForm } from './type';
@@ -79,6 +79,7 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             messageBox(`确认添加机器人：${robotsForm.robotName}`, 'info', () => {
                 addRobots(robotsForm)
+                message('添加成功', 'success')
                 visible.value = false
             })
         }

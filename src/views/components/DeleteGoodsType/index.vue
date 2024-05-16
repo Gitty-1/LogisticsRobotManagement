@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { messageBox } from '@/utils/message'
+import { message, messageBox } from '@/utils/message'
 import type { RuleForm, GoodsType } from './type'
 import { getGoodsType, deleteGoodsType } from '@/api/manage'
 
@@ -57,6 +57,7 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             messageBox(`确认删除货物类型`, 'info', async () => {
                 await deleteGoodsType(goodsTypeData.goodsTypeId as number)
+                message('删除成功', 'success')
                 visible.value = false
             })
             

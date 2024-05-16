@@ -8,6 +8,7 @@ import { messageBox } from '@/utils/message'
 import { getShelvesData, deleteShelves } from '@/api/manage'
 import type { ShelvesDataType } from './type'
 import type { PaginationType } from '../../type'
+import { message } from '@/utils/message'
 
 onBeforeMount(() => {
   initData()
@@ -82,6 +83,7 @@ const handleUpdateShelves = (shelves: ShelvesDataType) => {
 const handleDeleteShelves = (shelf: ShelvesDataType) => {
   messageBox(`确认删除货架：${shelf.shelfName}`, 'info', () => {
       deleteShelves(shelf.shelfId)
+      message('删除成功', 'success')
       initData()
   })
 }

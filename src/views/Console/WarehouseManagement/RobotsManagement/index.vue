@@ -8,6 +8,7 @@ import { getRobotsData, deleteRobots } from '@/api/manage'
 import { messageBox } from '@/utils/message'
 import type { RobotDataType } from './type'
 import type { PaginationType } from '../../type'
+import { message } from '@/utils/message'
 
 onBeforeMount(() => {
   initData()
@@ -84,6 +85,7 @@ const handleUpdateRobots = (robot: RobotDataType) => {
 const handleDeleteRobots = (robot: RobotDataType) => {
   messageBox(`确认删除机器人：${robot.robotName}`, 'info', () => {
       deleteRobots(robot.robotId)
+      message('删除成功', 'success')
       initData()
   })
 }

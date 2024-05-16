@@ -172,6 +172,7 @@ const handleSendValidateCode = () => {
         email: registerForm.email
     }
     validateCode(params)
+    message('验证码发送成功', 'success')
 }
 
 // 邮箱验证码发送时间间隔

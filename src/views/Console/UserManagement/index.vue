@@ -4,6 +4,8 @@ import MyPagination from '@/components/myPagination.vue'
 import { onBeforeMount, reactive, ref } from 'vue'
 import { getUserManageData, disableUser, enableUser } from '@/api/userManage'
 import type { UsersDataType } from './type'
+import { message } from '@/utils/message'
+
 
 onBeforeMount(() => {
     initData()
@@ -51,11 +53,15 @@ const userType = [
 
 const handleDisableUser = async (userId: number) => {
   await disableUser({userId: userId})
+  message('禁用成功', 'success')
+
   initData()
 }
 
 const handleEnableUser = async (userId: number) => {
   await enableUser({userId: userId})
+  message('解禁成功', 'success')
+
   initData()
 }
 

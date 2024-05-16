@@ -30,7 +30,9 @@ const successHandle = (response: any) => {
             throw new Error('请求失败')
         }
     } else {
-        message(msg, 'success')
+        if(msg !== '操作成功') {
+            message(msg, 'success')
+        }
     }
     return data
 }

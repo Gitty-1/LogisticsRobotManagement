@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-import { messageBox } from '@/utils/message'
+import { message, messageBox } from '@/utils/message'
 import type { GoodsType } from './type'
 import { getGoodsType, updateGoodsType } from '@/api/manage'
 
@@ -65,6 +65,7 @@ const onOk = (form: FormInstance | undefined) => {
         if(valid) {
             messageBox(`确认更新货物类型为 ${goodsTypeData.goodsTypeName}`, 'info', async () => {
                 await updateGoodsType(goodsTypeData)
+                message('编辑成功', 'success')
                 visible.value = false
             })
             

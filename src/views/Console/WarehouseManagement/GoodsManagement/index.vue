@@ -13,6 +13,7 @@ import { getCookie } from '@/utils/setCookie'
 import { messageBox } from '@/utils/message'
 import type { GoodsDataType } from './type'
 import type { PaginationType } from '../../type'
+import { message } from '@/utils/message'
 
 onBeforeMount(() => {
   initData()
@@ -92,6 +93,7 @@ const handleUpdateGoods = (goods: GoodsDataType) => {
 const handleDeleteGoods = (goods: GoodsDataType) => {
   messageBox(`确认删除货物：${goods.goodsName}`, 'info', () => {
       deleteGoods(goods.goodsId)
+      message('删除成功', 'success')
       initData()
   })
 }

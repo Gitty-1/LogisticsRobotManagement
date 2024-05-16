@@ -2,11 +2,10 @@
 import { reactive, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { RuleForm } from './type'
-
-
 import { updatePassword } from '@/api/user';
 import { encrypt } from "@/utils/encrypt"
 import { getPublicKey } from '@/api/login'
+import { message } from '@/utils/message'
 
 const props = defineProps({
     isReset: {
@@ -61,6 +60,7 @@ const onsubmit = (formEl: FormInstance | undefined) => {
                 newPassword: encrypt(publicKey, form.newPassword)
             }
             await updatePassword(params);
+            message('更改成功', 'success')
         }
     })
 }

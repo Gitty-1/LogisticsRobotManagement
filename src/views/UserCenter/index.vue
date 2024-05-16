@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import { ref } from 'vue';
 import Header from '@/components/header.vue';
 import UserInfo from '@/views/components/UserInfo/index.vue'
