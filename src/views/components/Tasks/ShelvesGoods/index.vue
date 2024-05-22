@@ -26,14 +26,6 @@ const shelvesGoodsData = reactive<RuleForm>({
   targetShelf: null,
 })
 
-const validateArms = (rule: any, value: any, callback: any) => {
-    if(props.currentShelvesGoods.taskType === 3) {
-        if(value === null) {
-            callback(new Error('请选择机械臂'))
-        }
-    }
-    callback()
-}
 const rules = reactive<FormRules<RuleForm>>({
     targetShelf: [
         {

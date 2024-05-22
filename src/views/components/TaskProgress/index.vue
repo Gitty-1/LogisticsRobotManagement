@@ -31,7 +31,7 @@ const onCancel = () => {
 
 
 const getTaskProgress = () => {
-    const { taskType, taskStatus } = props.currentTaskProgressGoods
+    const { currentExecuteTaskType, currentExecuteTaskStatus } = props.currentTaskProgressGoods
     type stringKey = Record<number, string>
     const taskProgressType: stringKey = {
         1: '装载货物',
@@ -44,20 +44,20 @@ const getTaskProgress = () => {
         1: '执行中',
         2: '已完成'
     }
-    if(taskType === 0) return '无任务'
-    return `${taskProgressType[taskType]} ${taskProgress[taskStatus]}`
+    if(currentExecuteTaskType === 0) return '无任务'
+    return `${taskProgressType[currentExecuteTaskType]} ${taskProgress[currentExecuteTaskStatus]}`
 }
 
 const getTaskProgressType = () => {
-    const { taskType, taskStatus } = props.currentTaskProgressGoods
-    return `${taskType} ${taskStatus}`
+    const { currentExecuteTaskType, currentExecuteTaskStatus } = props.currentTaskProgressGoods
+    return `${currentExecuteTaskType} ${currentExecuteTaskStatus}`
 }
 
 const getActiveCode = () => {
-    const { taskType, taskStatus } = props.currentTaskProgressGoods
-    if(taskType === 1 && taskStatus !== 2) return 0
-    else if((taskType === 2 || taskType === 3) && taskStatus !==2) return 1
-    else if(taskType === 4 && taskStatus !== 2) return 2
+    const { currentExecuteTaskType, currentExecuteTaskStatus } = props.currentTaskProgressGoods
+    if(currentExecuteTaskType === 1 && currentExecuteTaskStatus !== 2) return 0
+    else if((currentExecuteTaskType === 2 || currentExecuteTaskType === 3) && currentExecuteTaskStatus !==2) return 1
+    else if(currentExecuteTaskType === 4 && currentExecuteTaskStatus !== 2) return 2
     return null
 }
 

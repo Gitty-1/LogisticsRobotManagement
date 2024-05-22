@@ -29,10 +29,6 @@ const successHandle = (response: any) => {
         if(msg !== '验证码错误') {
             throw new Error('请求失败')
         }
-    } else {
-        if(msg !== '操作成功') {
-            message(msg, 'success')
-        }
     }
     return data
 }

@@ -27,13 +27,13 @@ const currentScheme = ref<number>()
 
 watch(() => currentGoods.goodsId, async (value) => {
   if(value) {
+    currentSchemeComponent.value = Default
     const res = await getScheme(currentGoods.goodsId as number)
     const { data } = res
     const { scheme, pathCount } = data
     currentScheme.value = scheme
     if(pathCount === 3) {
       currentSchemeComponent.value = Path3
-      // currentScheme.value = 2
     } else if(pathCount === 2) {
       currentSchemeComponent.value = Path2
     } else if(pathCount === 1) {

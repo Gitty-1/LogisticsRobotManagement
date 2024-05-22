@@ -171,15 +171,15 @@ const initData = async () => {
   currentPath.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 === 0) { 
       //@ts-ignore
-      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
   })
 
@@ -189,15 +189,15 @@ const initData = async () => {
   currentPath2.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path2.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 === 0) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path2.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path2.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
 
   })
@@ -210,24 +210,22 @@ const initData = async () => {
       //@ts-ignore
       path3.push(path2[path2.length - 1])
       //@ts-ignore
-      path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
+      path3.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 === 0) {
       //@ts-ignore
-      path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
+      path3.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path3.push([item.positionX * 300 + 50, item.positionY * 80 + 200])
+      path3.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
   })
 
 
   taskProgress.value = '货物获取中'
 
-  if(!stage && !layer) {
-    init();
-  }
+  init()
 
   currentShelfPosition.value.positionX = path3[path3.length - 1][0]
   currentShelfPosition.value.positionY = path3[path3.length - 1][1]

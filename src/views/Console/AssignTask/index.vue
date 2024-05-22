@@ -52,7 +52,6 @@ const handleTaskProgress = (goods: GoodsType) => {
 const loadGoodsVisible = ref(false)
 const updateLoadGoodsVisible = (isCancel: boolean) => {
   loadGoodsVisible.value = false
-  console.log('can', isCancel)
   if(!isCancel) {
     currentTransportGoods.value = currentLoadGoods.value
     transportGoodsVisible.value = true
@@ -93,13 +92,14 @@ const taskProgress: stringKey = {
 }
 
 const handleAssignTask = (goods: GoodsType) => {
-    if(goods.taskType === 0) {
+    console.log('goods', goods)
+    if(goods.currentAssignTaskType === 0) {
         loadGoodsVisible.value = true
         currentLoadGoods.value = goods
-    } else if(goods.taskType === 1) {
+    } else if(goods.currentAssignTaskType === 1) {
         transportGoodsVisible.value = true
         currentTransportGoods.value = goods
-    } else if(goods.taskType === 2 || goods.taskType === 3) {
+    } else if(goods.currentAssignTaskType === 2 || goods.currentAssignTaskType === 3) {
         shelvesGoodsVisible.value = true
         currentShelvesGoods.value = goods
     }
@@ -107,7 +107,7 @@ const handleAssignTask = (goods: GoodsType) => {
 
 
 const isAbleAssignTask = (goods: GoodsType) => {
-    if(goods.taskType !== 4) return true
+    if(goods.currentAssignTaskType !== 4) return true
     return false
 }
 
@@ -117,11 +117,6 @@ const taskProgressType: stringKey = {
     2: '运输中',
     3: '运输中',
     4: '上架中',
-}
-const getTooltipContent = (goods: GoodsType) => {
-    const { goodsName, taskStatus, taskType } = goods
-    if(taskType === 4 && taskStatus === 2) return `${goodsName}已上架完成，无法分配任务`
-    return `${goodsName}${taskProgressType[taskType]}，无法分配任务`
 }
 </script>
 <template>
