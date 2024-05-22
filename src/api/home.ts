@@ -22,3 +22,10 @@ export const getAssignTaskCountChart = () => {
         method: 'get'
     })
 }
+
+export const getGoodsShelvingCountChart = () => {
+    return request({
+        url: baseURL + '/goodsShelvingCountChart',
+        method: 'get'
+    })
+}

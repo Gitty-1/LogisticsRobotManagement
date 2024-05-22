@@ -2,7 +2,7 @@
 import Echarts from '@/components/echarts.vue'
 import { computed, onBeforeMount, ref, reactive } from 'vue';
 
-import { getGoodsType, getDAU, getAssignTaskCountChart } from '@/api/home'
+import { getGoodsType, getDAU, getAssignTaskCountChart, getGoodsShelvingCountChart } from '@/api/home'
 
 onBeforeMount(() => {
   initData()
@@ -108,7 +108,9 @@ const option2 = reactive({
   ],
 });
 
-const option3 = {
+const shelfDate = ref<string>()
+const shelfData = ref<number>()
+const option3 = reactive({
   title: {
     text: '每日货物上架数量'
   },
@@ -116,8 +118,8 @@ const option3 = {
     trigger: 'axis'
   },
   grid: {
-    left: "1%",
-    right: "15%",
+    left: "4%",
+    right: "8%",
     bottom: "11%",
     containLabel: true
   },
@@ -128,13 +130,13 @@ const option3 = {
   },
   dataZoom: [
     {
-      startValue: '2014-06-01'
+      startValue: computed(() => [...shelfDate.value || []][0] || null)
     },
   ],
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05", "2024-01-06", "2024-01-07"]
+    data: computed(() => shelfDate.value)
   },
   yAxis: {
     type: 'value'
@@ -142,10 +144,10 @@ const option3 = {
   series: [
     {
       type: 'line',
-      data: [50, 60, 70, 20, 40, 11, 44]
+      data: computed(() => shelfData.value)
     },
   ]
-}
+})
 
 interface GoodsTypeDataType {
   name: string,
@@ -192,6 +194,11 @@ const initData = async () => {
   const data3 = res3.data
   assignTaskData.value = data3.map((item: any) => item.value)
   assignTaskDate.value = data3.map((item: any) => item.date)
+
+  const res4 = await getGoodsShelvingCountChart()
+  const data4 = res4.data
+  shelfData.value = data4.map((item: any) => item.value)
+  shelfDate.value = data4.map((item: any) => item.date)
 }
 </script>
 <template>
