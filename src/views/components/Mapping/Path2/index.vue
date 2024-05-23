@@ -102,7 +102,7 @@ watch(() => step.value, (value) => {
   if(value === 1) {
     taskProgress.value = '货物获取完成'
   } else if(value === 2) {
-    taskProgress.value = '货物运输中'
+    taskProgress.value = '货物装载完成，准备运输'
   }
 })
 

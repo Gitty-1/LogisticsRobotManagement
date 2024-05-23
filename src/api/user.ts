@@ -16,3 +16,11 @@ export const updatePassword = (data: any) => {
         data
     })
 }
+
+export const updateUsername = (data: any) => {
+    return request({
+        url: baseURL + '/updateUsername',
+        method: 'post',
+        data
+    })
+}

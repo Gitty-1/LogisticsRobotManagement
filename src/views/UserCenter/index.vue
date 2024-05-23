@@ -17,6 +17,10 @@ const handleTabChange = () => {
 const handleBack = () => {
   router.back()
 }
+
+const updateUsername = () => {
+  router.go(0)
+}
 </script>
 <template>
   <el-container class="page-container">
@@ -30,7 +34,7 @@ const handleBack = () => {
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" @tab-change="handleTabChange">
           <el-tab-pane label="基本信息" name="userInfo">
             <div class="userCenter">
-              <UserInfo />
+              <UserInfo @updateUsername="updateUsername"/>
             </div>
           </el-tab-pane>
           <el-tab-pane label="修改密码" name="updatePassword">
