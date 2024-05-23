@@ -79,15 +79,15 @@ const initData = async () => {
   currentPath.value.map((item: any, index: number) => {
     if(index === 0) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 === 0) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
     if(index % 15 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 50, item.positionY * 100 + 200])
+      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
     }
   })
 
