@@ -39,6 +39,33 @@ const shelfType: numStrKey = {
   2: 'middle',
   3: 'large'
 }
+
+// 校验货架坐标值
+const validatePositionX = (rule: any, value: any, callback: any) => {
+    const minValue = 0;
+    const maxValue = 700;
+
+    if (isNaN(value)) { // 判断输入是否为数字
+        callback(new Error('请输入数字'));
+    } else if (value < minValue || value > maxValue) { // 判断输入是否在指定范围内
+        callback(new Error(`请输入合法坐标值(${minValue}-${maxValue})`));
+    } else {
+        callback();
+    }
+}
+const validatePositionY = (rule: any, value: any, callback: any) => {
+    const minValue = 50;
+    const maxValue = 320;
+
+    if (isNaN(value)) { // 判断输入是否为数字
+        callback(new Error('请输入数字'));
+    } else if (value < minValue || value > maxValue) { // 判断输入是否在指定范围内
+        callback(new Error(`请输入合法坐标值(${minValue}-${maxValue})`));
+    } else {
+        callback();
+    }
+}
+
 const rules = reactive<FormRules<RuleForm>>({
     shelfId: [
         {
@@ -71,6 +98,9 @@ const rules = reactive<FormRules<RuleForm>>({
             required: true,
             message: '请输入货架位置(x)',
             trigger: 'blur'
+        },
+        {
+            validator: validatePositionX
         }
     ],
     positionY: [
@@ -78,6 +108,9 @@ const rules = reactive<FormRules<RuleForm>>({
             required: true,
             message: '请输入货架位置(y)',
             trigger: 'blur'
+        },
+        {
+            validator: validatePositionY
         }
     ],
 })
