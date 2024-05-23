@@ -113,17 +113,9 @@ const initData = async () => {
   path.splice(0)
 
   currentPath.value.map((item: any, index: number) => {
-    if(index === 0) {
+    if(index === 0 || index % 25 === 0 || index % 25 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
-    }
-    if(index % 15 === 0) {
-      //@ts-ignore
-      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
-    }
-    if(index % 15 !== 0 && index === currentPath.value.length) {
-      //@ts-ignore
-      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
+      path.push([item.positionX * 100 + 200,  item.positionY * 30 + 200])
     }
   })
 
@@ -132,16 +124,11 @@ const initData = async () => {
   // @ts-ignore
   currentPath2.value.map((item: any, index: number) => {
     if(index === 0) {
-      //@ts-ignore
-      path2.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
+      path2.push(path[path.length - 1])
     }
-    if(index % 15 === 0) {
+    if(index === 0 || index % 25 === 0 || index % 25 !== 0 && index === currentPath2.value.length - 1) {
       //@ts-ignore
-      path2.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
-    }
-    if(index % 15 !== 0 && index === currentPath.value.length) {
-      //@ts-ignore
-      path2.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
+      path2.push([item.positionX * 100 + 200,  item.positionY * 30 + 200])
     }
   })
 

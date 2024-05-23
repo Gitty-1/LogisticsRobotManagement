@@ -77,17 +77,9 @@ const initData = async () => {
 
   // @ts-ignore
   currentPath.value.map((item: any, index: number) => {
-    if(index === 0) {
+    if(index === 0 || index % 25 === 0 || index % 25 !== 0 && index === currentPath.value.length - 1) {
       //@ts-ignore
-      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
-    }
-    if(index % 15 === 0) {
-      //@ts-ignore
-      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
-    }
-    if(index % 15 !== 0 && index === currentPath.value.length - 1) {
-      //@ts-ignore
-      path.push([item.positionX * 300 + 150, item.positionY * 30 + 250])
+      path.push([item.positionX * 100 + 200,  item.positionY * 30 + 200])
     }
   })
 
