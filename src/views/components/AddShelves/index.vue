@@ -4,6 +4,9 @@ import { message ,messageBox } from '@/utils/message'
 import type { FormInstance, FormRules } from 'element-plus'
 import { addShelves } from '@/api/manage'
 import type { RuleForm } from './type'
+import { validatePositionX, validatePositionY } from '@/utils/validatePosition'
+
+
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -22,32 +25,6 @@ const shelvesForm = reactive<RuleForm>({
     positionX: null,
     positionY: null
 })
-
-// 校验货架坐标值
-const validatePositionX = (rule: any, value: any, callback: any) => {
-    const minValue = 0;
-    const maxValue = 700;
-
-    if (isNaN(value)) { // 判断输入是否为数字
-        callback(new Error('请输入数字'));
-    } else if (value < minValue || value > maxValue) { // 判断输入是否在指定范围内
-        callback(new Error(`请输入合法坐标值(${minValue}-${maxValue})`));
-    } else {
-        callback();
-    }
-}
-const validatePositionY = (rule: any, value: any, callback: any) => {
-    const minValue = 50;
-    const maxValue = 320;
-
-    if (isNaN(value)) { // 判断输入是否为数字
-        callback(new Error('请输入数字'));
-    } else if (value < minValue || value > maxValue) { // 判断输入是否在指定范围内
-        callback(new Error(`请输入合法坐标值(${minValue}-${maxValue})`));
-    } else {
-        callback();
-    }
-}
 
 const rules = reactive<FormRules<RuleForm>>({
     shelfName: [
