@@ -28,13 +28,24 @@ const props = defineProps({
 onBeforeMount(async () => {
   const res = await getMap(props.goodsId)
   const { data } = res
-  const { pathList } = data
+  const { pathList, targetRobotName } = data
   currentPath.value = pathList[0].path
   robot1.value = {
     robotName: pathList[0].robotName,
     robotType: '装载机器人'
   }
   currentPath2.value = pathList[1].path
+  if(props.scheme === 1) {
+    robot2.value = {
+      robotName: targetRobotName,
+      robotType: '机械臂装载机器人'
+    }
+  } else {
+    robot2.value = {
+      robotName: targetRobotName,
+      robotType: '机械臂'
+    }
+  }
   initData()
 })
 
@@ -55,6 +66,8 @@ const isGetGoodsFinish = ref<Boolean>(false)
 const isLoadFinish = ref<Boolean>(false)
 
 const robot1 = ref<RobotType>()
+const robot2 = ref<RobotType>()
+
 
 const step = ref<number>(0)
 const imageSrc = ref()
@@ -69,7 +82,7 @@ watch(() => isGetGoodsFinish.value, (value) => {
     imageSrc.value = robotCarWithGoods
     animation(path2)
 
-    // currentRobot.value = robot2.value
+    currentRobot.value = robot2.value
     if(props.scheme === 1) {
       imageSrc.value = armsRobot
     } else {
@@ -82,6 +95,7 @@ watch(() => isGetGoodsFinish.value, (value) => {
 watch(() => isLoadFinish.value, (value) => {
   if(value) {
     robotIcon.value.remove()
+
     if(props.scheme === 1) {
       imageSrc.value = armsRobotWithGoods
     } else {
@@ -89,7 +103,7 @@ watch(() => isLoadFinish.value, (value) => {
     }
     robotIcon.value = createNode(path2[path2.length-1][0], path2[path2.length-1][1])
 
-
+    currentRobot.value = robot1.value
     imageSrc.value = robotCarReverse
     const reversePath = [...path2.slice().reverse(), ...path.slice().reverse()]
     animation(reversePath)
