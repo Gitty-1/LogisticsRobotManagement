@@ -44,13 +44,6 @@ const shelfType: numStrKey = {
 
 
 const rules = reactive<FormRules<RuleForm>>({
-    shelfId: [
-        {
-            required: true,
-            message: '请输入货架Id',
-            trigger: 'blur'
-        },
-    ],
     shelfName: [
         {
             required: true,
@@ -138,7 +131,7 @@ const onOk = (form: FormInstance | undefined) => {
         <el-tag size="large">编辑货架</el-tag>
         <el-form class="shelves-form" ref="ruleFormRef" :model="shelvesForm" :rules="rules" label-width="100px">
             <el-form-item label="货架id" prop="shelfId">
-                <el-input v-model="shelvesForm.shelfId" placeholder="请输入货架名称" clearable></el-input>
+                <el-input v-model="shelvesForm.shelfId" disabled clearable></el-input>
             </el-form-item>
             <el-form-item label="货架名称" prop="shelfName">
                 <el-input v-model="shelvesForm.shelfName" placeholder="请输入货架名称" clearable></el-input>

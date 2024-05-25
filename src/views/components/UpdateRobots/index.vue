@@ -32,13 +32,6 @@ let robotsForm = reactive<RuleForm>({
 
 const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 const rules = reactive<FormRules<RuleForm>>({
-    robotId: [
-        {
-            required: true,
-            message: '请输入机器人id',
-            trigger: 'blur'
-        },
-    ],
     robotName: [
         {
             required: true,
@@ -116,7 +109,7 @@ const onOk = (form: FormInstance | undefined) => {
         <el-tag size="large">编辑机器人</el-tag>
         <el-form class="robots-form" ref="ruleFormRef" :model="robotsForm" :rules="rules" label-width="100px">
             <el-form-item label="机器人id" prop="robotId">
-                <el-input v-model="robotsForm.robotId" placeholder="请输入机器人名称" clearable></el-input>
+                <el-input v-model="robotsForm.robotId" disabled clearable></el-input>
             </el-form-item>
             <el-form-item label="机器人名称" prop="robotName">
                 <el-input v-model="robotsForm.robotName" placeholder="请输入机器人名称" clearable></el-input>

@@ -114,7 +114,7 @@ watch(() => isLoadFinish.value, (value) => {
 
 watch(() => step.value, (value) => {
   if(value === 1) {
-    taskProgress.value = '货物获取完成'
+    taskProgress.value = '货物获取完成，准备装载'
   } else if(value === 2) {
     taskProgress.value = '货物装载完成，准备运输'
   }

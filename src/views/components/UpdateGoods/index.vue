@@ -41,13 +41,6 @@ let goodsForm = reactive<RuleForm>({
 
 
 const rules = reactive<FormRules<RuleForm>>({
-    goodsId: [
-        {
-            required: true,
-            message: '请输入货物id',
-            trigger: 'blur'
-        },
-    ],
     goodsName: [
         {
             required: true,
@@ -141,7 +134,7 @@ const onOk = (form: FormInstance | undefined) => {
         <el-tag size="large">编辑货物</el-tag>
         <el-form class="goods-form" ref="ruleFormRef" :model="goodsForm" :rules="rules" label-width="100px">
             <el-form-item label="货物id" prop="goodsId">
-                <el-input v-model="goodsForm.goodsId" placeholder="请输入货物名称" clearable></el-input>
+                <el-input v-model="goodsForm.goodsId" disabled clearable></el-input>
             </el-form-item>
             <el-form-item label="货物名称" prop="goodsName">
                 <el-input v-model="goodsForm.goodsName" placeholder="请输入货物名称" clearable></el-input>
