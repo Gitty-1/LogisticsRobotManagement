@@ -49,7 +49,7 @@ const rules = reactive<FormRules<RuleForm>>({
     positionX: [
         {
             required: true,
-            message: '请输入货架位置(x)',
+            message: '请输入货架位置x(0-700)',
             trigger: 'blur'
         },
         {
@@ -59,7 +59,7 @@ const rules = reactive<FormRules<RuleForm>>({
     positionY: [
         {
             required: true,
-            message: '请输入货架位置(y)',
+            message: '请输入货架位置y(50-320)',
             trigger: 'blur'
         },
         {

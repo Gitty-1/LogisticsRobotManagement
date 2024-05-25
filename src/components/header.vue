@@ -16,8 +16,8 @@ const handleUserControl = () => {
     router.push({path: '/userCenter', query: { userName: username.value }})
 }
 const exit = async () => {
-    deleteCookie()
     await logout()
+    deleteCookie()
     router.replace({path: '/login-register'})
 }
 
