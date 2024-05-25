@@ -24,3 +24,10 @@ export const updateUsername = (data: any) => {
         data
     })
 }
+
+export const logout = () => {
+    return request({
+        url: baseURL + '/logout',
+        method: 'post',
+    })
+}

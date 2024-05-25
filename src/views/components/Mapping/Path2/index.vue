@@ -183,7 +183,12 @@ const animation = async (path: any) => {
 
   // 在路径上的每个转折点显示小圆圈和坐标信息
   for (let i = 0; i < path.length; i++) {
-    createPointCircle(path[i][0], path[i][1], i + 1);
+    if(i === 0 || i === path.length - 1) {
+      createPointCircle(path[i][0], path[i][1], i + 1, true);
+    }
+    else {
+      createPointCircle(path[i][0], path[i][1], i + 1, false);
+    }
   }
 
   // 开始动画，按路径上的每个点移动
@@ -252,7 +257,7 @@ const createNode = (x: number, y: number) => {
 };
 
 // 创建路径上的每个转折点的小圆圈和坐标信息
-const createPointCircle = (x: number, y: number, index: number) => {
+const createPointCircle = (x: number, y: number, index: number, isNeedPosition: boolean) => {
   const circle = new Konva.Circle({
     x: x,
     y: y,
@@ -268,7 +273,10 @@ const createPointCircle = (x: number, y: number, index: number) => {
     fontSize: 10,
     fill: 'black',
   });
-  layer.add(text);
+  
+  if(isNeedPosition) {
+    layer.add(text);
+  }
 };
 
 // 绘制路径

@@ -3,6 +3,7 @@ import logoUrl from '../assets/logo.png';
 import router from '@/router';
 import { getCookie, deleteCookie } from '@/utils/setCookie';
 import { onBeforeMount, ref } from 'vue';
+import { logout } from '@/api/user';
 
 // 数据
 const username = ref<string>()
@@ -14,8 +15,9 @@ onBeforeMount(() => {
 const handleUserControl = () => {
     router.push({path: '/userCenter', query: { userName: username.value }})
 }
-const exit = () => {
+const exit = async () => {
     deleteCookie()
+    await logout()
     router.replace({path: '/login-register'})
 }
 
