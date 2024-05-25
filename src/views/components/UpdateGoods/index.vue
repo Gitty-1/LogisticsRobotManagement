@@ -148,10 +148,10 @@ const onOk = (form: FormInstance | undefined) => {
                 <el-input v-model="goodsForm.details" type="textarea" placeholder="请输入货物描述" autosize></el-input>
             </el-form-item>
             <el-form-item label="货物位置(x)" prop="positionX">
-                <el-input v-model="goodsForm.positionX" placeholder="请输入货物位置(x)" clearable style="width: 150px;"></el-input>
+                <el-input v-model="goodsForm.positionX" placeholder="请输入货物位置x(0-700)" clearable style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="货物位置(y)" prop="positionY">
-                <el-input v-model="goodsForm.positionY" placeholder="请输入货物位置(y)" clearable style="width: 150px;"></el-input>
+                <el-input v-model="goodsForm.positionY" placeholder="请输入货物位置y(50-320)" clearable style="width: 200px;"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>

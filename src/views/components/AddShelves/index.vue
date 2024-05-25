@@ -114,10 +114,10 @@ const onOk = (form: FormInstance | undefined) => {
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="货架位置(x)" prop="positionX">
-                <el-input v-model="shelvesForm.positionX" placeholder="请输入货架位置(x)" clearable style="width: 150px;"></el-input>
+                <el-input v-model="shelvesForm.positionX" placeholder="请输入货架位置x(0-700)" clearable style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="货架位置(y)" prop="positionY">
-                <el-input v-model="shelvesForm.positionY" placeholder="请输入货架位置(y)" clearable style="width: 150px;"></el-input>
+                <el-input v-model="shelvesForm.positionY" placeholder="请输入货架位置y(50-320)" clearable style="width: 200px;"></el-input>
             </el-form-item>
         </el-form>
         <template #footer>
