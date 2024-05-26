@@ -139,7 +139,16 @@ const option3 = reactive({
     data: computed(() => shelfDate.value)
   },
   yAxis: {
-    type: 'value'
+    type: 'value',
+    axisLabel: {
+      interval: 'auto',
+      formatter: function(value: number) {
+        if(value % 1 === 0) {
+          return value
+        }
+        return ''
+      }
+    }
   },
   series: [
     {
