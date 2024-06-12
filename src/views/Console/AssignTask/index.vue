@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onBeforeMount } from 'vue'
+import { ref, reactive, onBeforeMount, onMounted } from 'vue'
 import LoadGoods from '@/views/components/Tasks/LoadGoods/index.vue'
 import TransportGoods from '@/views/components/Tasks/TransportGoods/index.vue'
 import ShelvesGoods from '@/views/components/Tasks/ShelvesGoods/index.vue'
@@ -8,9 +8,26 @@ import TaskProgress from '@/views/components/TaskProgress/index.vue'
 import type {PaginationType} from '../type'
 import type { GoodsType } from './type'
 import { getTaskData } from '@/api/assignTask'
+import webSocket from '@/utils/webSocket'
+import { message } from '@/utils/message'
 
 onBeforeMount(() => {
   initData()
+})
+
+onMounted(() => {
+  webSocket.addEventListener('open', (e: any) => {
+    message('连接成功', 'success')
+  })
+  webSocket.addEventListener('message', (e: any) => {
+    console.log('消息', e)
+  })
+  webSocket.addEventListener('error', (e: any) => {
+    message('连接错误', 'error')
+  })
+  webSocket.addEventListener('close', (e: any) => {
+    message('连接关闭', 'success')
+  })
 })
 
 const goodsData = ref<GoodsType>()

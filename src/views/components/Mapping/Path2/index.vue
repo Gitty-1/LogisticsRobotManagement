@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, onBeforeMount } from 'vue';
+import { ref, reactive, watch, onBeforeMount, onMounted } from 'vue';
 import Konva from 'konva';
 import type { Layer } from 'konva/lib/Layer';
 import type { Stage } from 'konva/lib/Stage';
@@ -13,6 +13,7 @@ import armsWithGoods from '@/assets/armsWithGoods.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
 import type { RobotType } from './type';
+import webSocket from '@/utils/webSocket';
 
 const props = defineProps({
   goodsId: {
@@ -47,6 +48,22 @@ onBeforeMount(async () => {
     }
   }
   initData()
+})
+
+onMounted(() => {
+  console.log('path2')
+  webSocket.addEventListener('open', (e: any) => {
+    console.log('连接成功', e)
+  })
+  webSocket.addEventListener('message', (e: any) => {
+    console.log('消息', e)
+  })
+  webSocket.addEventListener('error', (e: any) => {
+    console.log('连接错误', e)
+  })
+    webSocket.addEventListener('close', (e: any) => {
+      console.log('连接关闭', e)
+  })
 })
 
 const stageContainer = ref();
