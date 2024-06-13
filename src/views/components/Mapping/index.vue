@@ -6,7 +6,7 @@ import Path2 from './Path2/index.vue'
 import Path3 from './Path3/index.vue'
 import type { GoodsType } from './type'
 import { getGoodsList, getScheme } from '@/api/map'
-import webSocket from '@/utils/webSocket'
+import { webSocket2 } from '@/utils/webSocket';
 
 onBeforeMount(async () => {
   const res = await getGoodsList()
@@ -16,20 +16,20 @@ onBeforeMount(async () => {
   currentSchemeComponent.value = Default
 })
 
-// onMounted(() => {
-//   webSocket.addEventListener('open', (e: any) => {
-//     console.log('连接成功', e)
-//   })
-//   webSocket.addEventListener('message', (e: any) => {
-//     console.log('消息', e)
-//   })
-//   webSocket.addEventListener('error', (e: any) => {
-//     console.log('连接错误', e)
-//   })
-//   webSocket.addEventListener('close', (e: any) => {
-//     console.log('连接关闭', e)
-//   })
-// })
+onMounted(() => {
+  webSocket2.addEventListener('open', (e: any) => {
+    console.log('连接成功', e)
+  })
+  webSocket2.addEventListener('message', (e: any) => {
+    console.log('消息', e)
+  })
+  webSocket2.addEventListener('error', (e: any) => {
+    console.log('连接错误', e)
+  })
+  webSocket2.addEventListener('close', (e: any) => {
+    console.log('连接关闭', e)
+  })
+})
 
 const currentSchemeComponent = ref<typeof Path3 | typeof Path2 | typeof Path1 | typeof Default | null>(null)
 

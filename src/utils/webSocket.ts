@@ -1,4 +1,5 @@
 // 连接websocket
-const webSocket = new WebSocket('ws://localhost:8082/webSocket')
+const webSocket1 = new WebSocket('ws://localhost:8082/webSocket/task')
+const webSocket2 = new WebSocket('ws://localhost:8082/webSocket/map')
 
-export default webSocket
+export { webSocket1, webSocket2 } 

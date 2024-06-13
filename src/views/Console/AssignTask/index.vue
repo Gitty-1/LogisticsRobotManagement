@@ -8,7 +8,7 @@ import TaskProgress from '@/views/components/TaskProgress/index.vue'
 import type {PaginationType} from '../type'
 import type { GoodsType } from './type'
 import { getTaskData } from '@/api/assignTask'
-import webSocket from '@/utils/webSocket'
+import { webSocket1 } from '@/utils/webSocket'
 import { message } from '@/utils/message'
 
 onBeforeMount(() => {
@@ -16,16 +16,16 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-  webSocket.addEventListener('open', (e: any) => {
+  webSocket1.addEventListener('open', (e: any) => {
     message('连接成功', 'success')
   })
-  webSocket.addEventListener('message', (e: any) => {
+  webSocket1.addEventListener('message', (e: any) => {
     console.log('消息', e)
   })
-  webSocket.addEventListener('error', (e: any) => {
+  webSocket1.addEventListener('error', (e: any) => {
     message('连接错误', 'error')
   })
-  webSocket.addEventListener('close', (e: any) => {
+  webSocket1.addEventListener('close', (e: any) => {
     message('连接关闭', 'success')
   })
 })

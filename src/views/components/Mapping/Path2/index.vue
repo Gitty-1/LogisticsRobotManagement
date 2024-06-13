@@ -50,21 +50,21 @@ onBeforeMount(async () => {
   initData()
 })
 
-onMounted(() => {
-  console.log('path2')
-  webSocket.addEventListener('open', (e: any) => {
-    console.log('连接成功', e)
-  })
-  webSocket.addEventListener('message', (e: any) => {
-    console.log('消息', e)
-  })
-  webSocket.addEventListener('error', (e: any) => {
-    console.log('连接错误', e)
-  })
-    webSocket.addEventListener('close', (e: any) => {
-      console.log('连接关闭', e)
-  })
-})
+// onMounted(() => {
+//     console.log('path2')
+//     webSocket.addEventListener('open', (e: any) => {
+//       console.log('连接成功', e)
+//     })
+//     webSocket.addEventListener('message', (e: any) => {
+//       console.log('消息', e)
+//     })
+//     webSocket.addEventListener('error', (e: any) => {
+//       console.log('连接错误', e)
+//     })
+//     webSocket.addEventListener('close', (e: any) => {
+//       console.log('连接关闭', e)
+//   })
+// })
 
 const stageContainer = ref();
 
