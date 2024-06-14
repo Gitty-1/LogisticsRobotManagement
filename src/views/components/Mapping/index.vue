@@ -7,6 +7,7 @@ import Path3 from './Path3/index.vue'
 import type { GoodsType } from './type'
 import { getGoodsList, getScheme } from '@/api/map'
 import  webSocket2  from '@/utils/webSocket2';
+import { message } from '@/utils/message'
 
 onBeforeMount(async () => {
   const res = await getGoodsList()
@@ -21,7 +22,12 @@ onMounted(() => {
     console.log('连接成功', e)
   })
   webSocket2.addEventListener('message', (e: any) => {
-    console.log('消息', e)
+    console.log('goodId', e.data.goodsId)
+    const goodsId = e.data.goodsId
+    //@ts-ignore
+    if(currentGoods.goodsId === goodsId) {
+      drawPath()
+    }
   })
   webSocket2.addEventListener('error', (e: any) => {
     console.log('连接错误', e)
@@ -41,8 +47,7 @@ const currentGoods = reactive<GoodsType>({
 
 const currentScheme = ref<number>()
 
-watch(() => currentGoods.goodsId, async (value) => {
-  if(value) {
+const drawPath = async () => {
     currentSchemeComponent.value = Default
     const res = await getScheme(currentGoods.goodsId as number)
     const { data } = res
@@ -55,6 +60,11 @@ watch(() => currentGoods.goodsId, async (value) => {
     } else if(pathCount === 1) {
       currentSchemeComponent.value = Path1
     }
+}
+
+watch(() => currentGoods.goodsId, (value) => {
+  if(value) {
+    drawPath()
   } else {
     currentSchemeComponent.value = Default
   }
