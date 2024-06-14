@@ -21,12 +21,12 @@ onMounted(() => {
   })
   webSocket1.addEventListener('message', (e: any) => {
     const data = JSON.parse(e.data)
-    const goodsId = data.data.goodId
+    const goodsId = data.data.goodsId
     console.log('goodsId', goodsId)
     //@ts-ignore
     goodsData.value.map(item => {
       if(item.goodsId === goodsId) {
-        message('有货物更新', 'success')
+        message(`货物id: ${goodsId} 任务进度更新`, 'success')
         initData()
       }
     })

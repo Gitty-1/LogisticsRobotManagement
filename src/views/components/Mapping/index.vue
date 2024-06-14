@@ -23,7 +23,8 @@ onMounted(() => {
   })
   webSocket2.addEventListener('message', (e: any) => {
     const data = JSON.parse(e.data)
-    const goodsId = data.data.goodId
+    const goodsId = data.data.goodsId
+    message(`货物id: ${goodsId} 路径更新`, 'success')
     console.log('goodsId', goodsId)
     //@ts-ignore
     if(currentGoods.goodsId === goodsId) {
