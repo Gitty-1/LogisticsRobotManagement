@@ -20,8 +20,9 @@ onMounted(() => {
     message('连接成功', 'success')
   })
   webSocket1.addEventListener('message', (e: any) => {
-    console.log('goodId', e.data.goodsId)
-    const goodsId = e.data.goodsId
+    const data = JSON.parse(e.data)
+    const goodsId = data.data.goodId
+    console.log('goodsId', goodsId)
     //@ts-ignore
     goodsData.value.map(item => {
       if(item.goodsId === goodsId) {
@@ -117,7 +118,6 @@ const taskProgress: stringKey = {
 }
 
 const handleAssignTask = (goods: GoodsType) => {
-    console.log('goods', goods)
     if(goods.currentAssignTaskType === 0) {
         loadGoodsVisible.value = true
         currentLoadGoods.value = goods

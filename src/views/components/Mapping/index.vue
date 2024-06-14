@@ -22,8 +22,9 @@ onMounted(() => {
     console.log('连接成功', e)
   })
   webSocket2.addEventListener('message', (e: any) => {
-    console.log('goodId', e.data.goodsId)
-    const goodsId = e.data.goodsId
+    const data = JSON.parse(e.data)
+    const goodsId = data.data.goodId
+    console.log('goodsId', goodsId)
     //@ts-ignore
     if(currentGoods.goodsId === goodsId) {
       drawPath()
