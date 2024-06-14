@@ -20,7 +20,15 @@ onMounted(() => {
     message('连接成功', 'success')
   })
   webSocket1.addEventListener('message', (e: any) => {
-    console.log('goodId', e.data.data.goodsId)
+    console.log('goodId', e.data.goodsId)
+    const goodsId = e.data.goodsId
+    //@ts-ignore
+    goodsData.value.map(item => {
+      if(item.goodsId === goodsId) {
+        message('有货物更新', 'success')
+        initData()
+      }
+    })
   })
   webSocket1.addEventListener('error', (e: any) => {
     message('连接错误', 'error')
