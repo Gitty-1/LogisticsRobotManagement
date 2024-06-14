@@ -20,7 +20,7 @@ onMounted(() => {
     message('连接成功', 'success')
   })
   webSocket1.addEventListener('message', (e: any) => {
-    console.log('消息', e)
+    console.log('goodId', e.data.data.goodsId)
   })
   webSocket1.addEventListener('error', (e: any) => {
     message('连接错误', 'error')
