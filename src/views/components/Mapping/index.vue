@@ -6,7 +6,7 @@ import Path2 from './Path2/index.vue'
 import Path3 from './Path3/index.vue'
 import type { GoodsType } from './type'
 import { getGoodsList, getScheme } from '@/api/map'
-import { webSocket2 } from '@/utils/webSocket';
+import  webSocket2  from '@/utils/webSocket2';
 
 onBeforeMount(async () => {
   const res = await getGoodsList()

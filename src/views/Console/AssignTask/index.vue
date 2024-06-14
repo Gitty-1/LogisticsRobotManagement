@@ -8,7 +8,7 @@ import TaskProgress from '@/views/components/TaskProgress/index.vue'
 import type {PaginationType} from '../type'
 import type { GoodsType } from './type'
 import { getTaskData } from '@/api/assignTask'
-import { webSocket1 } from '@/utils/webSocket'
+import webSocket1 from '@/utils/webSocket1'
 import { message } from '@/utils/message'
 
 onBeforeMount(() => {

@@ -13,7 +13,7 @@ import armsWithGoods from '@/assets/armsWithGoods.png'
 import goods from '@/assets/goods.png'
 import { getMap } from '@/api/map';
 import type { RobotType } from './type';
-import webSocket from '@/utils/webSocket';
+import webSocket2 from '@/utils/webSocket2';
 
 const props = defineProps({
   goodsId: {

@@ -103,16 +103,20 @@ const taskProgress = ref<string>()
 
 watch(() => isGetGoodsFinish.value, (value) => {
   if(value) {
+    // 获取到货物
     goodsIcon.value.remove()
     imageSrc.value = robotCarWithGoods
+
+    // 运行第二条路径
     animation(path2)
 
+    // 根据当前物流方案选择带臂机器人或者机械臂
     currentRobot.value = robot2.value
     if(props.scheme === 1) {
       imageSrc.value = armsRobot
     } else {
       imageSrc.value = arms
-    }
+    }  
     robotIcon.value = createNode(path2[path2.length-1][0], path2[path2.length-1][1])
   }
 })
