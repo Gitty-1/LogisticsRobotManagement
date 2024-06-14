@@ -82,7 +82,7 @@ const updateLoadGoodsVisible = (isCancel: boolean) => {
     currentTransportGoods.value = currentLoadGoods.value
     transportGoodsVisible.value = true
   }
-  initData()
+  loadData()
 }
 const currentLoadGoods = ref<GoodsType>()
 
@@ -93,14 +93,14 @@ const updateTransportGoodsVisible = (isCancel: boolean) => {
     currentShelvesGoods.value = currentTransportGoods.value
     shelvesGoodsVisible.value = true
   }
-  initData()
+  loadData()
 }
 const currentTransportGoods = ref<GoodsType>()
 
 const shelvesGoodsVisible = ref(false)
 const updateShelvesGoodsVisible = () => {
   shelvesGoodsVisible.value = false
-  initData()
+  loadData()
 }
 const currentShelvesGoods = ref<GoodsType>()
 
