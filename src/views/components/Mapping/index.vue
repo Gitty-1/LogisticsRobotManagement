@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, onBeforeMount, onMounted } from 'vue'
+import { ref, reactive, watch, onBeforeMount, onMounted, onUnmounted } from 'vue'
 import Default from './Default/index.vue'
 import Path1 from './Path1/index.vue'
 import Path2 from './Path2/index.vue'
@@ -38,6 +38,10 @@ onMounted(() => {
   webSocket2.addEventListener('close', (e: any) => {
     console.log('连接关闭', e)
   })
+})
+
+onUnmounted(() => {
+  webSocket2.send('关闭map')
 })
 
 const currentSchemeComponent = ref<typeof Path3 | typeof Path2 | typeof Path1 | typeof Default | null>(null)

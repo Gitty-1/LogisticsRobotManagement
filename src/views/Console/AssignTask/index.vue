@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, reactive, onBeforeMount, onMounted } from 'vue'
+import { ref, reactive, onBeforeMount, onMounted, onUnmounted } from 'vue'
 import LoadGoods from '@/views/components/Tasks/LoadGoods/index.vue'
 import TransportGoods from '@/views/components/Tasks/TransportGoods/index.vue'
 import ShelvesGoods from '@/views/components/Tasks/ShelvesGoods/index.vue'
 import MyPagination from '@/components/myPagination.vue'
 import TaskProgress from '@/views/components/TaskProgress/index.vue'
-import type {PaginationType} from '../type'
+import type { PaginationType } from '../type'
 import type { GoodsType } from './type'
 import { getTaskData } from '@/api/assignTask'
 import webSocket1 from '@/utils/webSocket1'
@@ -37,6 +37,10 @@ onMounted(() => {
   webSocket1.addEventListener('close', (e: any) => {
     message('连接关闭', 'success')
   })
+})
+
+onUnmounted(() => {
+  webSocket1.send('关闭task')
 })
 
 const goodsData = ref<GoodsType>()
