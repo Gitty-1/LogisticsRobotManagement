@@ -41,7 +41,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  console.log('map')
   webSocket2.send('关闭map')
+  webSocket2.close()
 })
 
 const currentSchemeComponent = ref<typeof Path3 | typeof Path2 | typeof Path1 | typeof Default | null>(null)

@@ -40,7 +40,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  webSocket1.send('关闭task')
+  // webSocket1.send('关闭task')
+  webSocket1.close()
 })
 
 const goodsData = ref<GoodsType>()
