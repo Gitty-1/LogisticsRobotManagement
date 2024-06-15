@@ -8,14 +8,19 @@ import TaskProgress from '@/views/components/TaskProgress/index.vue'
 import type { PaginationType } from '../type'
 import type { GoodsType } from './type'
 import { getTaskData } from '@/api/assignTask'
-import webSocket1 from '@/utils/webSocket1'
+// import webSocket1 from '@/utils/webSocket1'
 import { message } from '@/utils/message'
+
+let webSocket1: WebSocket
 
 onBeforeMount(() => {
   initData()
 })
 
 onMounted(() => {
+
+  webSocket1 = new WebSocket('ws://localhost:8082/webSocket/task')
+
   webSocket1.addEventListener('open', (e: any) => {
     message('连接成功', 'success')
   })
@@ -35,7 +40,7 @@ onMounted(() => {
     message('连接错误', 'error')
   })
   webSocket1.addEventListener('close', (e: any) => {
-    message('连接关闭', 'success')
+    // message('连接关闭', 'success')
   })
 })
 
