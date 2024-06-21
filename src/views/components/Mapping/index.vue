@@ -8,6 +8,7 @@ import type { GoodsType } from './type'
 import { getGoodsList, getScheme } from '@/api/map'
 // import  webSocket2  from '@/utils/webSocket2';
 import { message } from '@/utils/message'
+import { useWsStore } from '@/stores/ws'
 
 let webSocket2: WebSocket
 
@@ -20,7 +21,9 @@ onBeforeMount(async () => {
 })
 
 onMounted(() => {
-  webSocket2 = new WebSocket('ws://localhost:8082/webSocket/map')
+  const ws = useWsStore()
+  // webSocket2 = new WebSocket('ws://localhost:8082/webSocket/map')
+  webSocket2 = new WebSocket(`ws://${ws.wsHost}:${ws.wsPort}/${ws.wsBaseUrl}/${ws.wsUrl[1]}`)
 
   webSocket2.addEventListener('open', (e: any) => {
     console.log('连接成功', e)

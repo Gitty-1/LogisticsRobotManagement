@@ -10,6 +10,7 @@ import type { GoodsType } from './type'
 import { getTaskData } from '@/api/assignTask'
 // import webSocket1 from '@/utils/webSocket1'
 import { message } from '@/utils/message'
+import { useWsStore } from '@/stores/ws'
 
 let webSocket1: WebSocket
 
@@ -18,8 +19,9 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-
-  webSocket1 = new WebSocket('ws://localhost:8082/webSocket/task')
+  const ws = useWsStore()
+  // webSocket1 = new WebSocket('ws://localhost:8082/webSocket/task')
+  webSocket1 = new WebSocket(`ws://${ws.wsHost}:${ws.wsPort}/${ws.wsBaseUrl}/${ws.wsUrl[0]}`)
 
   webSocket1.addEventListener('open', (e: any) => {
     message('连接成功', 'success')
