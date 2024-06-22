@@ -92,7 +92,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login-register'
+      redirect: '/console/home'
     },
     {
       path: '/login-register',
